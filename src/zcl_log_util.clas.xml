@@ -11,6 +11,26 @@
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
    </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>CONSTRUCTOR</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set handler on specified point in parameter</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
   </asx:values>
  </asx:abap>
 </abapGit>

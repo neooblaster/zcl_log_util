@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_MSAG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <T100A>
+    <ARBGB>ZLOG_UTIL</ARBGB>
+    <MASTERLANG>F</MASTERLANG>
+    <STEXT>Message Class for ABAP Classe ZCL_LOG_UTIL</STEXT>
+   </T100A>
+   <T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>000</MSGNR>
+     <TEXT>&amp; &amp; &amp; &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>001</MSGNR>
+     <TEXT>Class ZCL_LOG_UTIL encounter an error</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>Can not start/stop spot point because it has not already defined</TEXT>
+    </T100>
+   </T100>
+  </asx:values>
+ </asx:abap>
+</abapGit>

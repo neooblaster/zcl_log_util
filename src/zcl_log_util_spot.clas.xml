@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+    <LANGU>F</LANGU>
+    <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>CONSTRUCTOR</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>ENABLED</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Working with spot is enabled (X) or not ( )</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>IS_ENABLED</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return current state for specified spot</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>ZCL_LOG_UTIL Spot Point ID</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>START</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Start Working under instanciated spot point</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
+     <CMPNAME>STOP</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Stop using instanciated spot point</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
