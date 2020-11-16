@@ -20,6 +20,24 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>DISPLAY</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Display registered logs</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>LOG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Feed log registry</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>SET_LOG_STRUCTURE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set a custom structure to store log entries</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>SPOT</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Set handler on specified point in parameter</DESCRIPT>

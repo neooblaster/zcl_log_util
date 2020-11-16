@@ -13,6 +13,9 @@ public section.
     raising
       ZCX_LOG_UTIL .
   methods CONSTRUCTOR .
+  methods DISPLAY .
+  methods SET_LOG_STRUCTURE .
+  methods LOG .
 protected section.
 private section.
 
@@ -25,6 +28,18 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
   method CONSTRUCTOR.
+  endmethod.
+
+
+  method DISPLAY.
+  endmethod.
+
+
+  method LOG.
+  endmethod.
+
+
+  method SET_LOG_STRUCTURE.
   endmethod.
 
 
