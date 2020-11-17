@@ -58,12 +58,13 @@ TYPES:  BEGIN OF ty_my_log_str,
 "&   Global Variables                                                         &"
 "&----------------------------------------------------------------------------&"
 DATA:
-    lr_log_util      TYPE REF TO   zcl_log_util,
-    lt_log_table     TYPE TABLE OF ty_my_log_str,
-    ls_log_table     TYPE          ty_my_log_str,
-    lt_ret_bapiret2  TYPE TABLE OF bapiret2,        " Example of FM : LE_DLV_DATE_CHANGE
-    lt_ret_prott     TYPE TABLE of prott            " Example of FM : WS_DELIVERY_UPDATE_2
-    .
+    lr_log_util      TYPE REF TO   zcl_log_util  ,
+    lt_log_table     TYPE TABLE OF ty_my_log_str ,
+    ls_log_table     TYPE          ty_my_log_str ,
+    lt_ret_bapiret2  TYPE TABLE OF bapiret2      , " Example of FM : LE_DLV_DATE_CHANGE
+    lt_ret_prott     TYPE TABLE of prott         , " Example of FM : WS_DELIVERY_UPDATE_2
+    lv_dummy         TYPE          string        . " Dummy variable to handle MESSAGE statement
+
 
 
 
@@ -73,11 +74,15 @@ DATA:
 *&----------------------------------------------------------------------------&"
 *&   Initialization                                                           &"
 *&----------------------------------------------------------------------------&"
-INITIALIZATION.
+"INITIALIZATION.
   " [ MANDATORY ] :: Initialization of Log Util class
   " --------------------------------------------------
-  CREATE OBJECT lr_log_util.
-
+  zcl_log_util=>factory(
+    IMPORTING
+      r_log_util  = lr_log_util
+    CHANGING
+      t_log_table = lt_log_table
+  ).
 
   " [ OPTIONAL  ] :: Defining my type of log table
   " -----------------------------------------------
@@ -102,6 +107,7 @@ INITIALIZATION.
 
   " [ OPTIONAL  ] :: Specifing With Log Table definition will use
   " --------------------------------------------------------------
+*  lr_log_util->set_output_type( ).
 
 
   " [ OPTIONAL  ] :: Configuring Application Log (SLG)
@@ -199,14 +205,14 @@ INITIALIZATION.
 *&----------------------------------------------------------------------------&"
 *&   Start of processing                                                      &"
 *&----------------------------------------------------------------------------&"
-START-OF-SELECTION.
+"START-OF-SELECTION.
 
 
 
 *&----------------------------------------------------------------------------&"
 *&   End of processing                                                        &"
 *&----------------------------------------------------------------------------&"
-END-OF-SELECTION.
+"END-OF-SELECTION.
   " Define
 
   " Log My Entries
