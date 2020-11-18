@@ -32,6 +32,12 @@
      <MSGNR>003</MSGNR>
      <TEXT>There is no entry in the log table to display</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>ZCL_LOG_UTIL-&gt;DEFINE expected an internal table or a structure (h,v or u)</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

@@ -22,6 +22,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>DEFINE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Method to define the field role of the specified structure</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>DISPLAY</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Display registered logs</DESCRIPT>
@@ -37,6 +43,12 @@
      <CMPNAME>FALSE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Boolean False</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>GET_RELATIVE_NAME</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return the relative name of the entered parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
@@ -67,6 +79,18 @@
      <CMPNAME>TY_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Internal logging table (for default)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_DEFINE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to define log table structure &amp; field role</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_DEFINE_STRUCTURE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Name of provided structure we are defining field role</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

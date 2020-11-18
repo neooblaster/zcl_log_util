@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>Function Group for ZCL_LOG_UTIL</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCL_LOG_UTILTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCL_LOG_UTIL</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCLLOG_PROTO</FUNCNAME>
+     <SHORT_TEXT>prototyping</SHORT_TEXT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>I_TABLE</PARAMETER>
+       <TYP>STANDARD TABLE</TYP>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_TABLE</PARAMETER>
+       <KIND>P</KIND>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>ZGET_EMPTY_TABLE_RELATIVE_NAME</FUNCNAME>
+     <SHORT_TEXT>Return the relative name of table which has not header line</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_TABLE</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>STANDARD TABLE</TYP>
+      </RSIMP>
+     </IMPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_TABLE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Table to get relative name</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

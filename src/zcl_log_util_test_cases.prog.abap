@@ -5,15 +5,107 @@
 *&---------------------------------------------------------------------*
 REPORT ZCL_LOG_UTIL_TEST_CASES.
 
-DATA:
-    lr_log_util TYPE REF TO zcl_log_util
-    .
+TYPES: BEGIN OF ty_my_log_table,
+          icon     TYPE alv_icon,
+          vbeln    TYPE vbeln,
+          message  TYPE string,
+          filename TYPE string,
+          id       TYPE sy-msgid,
+          number   TYPE sy-msgno,
+          type     TYPE sy-msgty,
+          spot     TYPE zdt_log_util_spot,
+       END   OF ty_my_log_table.
 
-DATA:
+TYPES:  BEGIN OF  ty_custom_bapi_log_table.
+          INCLUDE STRUCTURE bapiret2.
+TYPES:    fileindex TYPE i,
+          lineindex TYPE i,
+        END   OF ty_custom_bapi_log_table.
+
+
+
+DATA: " VARIABLES
+    lv_string    TYPE string.
+
+DATA: " TABLES
+    lt_log_table      TYPE TABLE OF ty_my_log_table         ,
+    ls_log_table      TYPE          ty_my_log_table         ,
+    lt_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table,
+    ls_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table.
+
+DATA: " OBJECTS
+    lr_log_util TYPE REF TO zcl_log_util.
+
+DATA: " EXCEPTIONS
     lx_log_util TYPE REF TO zcx_log_util.
-    .
 
-CREATE OBJECT lr_log_util.
+
+
+
+
+*&---------------------------------------------------------------------*
+*&  Initialization
+*&---------------------------------------------------------------------*
+zcl_log_util=>factory(
+  " Retrieving your object to use in your program
+  IMPORTING
+    r_log_util  = lr_log_util
+  " Linking your log table
+  CHANGING
+    t_log_table = lt_log_table
+).
+
+
+
+
+
+*&---------------------------------------------------------------------*
+*&  Testing DEFINE feature
+*&---------------------------------------------------------------------*
+*& Rule DEFINE_001 : Test Handling TABLE
+*&-----------------------------------------*
+lr_log_util->define( lt_log_table )->set(
+  msgid_field = 'ID'
+  msgno_field = 'NUMBER'
+  msgty_field = 'TYPE'
+  msgv1_field = ''
+  msgv2_field = ''
+  msgv3_field = ''
+  msgv4_field = ''
+).
+
+" Faire une table interne à l'instance pour le stockage des valeurs si pas de mapping
+" Prévoir une zone "ignore" en plus pour la surcharge
+
+
+*&------------------------------------------*
+*& Rule DEFINE_002 : Test Handling STRUCTURE
+*&------------------------------------------*
+lr_log_util->define( ls_log_table ).
+
+
+*&---------------------------------------------*
+*& Rule DEFINE_003 : Test Handling DATA ELEMENT
+*&---------------------------------------------*
+" MESSAGE e004(zlog_util)
+"lr_log_util->define( lv_string ). " Test case OK
+
+
+*&-----------------------------------------------------------*
+*& Rule DEFINE_003 : Defining another log table (not our ref)
+*&-----------------------------------------------------------*
+DATA: lr_define TYPE REF TO zcl_log_util_define.
+lr_define = lr_log_util->define( lt_cust_log_table ).
+lr_define->id( '' ).
+lr_define->number( '' ).
+lr_define->type( '' ).
+lr_define->msgv1( '' ).
+lr_define->msgv2( '' ).
+lr_define->msgv3( '' ).
+lr_define->msgv4( '' ).
+
+
+
 
 
 *&---------------------------------------------------------------------*
@@ -59,6 +151,10 @@ WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 
 
 
+
+
+"
+" In EXAMPLE
 "
 " [X] lr_log_util->slg->enable  " log will     create slg entry
 " [X] lr_log_util->slg->disable " log will not create slg entry
@@ -68,6 +164,15 @@ WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 " [X] lr_log_util->slg->set_sub_object @set_subobj
 " [X] lr_log_util->slg->display
 " [X] lr_log_util->slg->set_rentention
+"
+" [X] lr_log_util->define->set
+" [X] lr_log_util->define->id
+" [X] lr_log_util->define->number
+" [X] lr_log_util->define->type
+" [X] lr_log_util->define->msgv1
+" [X] lr_log_util->define->msgv2
+" [X] lr_log_util->define->msgv3
+" [X] lr_log_util->define->msgv4
 "
 " [ ] lr_log_util->log( )               using sy-msg
 " [ ] lr_log_util->log( str )

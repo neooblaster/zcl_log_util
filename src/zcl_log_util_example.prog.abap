@@ -52,7 +52,11 @@ TYPES:  BEGIN OF ty_my_log_str,
           spot     TYPE zdt_log_util_spot,
         END   OF ty_my_log_str.
 
-
+TYPES:  BEGIN OF  ty_custom_bapi_log_table.
+          INCLUDE STRUCTURE bapiret2.
+TYPES:    fileindex TYPE i,
+          lineindex TYPE i,
+        END   OF ty_custom_bapi_log_table.
 
 "&----------------------------------------------------------------------------&"
 "&   Global Variables                                                         &"
@@ -78,14 +82,27 @@ DATA:
   " [ MANDATORY ] :: Initialization of Log Util class
   " --------------------------------------------------
   zcl_log_util=>factory(
+    " Retrieving your object to use in your program
     IMPORTING
       r_log_util  = lr_log_util
+    " Linking your log table
     CHANGING
       t_log_table = lt_log_table
   ).
 
-  " [ OPTIONAL  ] :: Defining my type of log table
-  " -----------------------------------------------
+  " [ MANDATORY FOR ] :: Mandatory for custom log tables (your own)
+  " [ OPTIONAL  FOR ] :: Optionnal for known* log tables (SAP ones)
+  " ----------------------------------------------------------------
+  " Know Tables Types :
+  "   - zcl_log_util=>ty_log_table
+  "   - PROTT
+  "   - BAPIRET1
+  "   - BAPIRET2
+  "   - BAPI_CORU_RETURN
+  "   - BAPI_ORDER_RETURN
+  "   - BDCMSGCOLL
+  "   - RCOMP
+  " ----------------------------------------------------------------
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message ID.
 *  lr_log_util->define( )->id( ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Number.
@@ -102,7 +119,8 @@ DATA:
 *  lr_log_util->define( )->msgv4( ).
 
   " ──┐ Define Custom Log Table (like BAPIRET2), Super Method.
-*  lr_log_util->define( ).
+  lr_log_util->define( lt_log_table ).
+*  lr_log_util->define( )->set( ).
 
 
   " [ OPTIONAL  ] :: Specifing With Log Table definition will use
