@@ -24,10 +24,12 @@ public section.
       !T_LOG_TABLE type STANDARD TABLE .
   methods DEFINE
     importing
-      !I_STRUCTURE type ANY
+      !I_STRUCTURE type ANY default 'INITIAL'
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_DEFINE .
-  methods LOG .
+  methods LOG
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL' .
   methods DISPLAY .
   methods SPOT
     importing
@@ -46,6 +48,12 @@ public section.
       !I_ELEMENT type ANY
     returning
       value(R_ABS_NAME) type STRING .
+  class-methods _UPDATE_FIELD_OF_STRUCTURE
+    importing
+      !I_COMP_NAME type NAME_FELD
+      !I_VALUE type ANY
+    changing
+      !C_STRUCTURE type ANY .
 protected section.
 
   class-data TRUE type C value 'X' ##NO_TEXT.
@@ -55,7 +63,6 @@ private section.
   data _LOG_TABLE type ref to DATA .
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
-  data _DEFINE_STRUCTURE type STRING .
 
   methods SET_LOG_TABLE
     changing
@@ -77,45 +84,29 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_element_name TYPE string ,
         lv_i_struc_type TYPE string .
 
+    FIELD-SYMBOLS:
+                 <fs_structure> TYPE ANY.
+
     " Define can only working with structures & tables.
     DESCRIBE FIELD i_structure TYPE lv_i_struc_type.
 
-    IF lv_i_struc_type NE 'h' AND lv_i_struc_type NE 'v' AND lv_i_struc_type NE 'u'.
+    " When I_STRUCTURE is not provided, initial value is 'INITIAL' and struc_type is 'C'
+    IF lv_i_struc_type NE 'h' AND lv_i_struc_type NE 'v' AND lv_i_struc_type NE 'u' AND i_structure NE 'INITIAL'.
       " 004 :: ZCL_LOG_UTIL->DEFINE expected an internal table or a structure (h,v or u)
       MESSAGE e004.
       EXIT.
     ENDIF.
 
-    " Set handler to specified structure
-    me->_define->handling( i_structure ).
+    " Set handler to specified structure (lv_i_struc_type prevent dump due to it position)
+    IF lv_i_struc_type EQ 'C' AND i_structure EQ 'INITIAL'.
+      ASSIGN me->_log_table->* TO <fs_structure>.
+      me->_define->handling( <fs_structure> ).
+    ELSE.
+      me->_define->handling( i_structure ).
+    ENDIF.
 
     " Return Instance of define
     self = me->_define.
-
-
-
-    " [X]Récupérer le type absolute
-    " [ ]Si type de structure différent, on reinstancy
-    " [ ]si pas bound, le bound
-
-
-    " Get the relative name of provided element
-    "lv_element_name = zcl_log_util=>get_relative_name( i_structure ).
-
-
-*    DATA:
-*    lr_log_util_spot TYPE REF TO zcl_log_util_spot
-*    .
-*
-*    " If not yet instanciated
-*    IF me->_spot IS NOT BOUND.
-*      CREATE OBJECT lr_log_util_spot
-*        EXPORTING spot = spot.
-*
-*      lr_log_util_spot = me->_spot = lr_log_util_spot.
-*    ENDIF.
-*
-*    self = me->_spot.
 
   endmethod.
 
@@ -343,27 +334,196 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
   method LOG.
 
+    DATA: " Variable & Internal Tables
+        lv_msgid              TYPE sy-msgid    ,
+        lv_msgno              TYPE sy-msgno    ,
+        lv_msgty              TYPE sy-msgty    ,
+        lv_msgv1              TYPE sy-msgv1    ,
+        lv_msgv2              TYPE sy-msgv2    ,
+        lv_msgv3              TYPE sy-msgv3    ,
+        lv_msgv4              TYPE sy-msgv4    ,
+        lv_msgtx              TYPE string      ,
+
+        lv_i_log_content_type TYPE string      ,
+
+        ls_field_definition   TYPE zcl_log_util_define=>ty_field_map .
+
+    DATA: " References
+        lr_data               TYPE REF TO data .
+
+    DATA: " Flags
+        lv_flg_use_symsg      TYPE c           . " Log working with sy-msgxx (most basic usage)
+                                                 " Log working with entered message texte
+                                                 " Log working with entered structure (use definition)
+                                                 " Log working with entered table     (use definition)
+
     FIELD-SYMBOLS:
-                 <fst_log_table> TYPE ANY TABLE ,
-                 <fss_log_table> TYPE ANY       ,
-                 <fsf_field>     TYPE ANY       .
+                 <fs_log_table_t> TYPE STANDARD TABLE , " Internal Table
+                 <fs_log_table_s> TYPE ANY            , " Structure
+                 <fs_log_table_c> TYPE ANY            . " Component
 
-    " Assign referenced table data for manipulation
-    ASSIGN me->_log_table->* TO <fst_log_table>.
 
-    IF <fst_log_table> IS ASSIGNED.
-      LOOP AT <fst_log_table> ASSIGNING <fss_log_table>.
-        IF <fss_log_table> IS ASSIGNED.
-          "ASSIGN COMPONENT (lv_comp)
-          ASSIGN COMPONENT 'MESSAGE' OF STRUCTURE <fss_log_table> TO <fsf_field>.
 
-          IF <fsf_field> IS ASSIGNED.
-            <fsf_field> = sy-msgid.
-            UNASSIGN <fsf_field>.
-          ENDIF.
-        ENDIF.
-      ENDLOOP.
+    " --------------------------------------------------------------
+    " • Import Parameter management
+    " --------------------------------------------------------------
+    " ──┐ Import parameter identification
+    DESCRIBE FIELD i_log_content TYPE lv_i_log_content_type.
+
+    IF lv_i_log_content_type EQ 'C'.
+      IF i_log_content EQ 'INITIAL'.
+        lv_flg_use_symsg = zcl_log_util=>true.
+      ENDIF.
+    ELSEIF lv_i_log_content_type EQ 'h' OR lv_i_log_content_type EQ 'v' OR lv_i_log_content_type EQ 'u'.
     ENDIF.
+
+
+
+    " --------------------------------------------------------------
+    " • Message components assignment
+    " --------------------------------------------------------------
+    IF lv_flg_use_symsg EQ zcl_log_util=>true.
+      lv_msgid = sy-msgid.
+      lv_msgno = sy-msgno.
+      lv_msgty = sy-msgty.
+      lv_msgv1 = sy-msgv1.
+      lv_msgv2 = sy-msgv2.
+      lv_msgv3 = sy-msgv3.
+      lv_msgv4 = sy-msgv4.
+    ENDIF.
+
+
+
+    " --------------------------------------------------------------
+    " • Overloading
+    " --------------------------------------------------------------
+
+
+
+    " --------------------------------------------------------------
+    " • Making message texte
+    " --------------------------------------------------------------
+    MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
+    INTO lv_msgtx
+    WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.
+
+
+
+    " --------------------------------------------------------------
+    " • Registring in user table
+    " --------------------------------------------------------------
+    " ──┐ Get table for appending.
+    ASSIGN me->_log_table->* TO <fs_log_table_t>.
+
+    " ──┐ Create Structure of user log table.
+    CREATE DATA lr_data LIKE LINE OF <fs_log_table_t>.
+    ASSIGN lr_data->* TO <fs_log_table_s>.
+
+    " ──┐ Get table definition
+    ls_field_definition = me->_define->get_definition(
+      i_structure = <fs_log_table_s>
+    ).
+
+    " ──┐ Fill fields of structure
+    " ──────┐ Processing MESSAGE
+    IF ls_field_definition-field_message IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_message
+          i_value     = lv_msgtx
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing ID
+    IF ls_field_definition-field_id IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_id
+          i_value     = lv_msgid
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing NUMBER
+    IF ls_field_definition-field_number IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_number
+          i_value     = lv_msgno
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing TYPE
+    IF ls_field_definition-field_type IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_type
+          i_value     = lv_msgty
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing MSGV1
+    IF ls_field_definition-field_msgv1 IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_msgv1
+          i_value     = lv_msgv1
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing MSGV2
+    IF ls_field_definition-field_msgv2 IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_msgv2
+          i_value     = lv_msgv2
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing MSGV3
+    IF ls_field_definition-field_msgv3 IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_msgv3
+          i_value     = lv_msgv3
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+    " ──────┐ Processing MSGV4
+    IF ls_field_definition-field_msgv4 IS NOT INITIAL.
+      zcl_log_util=>_update_field_of_structure(
+        EXPORTING
+          i_comp_name = ls_field_definition-field_msgv4
+          i_value     = lv_msgv4
+        CHANGING
+          c_structure = <fs_log_table_s>
+      ).
+    ENDIF.
+
+
+    " ──┐ Append entry (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
+    APPEND <fs_log_table_s> TO <fs_log_table_t>.
+
+
+
+    " --------------------------------------------------------------
+    " • Registring in Application Log
+    " --------------------------------------------------------------
+
+
 
   endmethod.
 
@@ -391,6 +551,23 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ENDIF.
 
     self = me->_spot.
+
+  endmethod.
+
+
+  method _UPDATE_FIELD_OF_STRUCTURE.
+
+    FIELD-SYMBOLS:
+                 <fs_comp> TYPE ANY.
+
+    ASSIGN COMPONENT i_comp_name OF STRUCTURE c_structure TO <fs_comp>.
+
+    " @TODO : Check for field validation (type & lenght)
+    IF <fs_comp> IS ASSIGNED.
+      TRY.
+        <fs_comp> = i_value.
+      ENDTRY.
+    ENDIF.
 
   endmethod.
 ENDCLASS.

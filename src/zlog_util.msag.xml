@@ -44,6 +44,48 @@
      <MSGNR>005</MSGNR>
      <TEXT>Field component &amp; not found in type &amp;</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>ZCL_LOG_UTIL-&gt;GET_DEFINITION expected at least one parameter</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>ZCL_LOG_UTIL-&gt;GET_DEFINITION, type &amp; undefined</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>100</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>101</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 2 with 1 placeholders : &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>102</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 3 with 2 placeholders : &amp; and &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>103</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 4 with 3 placeholders : &amp;, &amp; ADN &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>104</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : &amp;, &amp;, &amp; n &amp;</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

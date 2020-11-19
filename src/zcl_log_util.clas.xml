@@ -94,12 +94,6 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
-     <CMPNAME>_DEFINE_STRUCTURE</CMPNAME>
-     <LANGU>F</LANGU>
-     <DESCRIPT>Name of provided structure we are defining field role</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Bufferized logs</DESCRIPT>
@@ -109,6 +103,12 @@
      <CMPNAME>_SPOT</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_UPDATE_FIELD_OF_STRUCTURE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Update field of provided structure with component name</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>

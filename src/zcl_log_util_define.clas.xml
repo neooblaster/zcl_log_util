@@ -33,9 +33,27 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
+     <CMPNAME>GET_DEFINITION</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return the field map definition</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
      <CMPNAME>GET_RELATIVE_NAME</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Return the relative name of the entered parameter</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
+     <CMPNAME>GET_TABLE_STRUCTDESCR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return the structdescr of table even if it empty</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
+     <CMPNAME>GET_TABLE_TYPEDESCR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return the typedescr of table even if it empty</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
@@ -48,6 +66,12 @@
      <CMPNAME>ID</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Set Field Name for Message ID</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
+     <CMPNAME>MESSAGE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name which will handle log message</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
@@ -108,18 +132,6 @@
      <CMPNAME>_GET_STRUCT_NAME</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Return the requested name of structure</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
-     <CMPNAME>_GET_TABLE_STRUCTDESCR</CMPNAME>
-     <LANGU>F</LANGU>
-     <DESCRIPT>Return the structdescr of table even if it empty</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
-     <CMPNAME>_GET_TABLE_TYPEDESCR</CMPNAME>
-     <LANGU>F</LANGU>
-     <DESCRIPT>Return the typedescr of table even if it empty</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>

@@ -33,7 +33,7 @@
 *&               |                                                            &*
 *&---------------#------------------------------------------------------------&*
 *&----------------------------------------------------------------------------&*
-REPORT ZCL_LOG_UTIL_EXAMPLE.
+REPORT ZCL_LOG_UTIL_EXAMPLE MESSAGE-ID zlog_util.
 
 
 
@@ -52,6 +52,16 @@ TYPES:  BEGIN OF ty_my_log_str,
           spot     TYPE zdt_log_util_spot,
         END   OF ty_my_log_str.
 
+TYPES:  BEGIN OF  ty_raw_log,
+          id TYPE sy-msgid,
+          no TYPE sy-msgno,
+          ty TYPE sy-msgty,
+          v1 TYPE sy-msgv1,
+          v2 TYPE sy-msgv2,
+          v3 TYPE sy-msgv3,
+          v4 TYPE sy-msgv4,
+        END   OF  ty_raw_log.
+
 TYPES:  BEGIN OF  ty_custom_bapi_log_table.
           INCLUDE STRUCTURE bapiret2.
 TYPES:    fileindex TYPE i,
@@ -65,6 +75,7 @@ DATA:
     lr_log_util      TYPE REF TO   zcl_log_util  ,
     lt_log_table     TYPE TABLE OF ty_my_log_str ,
     ls_log_table     TYPE          ty_my_log_str ,
+    lt_trace_log     TYPE TABLE OF ty_raw_log    ,
     lt_ret_bapiret2  TYPE TABLE OF bapiret2      , " Example of FM : LE_DLV_DATE_CHANGE
     lt_ret_prott     TYPE TABLE of prott         , " Example of FM : WS_DELIVERY_UPDATE_2
     lv_dummy         TYPE          string        . " Dummy variable to handle MESSAGE statement
@@ -92,6 +103,11 @@ DATA:
 
   " [ MANDATORY FOR ] :: Mandatory for custom log tables (your own)
   " [ OPTIONAL  FOR ] :: Optionnal for known* log tables (SAP ones)
+  "
+  " Notes :
+  "   - Here ->define( ) has no paramter. In this case, we are
+  "     defining our log table lt_log_table (passed in CHANGING t_log_table)
+  "
   " ----------------------------------------------------------------
   " Know Tables Types :
   "   - zcl_log_util=>ty_log_table
@@ -103,28 +119,44 @@ DATA:
   "   - BDCMSGCOLL
   "   - RCOMP
   " ----------------------------------------------------------------
+  " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Texte (output).
+  lr_log_util->define( )->message( 'MESSAGE' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message ID.
-*  lr_log_util->define( )->id( ).
+  lr_log_util->define( )->id( 'ID' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Number.
-*  lr_log_util->define( )->number( ).
+  lr_log_util->define( )->number( 'NUMBER' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Type.
-*  lr_log_util->define( )->type( ).
+  lr_log_util->define( )->type( 'TYPE' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Msgv1.
-*  lr_log_util->define( )->msgv1( ).
+  lr_log_util->define( )->msgv1( '' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Msgv2.
-*  lr_log_util->define( )->msgv2( ).
+  lr_log_util->define( )->msgv2( '' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Msgv3.
-*  lr_log_util->define( )->msgv3( ).
+  lr_log_util->define( )->msgv3( '' ).
   " ──┐ Define Custom Log Table (like BAPIRET2), field receiving Message Msgv4.
-*  lr_log_util->define( )->msgv4( ).
+  lr_log_util->define( )->msgv4( '' ).
 
-  " ──┐ Define Custom Log Table (like BAPIRET2), Super Method.
-  lr_log_util->define( lt_log_table ).
-*  lr_log_util->define( )->set( ).
+  " [ OPTIONAL ] :: Optionnal to define another custom log table
+  "
+  " Notes :
+  "   -Here we have to passe (at least once) the parameter
+  "    to ->define( <param> ) for next methods
+  "
+  " ---------------------------------------------------------------
+  " ──┐ Define another Custom Log Table (like BAPIRET2), Super Method.
+  lr_log_util->define( lt_trace_log )->set(
+    msgid_field = 'ID'
+    msgno_field = 'NO'
+    msgty_field = 'TY'
+    msgv1_field = 'V1'
+    msgv2_field = 'V2'
+    msgv3_field = 'V3'
+    msgv4_field = 'V4'
+  ).
 
 
   " [ OPTIONAL  ] :: Specifing With Log Table definition will use
-  " --------------------------------------------------------------
+  " ---------------------------------------------------------------
 *  lr_log_util->set_output_type( ).
 
 
@@ -231,10 +263,27 @@ DATA:
 *&   End of processing                                                        &"
 *&----------------------------------------------------------------------------&"
 "END-OF-SELECTION.
-  " Define
+
+  " ---------------------------------------------------------
+  "   How To Logging
+  " ---------------------------------------------------------
+  "   Management rule for method log( )
+  "
+  "   • Used without parameter     :
+  "     -> Will add entry to your log table with value
+  "        available in SY-MSGxx
+  "
+  "   • Used with one parameter    :
+  "
+  "   • Used with two parameters   :
+  "
+  "   • Used with three parameters :
+  "
+  " ---------------------------------------------------------
 
   " Log My Entries
   " ──┐ Working with current SY-MSGxx values
+  MESSAGE e100 INTO lv_dummy. " Do not display but allow use case.
   lr_log_util->log( ).
   " ──┐ Working with current SY-MSGxx values and complet with my structure
 *  MESSAGE ID                             " Classic Way for Usage Case

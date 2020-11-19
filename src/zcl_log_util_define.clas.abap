@@ -5,16 +5,35 @@ class ZCL_LOG_UTIL_DEFINE definition
 
 public section.
 
+  types:
+    begin of ty_field_map,
+            abs_name      TYPE string    ,
+            field_message TYPE name_feld ,
+            field_id      TYPE name_feld ,
+            field_number  TYPE name_feld ,
+            field_type    TYPE name_feld ,
+            field_msgv1   TYPE name_feld ,
+            field_msgv2   TYPE name_feld ,
+            field_msgv3   TYPE name_feld ,
+            field_msgv4   TYPE name_feld ,
+          end   of ty_field_map .
+
   methods CONSTRUCTOR .
   methods SET
     importing
-      !MSGID_FIELD type NAME_FELD
-      !MSGNO_FIELD type NAME_FELD
-      !MSGTY_FIELD type NAME_FELD
-      !MSGV1_FIELD type NAME_FELD
-      !MSGV2_FIELD type NAME_FELD
-      !MSGV3_FIELD type NAME_FELD
-      !MSGV4_FIELD type NAME_FELD .
+      !MSGTX_FIELD type NAME_FELD optional
+      !MSGID_FIELD type NAME_FELD optional
+      !MSGNO_FIELD type NAME_FELD optional
+      !MSGTY_FIELD type NAME_FELD optional
+      !MSGV1_FIELD type NAME_FELD optional
+      !MSGV2_FIELD type NAME_FELD optional
+      !MSGV3_FIELD type NAME_FELD optional
+      !MSGV4_FIELD type NAME_FELD optional .
+  methods MESSAGE
+    importing
+      !MSGTX_FIELD type NAME_FELD
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_DEFINE .
   methods ID
     importing
       !MSGID_FIELD type NAME_FELD
@@ -63,22 +82,26 @@ public section.
       !I_ELEMENT type ANY
     returning
       value(R_REL_NAME) type STRING .
+  class-methods GET_TABLE_TYPEDESCR
+    importing
+      !I_TABLE type STANDARD TABLE
+    returning
+      value(R_TYPEDESCR) type ref to CL_ABAP_TYPEDESCR .
+  class-methods GET_TABLE_STRUCTDESCR
+    importing
+      !I_TABLE type STANDARD TABLE
+    returning
+      value(R_STRUCTDESCR) type ref to CL_ABAP_STRUCTDESCR .
+  methods GET_DEFINITION
+    importing
+      !I_ABSOLUTE_NAME type STRING optional
+      !I_STRUCTURE type ANY optional
+    returning
+      value(R_DEFINITION) type TY_FIELD_MAP .
 protected section.
 
-  types:
-    begin of ty_field_map,
-            abs_name     TYPE string    ,
-            field_id     TYPE NAME_FELD ,
-            field_number TYPE NAME_FELD ,
-            field_type   TYPE NAME_FELD ,
-            field_msgv1  TYPE NAME_FELD ,
-            field_msgv2  TYPE NAME_FELD ,
-            field_msgv3  TYPE NAME_FELD ,
-            field_msgv4  TYPE NAME_FELD ,
-          end   of ty_field_map .
-
   data:
-    _LOG_TABLE_MAP type TABLE OF ty_field_map.
+    _LOG_TABLE_MAP type TABLE OF ty_field_map .
   class-data TRUE type C value 'X' ##NO_TEXT.
   class-data FALSE type C value ' ' ##NO_TEXT.
 private section.
@@ -92,16 +115,6 @@ private section.
   methods _CHECK_COMPONENT
     importing
       !I_COMP_NAME type NAME_FELD .
-  class-methods _GET_TABLE_TYPEDESCR
-    importing
-      !I_TABLE type STANDARD TABLE
-    returning
-      value(R_TYPEDESCR) type ref to CL_ABAP_TYPEDESCR .
-  class-methods _GET_TABLE_STRUCTDESCR
-    importing
-      !I_TABLE type STANDARD TABLE
-    returning
-      value(R_STRUCTDESCR) type ref to CL_ABAP_STRUCTDESCR .
   class-methods _GET_STRUCT_NAME
     importing
       !I_ELEMENT type ANY
@@ -130,12 +143,105 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
   endmethod.
 
 
+  method GET_DEFINITION.
+    " --------------------------------------------------------------
+    " GET_DEFINITION can retrieve definition from absolute type name
+    " (string I_ABSOLUTE_NAME) or relating to provided structure or table
+    " (any I_STRUCTURE).
+    "
+    " If both parameter are provided, the first one have the priority
+    " (I_ABSOLUTE_NAME)
+    " --------------------------------------------------------------
+    DATA:
+        lv_absolute_name TYPE string.
+
+    IF i_absolute_name IS SUPPLIED.
+      lv_absolute_name = i_absolute_name.
+    ENDIF.
+
+    IF lv_absolute_name IS INITIAL AND i_structure IS NOT SUPPLIED.
+      " 006 :: ZCL_LOG_UTIL->GET_DEFINITION expected at least one parameter
+      MESSAGE e006.
+      EXIT.
+
+    ELSE.
+      lv_absolute_name = zcl_log_util_define=>get_absolute_name( i_structure ).
+    ENDIF.
+
+    READ TABLE me->_log_table_map INTO r_definition WITH KEY abs_name = lv_absolute_name.
+
+    IF sy-subrc NE 0.
+      " 007 :: ZCL_LOG_UTIL->GET_DEFINITION, type & undefined
+      MESSAGE e007 WITH lv_absolute_name.
+      EXIT.
+    ENDIF.
+
+  endmethod.
+
+
   method GET_RELATIVE_NAME.
 
     r_rel_name = zcl_log_util_define=>_GET_STRUCT_NAME(
       i_element   = i_element
       i_name_kind = 'RELATIVE'
     ).
+
+  endmethod.
+
+
+  method GET_TABLE_STRUCTDESCR.
+
+    DATA:
+        lv_relnam      TYPE        string              ,
+        "lr_typedesc TYPE REF TO cl_abap_typedescr ,
+        lr_structdescr TYPE REF TO cl_abap_structdescr ,
+        lr_data        TYPE REF TO data                .
+
+    FIELD-SYMBOLS:
+                 <fs_i_table> TYPE ANY.
+
+    " Relative Name can not be obtain when table is empty
+    " Create a structure to hack technical constraint.
+    IF lines( i_table ) EQ 0.
+      " Create structure with type of our empty table
+      CREATE DATA lr_data LIKE LINE OF i_table.
+      ASSIGN lr_data->* TO <fs_i_table>.
+
+      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( <fs_i_table> ).
+
+    ELSE.
+      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( i_table ).
+    ENDIF.
+
+    r_structdescr = lr_structdescr.
+
+  endmethod.
+
+
+  method GET_TABLE_TYPEDESCR.
+
+    DATA:
+        lv_relnam   TYPE        string            ,
+        lr_typedesc TYPE REF TO cl_abap_typedescr ,
+        lr_data     TYPE REF TO data              .
+
+    FIELD-SYMBOLS:
+                 <fs_i_table> TYPE ANY.
+
+    " Relative Name can not be obtain when table is empty
+    " Create a structure to hack technical constraint.
+    IF lines( i_table ) EQ 0.
+      " Create structure with type of our empty table
+      CREATE DATA lr_data LIKE LINE OF i_table.
+      ASSIGN lr_data->* TO <fs_i_table>.
+
+      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( <fs_i_table> ).
+
+    ELSE.
+      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( i_table ).
+    ENDIF.
+
+    r_typedescr = lr_typedesc.
 
   endmethod.
 
@@ -152,6 +258,18 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
     me->_set_field_map(
       i_msg_field = 'FIELD_ID'
       i_map_field = msgid_field
+    ).
+
+    self = me.
+
+  endmethod.
+
+
+  method MESSAGE.
+
+    me->_set_field_map(
+      i_msg_field = 'FIELD_MESSAGE'
+      i_map_field = msgtx_field
     ).
 
     self = me.
@@ -222,6 +340,7 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
   method SET.
 
     " Super Method using dedicated field method
+    me->message( msgtx_field ).
     me->id( msgid_field ).
     me->number( msgno_field ).
     me->type( msgty_field ).
@@ -291,7 +410,7 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
 
     CASE lv_type.
       WHEN 'h'. " Internal Table
-        lr_typedesc = zcl_log_util_define=>_get_table_typedescr( i_element ).
+        lr_typedesc = zcl_log_util_define=>get_table_typedescr( i_element ).
         lv_obtain = zcl_log_util_define=>true.
 
       "WHEN 'v'. " Deep Structure
@@ -321,63 +440,6 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
         r_name = lr_typedesc->get_relative_name( ).
 
     ENDCASE.
-
-  endmethod.
-
-
-  method _GET_TABLE_STRUCTDESCR.
-
-    DATA:
-        lv_relnam      TYPE        string              ,
-        "lr_typedesc TYPE REF TO cl_abap_typedescr ,
-        lr_structdescr TYPE REF TO cl_abap_structdescr ,
-        lr_data        TYPE REF TO data                .
-
-    FIELD-SYMBOLS:
-                 <fs_i_table> TYPE ANY.
-
-    " Relative Name can not be obtain when table is empty
-    " Create a structure to hack technical constraint.
-    IF lines( i_table ) EQ 0.
-      " Create structure with type of our empty table
-      CREATE DATA lr_data LIKE LINE OF i_table.
-      ASSIGN lr_data->* TO <fs_i_table>.
-
-      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( <fs_i_table> ).
-
-    ELSE.
-      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( i_table ).
-    ENDIF.
-
-    r_structdescr = lr_structdescr.
-
-  endmethod.
-
-
-  method _GET_TABLE_TYPEDESCR.
-
-    DATA:
-        lv_relnam   TYPE        string            ,
-        lr_typedesc TYPE REF TO cl_abap_typedescr ,
-        lr_data     TYPE REF TO data              .
-
-    FIELD-SYMBOLS:
-                 <fs_i_table> TYPE ANY.
-
-    " Relative Name can not be obtain when table is empty
-    " Create a structure to hack technical constraint.
-    IF lines( i_table ) EQ 0.
-      " Create structure with type of our empty table
-      CREATE DATA lr_data LIKE LINE OF i_table.
-      ASSIGN lr_data->* TO <fs_i_table>.
-
-      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( <fs_i_table> ).
-
-    ELSE.
-      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( i_table ).
-    ENDIF.
-
-    r_typedescr = lr_typedesc.
 
   endmethod.
 
