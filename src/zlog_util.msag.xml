@@ -38,6 +38,12 @@
      <MSGNR>004</MSGNR>
      <TEXT>ZCL_LOG_UTIL-&gt;DEFINE expected an internal table or a structure (h,v or u)</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>Field component &amp; not found in type &amp;</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

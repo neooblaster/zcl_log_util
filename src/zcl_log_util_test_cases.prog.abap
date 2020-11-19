@@ -34,7 +34,8 @@ DATA: " TABLES
     ls_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table.
 
 DATA: " OBJECTS
-    lr_log_util TYPE REF TO zcl_log_util.
+    lr_log_util        TYPE REF TO zcl_log_util        ,
+    lr_log_util_define TYPE REF TO zcl_log_util_define .
 
 DATA: " EXCEPTIONS
     lx_log_util TYPE REF TO zcx_log_util.
@@ -56,6 +57,9 @@ zcl_log_util=>factory(
 ).
 
 
+" Faire une table interne à l'instance pour le stockage des valeurs si pas de mapping
+" Prévoir une zone "ignore" en plus pour la surcharge
+
 
 
 
@@ -64,6 +68,10 @@ zcl_log_util=>factory(
 *&---------------------------------------------------------------------*
 *& Rule DEFINE_001 : Test Handling TABLE
 *&-----------------------------------------*
+* Validating :
+*   - Super Method
+*   - Field Name
+*   - Empty Field
 lr_log_util->define( lt_log_table )->set(
   msgid_field = 'ID'
   msgno_field = 'NUMBER'
@@ -73,9 +81,6 @@ lr_log_util->define( lt_log_table )->set(
   msgv3_field = ''
   msgv4_field = ''
 ).
-
-" Faire une table interne à l'instance pour le stockage des valeurs si pas de mapping
-" Prévoir une zone "ignore" en plus pour la surcharge
 
 
 *&------------------------------------------*
@@ -91,18 +96,28 @@ lr_log_util->define( ls_log_table ).
 "lr_log_util->define( lv_string ). " Test case OK
 
 
+*&------------------------------------------------------*
+*& Rule DEFINE_004 : Test Settting field which not exist
+*&------------------------------------------------------*
+" MESSAGE e005(zlog_util)
+"lr_log_util->define( ls_log_table )->id( 'ID' )->number( 'MSGNO'). " Test case OK
+
+
 *&-----------------------------------------------------------*
 *& Rule DEFINE_003 : Defining another log table (not our ref)
 *&-----------------------------------------------------------*
-DATA: lr_define TYPE REF TO zcl_log_util_define.
-lr_define = lr_log_util->define( lt_cust_log_table ).
-lr_define->id( '' ).
-lr_define->number( '' ).
-lr_define->type( '' ).
-lr_define->msgv1( '' ).
-lr_define->msgv2( '' ).
-lr_define->msgv3( '' ).
-lr_define->msgv4( '' ).
+*
+* @TODO : Include structure not managed by strucdescr (currently)
+*
+*DATA: lr_define TYPE REF TO zcl_log_util_define.
+*lr_define = lr_log_util->define( lt_cust_log_table ).
+*lr_define->id( 'ID' ).
+*lr_define->number( 'NUMBER' ).
+*lr_define->type( 'TYPE' ).
+*lr_define->msgv1( 'MESSAGE_V1' ).
+*lr_define->msgv2( 'MESSAGE_V2' ).
+*lr_define->msgv3( 'MESSAGE_V3' ).
+*lr_define->msgv4( 'MESSAGE_V4' ).
 
 
 

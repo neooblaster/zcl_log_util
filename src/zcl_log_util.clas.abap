@@ -41,6 +41,11 @@ public section.
       !I_ELEMENT type ANY
     returning
       value(R_REL_NAME) type STRING .
+  class-methods GET_ABSOLUTE_NAME
+    importing
+      !I_ELEMENT type ANY
+    returning
+      value(R_ABS_NAME) type STRING .
 protected section.
 
   class-data TRUE type C value 'X' ##NO_TEXT.
@@ -55,11 +60,6 @@ private section.
   methods SET_LOG_TABLE
     changing
       !T_LOG_TABLE type STANDARD TABLE .
-  class-methods _GET_TABLE_REL_NAME
-    importing
-      !I_TABLE type STANDARD TABLE
-    returning
-      value(R_NAME) type STRING .
 ENDCLASS.
 
 
@@ -86,11 +86,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       EXIT.
     ENDIF.
 
-    " Get the relative name of provided element
-    lv_element_name = zcl_log_util=>get_relative_name( i_structure ).
+    " Set handler to specified structure
+    me->_define->handling( i_structure ).
 
-
-    "
+    " Return Instance of define
     self = me->_define.
 
 
@@ -99,6 +98,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " [ ]Si type de structure différent, on reinstancy
     " [ ]si pas bound, le bound
 
+
+    " Get the relative name of provided element
+    "lv_element_name = zcl_log_util=>get_relative_name( i_structure ).
 
 
 *    DATA:
@@ -215,56 +217,126 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
     " Define Structure Field roles
+    DATA lr_define TYPE REF TO zcl_log_util_define.
+
     " ──┐ Default Log Table (ty_log_table)
+
     " ──┐ PROTT Log Table
+    DATA lt_prott TYPE prott.
+    lr_define = r_log_util->define( lt_prott ).
+    lr_define->set(
+      msgid_field = 'MSGID'
+      msgno_field = 'MSGNO'
+      msgty_field = 'MSGTY'
+      msgv1_field = 'MSGV1'
+      msgv2_field = 'MSGV2'
+      msgv3_field = 'MSGV3'
+      msgv4_field = 'MSGV4'
+    ).
     " ──┐ BAPIRET1 Log Table
+    DATA lt_bapiret1 TYPE bapiret1.
+    lr_define = r_log_util->define( lt_bapiret1 ).
+    lr_define->set(
+      msgid_field = 'ID'
+      msgno_field = 'NUMBER'
+      msgty_field = 'TYPE'
+      msgv1_field = 'MESSAGE_V1'
+      msgv2_field = 'MESSAGE_V2'
+      msgv3_field = 'MESSAGE_V3'
+      msgv4_field = 'MESSAGE_V4'
+    ).
     " ──┐ BAPIRET2 Log Table
+    DATA lt_bapiret2 TYPE bapiret2.
+    lr_define = r_log_util->define( lt_bapiret2 ).
+    lr_define->set(
+      msgid_field = 'ID'
+      msgno_field = 'NUMBER'
+      msgty_field = 'TYPE'
+      msgv1_field = 'MESSAGE_V1'
+      msgv2_field = 'MESSAGE_V2'
+      msgv3_field = 'MESSAGE_V3'
+      msgv4_field = 'MESSAGE_V4'
+    ).
     " ──┐ BAPI_CORU_RETURN Log Table
+    DATA lt_bapi_coru_ret TYPE bapi_coru_return.
+    lr_define = r_log_util->define( lt_bapi_coru_ret ).
+    lr_define->set(
+      msgid_field = 'ID'
+      msgno_field = 'NUMBER'
+      msgty_field = 'TYPE'
+      msgv1_field = 'MESSAGE_V1'
+      msgv2_field = 'MESSAGE_V2'
+      msgv3_field = 'MESSAGE_V3'
+      msgv4_field = 'MESSAGE_V4'
+    ).
     " ──┐ BAPI_ORDER_RETURN Log Table
+    DATA lt_bapi_oder_ret TYPE bapi_order_return.
+    lr_define = r_log_util->define( lt_bapi_oder_ret ).
+    lr_define->set(
+      msgid_field = 'ID'
+      msgno_field = 'NUMBER'
+      msgty_field = 'TYPE'
+      msgv1_field = 'MESSAGE_V1'
+      msgv2_field = 'MESSAGE_V2'
+      msgv3_field = 'MESSAGE_V3'
+      msgv4_field = 'MESSAGE_V4'
+    ).
     " ──┐ BDCMSGCOLL Log Table
+    DATA lt_bdcmsgcoll TYPE bdcmsgcoll.
+    lr_define = r_log_util->define( lt_bdcmsgcoll ).
+    lr_define->set(
+      msgid_field = 'MSGID'
+      msgno_field = 'MSGNR'
+      msgty_field = 'MSGTYP'
+      msgv1_field = 'MSGV1'
+      msgv2_field = 'MSGV2'
+      msgv3_field = 'MSGV3'
+      msgv4_field = 'MSGV4'
+    ).
     " ──┐ HRPAD_MESSAGE Log Table
-    " ──┐ RCOMP Log Table
+*
+* @TODO : Include structure not managed by strucdescr (currently)
+*
+*    DATA lt_hrpad_message TYPE hrpad_message.
+*    lr_define = r_log_util->define( lt_hrpad_message ).
+*    lr_define->set(
+*      msgid_field = 'MSGID'
+*      msgno_field = 'MSGNO'
+*      msgty_field = 'MSGTY'
+*      msgv1_field = 'MSGV1'
+*      msgv2_field = 'MSGV2'
+*      msgv3_field = 'MSGV3'
+*      msgv4_field = 'MSGV4'
+*    ).
+    " ──┐ RCOMP Log Tablessage.
+*
+* @TODO : Include structure not managed by strucdescr (currently)
+*
+*    DATA lt_rcomp TYPE rcomp.
+*    lr_define = r_log_util->define( lt_rcomp ).
+*    lr_define->set(
+*      msgid_field = 'MSGID'
+*      msgno_field = 'MSGNO'
+*      msgty_field = 'MSGTY'
+*      msgv1_field = 'MSGV1'
+*      msgv2_field = 'MSGV2'
+*      msgv3_field = 'MSGV3'
+*      msgv4_field = 'MSGV4'
+*    ).
+
+  endmethod.
+
+
+  method GET_ABSOLUTE_NAME.
+
+    r_abs_name = zcl_log_util_define=>get_absolute_name( i_element ).
 
   endmethod.
 
 
   method GET_RELATIVE_NAME.
 
-    DATA:
-        lr_typedesc  TYPE REF TO cl_abap_typedescr   ,
-        lr_struct    TYPE REF TO cl_abap_structdescr ,
-        lv_strnam    TYPE        string              ,
-        lv_obtain(1) TYPE        c                   .
-
-    FIELD-SYMBOLS:
-                 <fs_itab>   TYPE ANY TABLE ,
-                 <fs_struct> TYPE ANY       ,
-                 <fs_comp>   TYPE ANY       .
-
-
-    DESCRIBE FIELD i_element TYPE DATA(lv_type).
-
-    CASE lv_type.
-      WHEN 'h'. " Internal Table
-        lv_strnam = zcl_log_util=>_get_table_rel_name( i_element ).
-        lv_obtain = zcl_log_util=>true.
-
-      "WHEN 'v'. " Deep Structure
-
-      "WHEN 'u'. " Flat Structure
-
-      WHEN OTHERS.
-        ASSIGN i_element TO <fs_struct>.
-
-    ENDCASE.
-
-    " If relative name has not been already obtained (depending of type)
-    IF lv_obtain NE zcl_log_util=>true.
-      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( <fs_struct> ).
-      lv_strnam    = lr_typedesc->get_relative_name( ).
-    ENDIF.
-
-    r_rel_name = lv_strnam.
+    r_rel_name = zcl_log_util_define=>get_relative_name( i_element ).
 
   endmethod.
 
@@ -319,34 +391,6 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ENDIF.
 
     self = me->_spot.
-
-  endmethod.
-
-
-  method _GET_TABLE_REL_NAME.
-
-    DATA:
-        lv_relnam   TYPE        string            ,
-        lr_typedesc TYPE REF TO cl_abap_typedescr ,
-        lr_data     TYPE REF TO data              .
-
-    FIELD-SYMBOLS:
-                 <fs_i_table> TYPE ANY.
-
-    " Relative Name can not be obtain when table is empty
-    " Create a structure to hack technical constraint.
-    IF lines( i_table ) EQ 0.
-      " Create structure with type of our empty table
-      CREATE DATA lr_data LIKE LINE OF i_table.
-      ASSIGN lr_data->* TO <fs_i_table>.
-
-      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( <fs_i_table> ).
-
-    ELSE.
-      lr_typedesc ?= cl_abap_typedescr=>describe_by_data( i_table ).
-    ENDIF.
-
-    r_name = lr_typedesc->get_relative_name( ).
 
   endmethod.
 ENDCLASS.
