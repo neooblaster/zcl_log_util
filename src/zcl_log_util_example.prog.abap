@@ -181,7 +181,16 @@ DATA:
 
 
   " [ OPTIONAL  ] :: Configuring Overloading
-  " -----------------------------------------
+  "
+  " Notes : ZCL_LOG_UTIL comes with a dedicated table and this
+  "         step is optionnal.
+  "         You can configure your customer settings table
+  "         to works with
+  "
+  " Default Table : ZLOG_UTIL_OVERLO (Cf TCODE ZOVERLOG)
+  "
+  "
+  " ---------------------------------------------------------------
   " ──┐ Set your custom setting table name
 *  lr_log_util->overloading( )->setting_table( )->set_table( ).
   " ──┐ Set Field standing for Input Message ID

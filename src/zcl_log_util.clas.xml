@@ -64,6 +64,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>OVERLOAD</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Methode to configure Overloading Settings table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>SET_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Referencing user log table for further manipulation</DESCRIPT>
@@ -97,6 +103,12 @@
      <CMPNAME>_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Bufferized logs</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_OVERLOAD</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to overload log entry</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

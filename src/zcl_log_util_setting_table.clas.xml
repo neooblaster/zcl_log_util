@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+    <LANGU>F</LANGU>
+    <DESCRIPT>Dedicated class to define overloading setting table</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>CONSTRUCTOR</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>FILTER_DATA</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name for global filtering &quot;Kind of data&quot;</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>FILTER_DEVCODE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name for global filtering &quot;Development Code&quot;</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>FILTER_DOMAIN</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name for global filtering &quot;Domain of table entry&quot;</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_ID</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg ID (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_MSGV1</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg V1 (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_MSGV2</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg V2 (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_MSGV3</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg V3 (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_MSGV4</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg V4 (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_NUMBER</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg Number (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_TYPE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Overload Msg Type (rewrite)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SET</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Super Method to define all settings table field role</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_ID</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Source Message ID (Select Rule)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_NUMBER</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Source Message Number (Slct Rul)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_PARAM1</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Extra seleciton parameter (Slct)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_PARAM2</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Extra selection parameter (Slct)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Spot ID of the rule (Select Rul)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>SOURCE_TYPE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Source Message Type (Slct Rule)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>TABLE_NAME</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set DDIC Table Name storing overloading rules</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

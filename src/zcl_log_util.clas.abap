@@ -27,6 +27,9 @@ public section.
       !I_STRUCTURE type ANY default 'INITIAL'
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_DEFINE .
+  methods OVERLOAD
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_OVERLOAD .
   methods LOG
     importing
       !I_LOG_CONTENT type ANY default 'INITIAL' .
@@ -63,6 +66,7 @@ private section.
   data _LOG_TABLE type ref to DATA .
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
+  data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
 
   methods SET_LOG_TABLE
     changing
@@ -198,8 +202,12 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
   method FACTORY.
 
+    " --------------------------------------------------------------
+    " • Instanciations of sub objects
+    " --------------------------------------------------------------
     CREATE OBJECT r_log_util.
     CREATE OBJECT r_log_util->_define.
+    CREATE OBJECT r_log_util->_overload.
 
     r_log_util->set_log_table(
       CHANGING
@@ -207,7 +215,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
 
 
-    " Define Structure Field roles
+
+    " --------------------------------------------------------------
+    " • Define Structure Field roles
+    " --------------------------------------------------------------
     DATA lr_define TYPE REF TO zcl_log_util_define.
 
     " ──┐ Default Log Table (ty_log_table)
@@ -315,6 +326,15 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 *      msgv4_field = 'MSGV4'
 *    ).
 
+
+
+    " --------------------------------------------------------------
+    " • Defining Default Settings table provided with ZCL_LOG_UTIL
+    " --------------------------------------------------------------
+    DATA lr_overload TYPE REF TO zcl_log_util_overload.
+
+
+
   endmethod.
 
 
@@ -412,6 +432,14 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Registring in user table
     " --------------------------------------------------------------
+*
+* @TODO : Loop on tab for comming strucutre / tables
+*         pour uniformiser le traitement, faire en sorte qu'on ai toujours une table (meme avec une entrée)
+*         pour l'assign si une entrée => applicable pour all
+*         pour l'assign si plusieurs entrée => applicable par index
+*           si meme nombre n pr n
+*           si delta nombre n pr n puis n(lastindex) pour les x restant
+*
     " ──┐ Get table for appending.
     ASSIGN me->_log_table->* TO <fs_log_table_t>.
 
@@ -524,6 +552,14 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
 
 
+
+  endmethod.
+
+
+  method OVERLOAD.
+
+    " Return Instance of define
+    self = me->_overload.
 
   endmethod.
 
