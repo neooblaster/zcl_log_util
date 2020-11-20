@@ -189,41 +189,93 @@ DATA:
   "
   " Default Table : ZLOG_UTIL_OVERLO (Cf TCODE ZOVERLOG)
   "
-  "
+  " Redefining for demonstration (already set on when instanciated)
   " ---------------------------------------------------------------
+  DATA lr_overload      TYPE REF TO zcl_log_util_overload.
+  DATA lr_setting_table TYPE REF TO zcl_log_util_setting_table.
+
+  lr_overload      = lr_log_util->overload( ).
+  lr_setting_table = lr_overload->setting_tab( ).
+
+  " --------------------------------------------------------------
+  " • Define Table & Message ID, Number & Type Input Fields
+  " --------------------------------------------------------------
   " ──┐ Set your custom setting table name
-*  lr_log_util->overloading( )->setting_table( )->set_table( ).
+  lr_setting_table->table_name( 'ZLOG_UTIL_OVERLO' ).
   " ──┐ Set Field standing for Input Message ID
-*  lr_log_util->overloading( )->setting_table( )->set_source_id( ).
+  lr_setting_table->source_id( 'INPUT1' ).
   " ──┐ Set Field standing for Input Message Number
-*  lr_log_util->overloading( )->setting_table( )->set_source_number( ).
+  lr_setting_table->source_number( 'INPUT2' ).
   " ──┐ Set Field standing for Input Message Type
-*  lr_log_util->overloading( )->setting_table( )->set_source_type( ).
+  lr_setting_table->source_type( 'INPUT3' ).
   " ──┐ Set Field standing for Spot ID
-*  lr_log_util->overloading( )->setting_table( )->set_source_spot( ).
+  lr_setting_table->source_spot( 'INPUT4' ).
   " ──┐ [ OPTIONAL ] :: Set Field standing for Input Parameter 1
-*  lr_log_util->overloading( )->setting_table( )->set_source_param_1( ).
+  lr_setting_table->source_param1( 'INPUT5' ).
   " ──┐ [ OPTIONAL ] :: Set Field standing for Input Parameter 2
-*  lr_log_util->overloading( )->setting_table( )->set_source_param_2( ).
-  " ──┐ [ OPTIONAL ] :: Set Field standing for Input Parameter 3
-*  lr_log_util->overloading( )->setting_table( )->set_source_param_3( ).
+*  lr_setting_table->source_param2( 'INPUT6' ).
+
+  " --------------------------------------------------------------
+  " • Define Overload Message ID, Number & Type Output Fields
+  " --------------------------------------------------------------
   " ──┐ Set Field standing for overloading Message ID
-*  lr_log_util->overloading( )->setting_table( )->set_overload_id( ).
+  lr_setting_table->overload_id( 'OUTPUT1' ).
   " ──┐ Set Field standing for overloading Message Number
-*  lr_log_util->overloading( )->setting_table( )->set_overload_number( ).
+  lr_setting_table->overload_number( 'OUTPUT2' ).
   " ──┐ Set Field standing for overloading Message Type
-*  lr_log_util->overloading( )->setting_table( )->set_overload_type( ).
+  lr_setting_table->overload_type( 'OUTPUT3' ).
   " ──┐ Set Field standing for overloading Message Replace Value 1
-*  lr_log_util->overloading( )->setting_table( )->set_overload_msgv1( ).
+  lr_setting_table->overload_msgv1( 'OUTPUT4' ).
   " ──┐ Set Field standing for overloading Message Replace Value 2
-*  lr_log_util->overloading( )->setting_table( )->set_overload_msgv2( ).
+  lr_setting_table->overload_msgv2( 'OUTPUT5' ).
   " ──┐ Set Field standing for overloading Message Replace Value 3
-*  lr_log_util->overloading( )->setting_table( )->set_overload_msgv3( ).
+  lr_setting_table->overload_msgv3( 'OUTPUT6' ).
   " ──┐ Set Field standing for overloading Message Replace Value 4
-*  lr_log_util->overloading( )->setting_table( )->set_overload_msgv4( ).
+  lr_setting_table->overload_msgv4( 'OUTPUT7' ).
+
+  " --------------------------------------------------------------
+  " • [ OPTIONAL ] :: Define Pre filters on table data entries
+  " --------------------------------------------------------------
+  "
+  " Notes : In SAP, many customer has own "global settings table
+  "         used in their Core Model.
+  "         Entries are ofter identified by WRICEF (DevCode),
+  "         the functionnal domain and finally by a code
+  "         to identify the entry data kind.
+  "         To prevent Overloading using rule dedicated for specific
+  "         Program, I advise to use the following filter if
+  "         your settings table works like as describe herebefore.
+  "
+  " --------------------------------------------------------------
+  " ──┐ Set Field standing for "Development code"
+  lr_setting_table->filter_devcode( 'CODE' ).
+  " ──┐ Set Field standing for "Development Domain"
+  lr_setting_table->filter_domain( 'DOMAINE' ). " <<< With E due to DOMAIN is Keyword
+  " ──┐ Set Field standing for "Kind of data"
+  lr_setting_table->filter_data( 'DATA' ).
+
 
   " ──┐ Set your custom setting table (Super Method)
-*  lr_log_util->overloading( )->set( ).
+  " (here we are overwriting previous setting)
+  lr_setting_table->set(
+      i_table_name            = 'ZLOG_UTIL_OVERLO'
+      i_filter_devcode_field  = 'CODE'              " Optionable
+      i_filter_domain_field   = 'DOMAINE'           " Optionable
+      i_filter_data_field     = 'DATA'              " Optionable
+      i_source_id_field       = 'INPUT1'
+      i_source_number_field   = 'INPUT2'
+      i_source_type_field     = 'INPUT3'
+      i_source_spot_field     = 'INPUT4'
+*      i_source_param1_field   = 'INPUT5'            " Optionable
+*      i_source_param2_field   = 'INPUT6'            " Optionable
+      i_overload_id_field     = 'OUTPUT1'
+      i_overload_number_field = 'OUTPUT2'
+      i_overload_type_field   = 'OUTPUT3'
+      i_overload_msgv1_field  = 'OUTPUT4'            " Optionable
+      i_overload_msgv2_field  = 'OUTPUT5'            " Optionable
+      i_overload_msgv3_field  = 'OUTPUT6'            " Optionable
+      i_overload_msgv4_field  = 'OUTPUT7'            " Optionable
+  ).
 
 
   " [ OPTIONAL  ] :: Enable Overloading

@@ -20,9 +20,33 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
-     <CMPNAME>SET_DATA_KEY_NAME</CMPNAME>
+     <CMPNAME>SETTING_TAB</CMPNAME>
      <LANGU>F</LANGU>
-     <DESCRIPT>Super Method to define all settings table field roles</DESCRIPT>
+     <DESCRIPT>Method to define settings table for overloading</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>SET_FILTER_DATA_VALUE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set global pre-filter &apos;DATA&apos; for overloading</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>SET_FILTER_DEVCODE_VALUE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set global pre-filter &apos;DEVCODE&apos; for overloading</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>SET_FILTER_DOMAIN_VALUE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set global pre-filter &apos;DOMAIN&apos; for overloading</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>_SETTING_TAB</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to define overloading setting table</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>

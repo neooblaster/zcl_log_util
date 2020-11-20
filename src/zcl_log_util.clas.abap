@@ -331,8 +331,29 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Defining Default Settings table provided with ZCL_LOG_UTIL
     " --------------------------------------------------------------
-    DATA lr_overload TYPE REF TO zcl_log_util_overload.
-
+    DATA lr_overload      TYPE REF TO zcl_log_util_overload.
+    DATA lr_setting_table TYPE REF TO zcl_log_util_setting_table.
+    lr_overload      = r_log_util->overload( ).
+    lr_setting_table = lr_overload->setting_tab( ).
+    lr_setting_table->set(
+      i_table_name            = 'ZLOG_UTIL_OVERLO'
+      i_filter_devcode_field  = 'CODE'
+      i_filter_domain_field   = 'DOMAINE'
+      i_filter_data_field     = 'DATA'
+      i_source_id_field       = 'INPUT1'
+      i_source_number_field   = 'INPUT2'
+      i_source_type_field     = 'INPUT3'
+      i_source_spot_field     = 'INPUT4'
+      i_source_param1_field   = 'INPUT5'
+*      i_source_param2_field   = 'INPUT6'
+      i_overload_id_field     = 'OUTPUT1'
+      i_overload_number_field = 'OUTPUT2'
+      i_overload_type_field   = 'OUTPUT3'
+      i_overload_msgv1_field  = 'OUTPUT4'
+      i_overload_msgv2_field  = 'OUTPUT5'
+      i_overload_msgv3_field  = 'OUTPUT6'
+      i_overload_msgv4_field  = 'OUTPUT7'
+    ).
 
 
   endmethod.
