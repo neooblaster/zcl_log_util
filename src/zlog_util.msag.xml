@@ -59,6 +59,18 @@
     <T100>
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>008</MSGNR>
+     <TEXT>Table &amp; does not exist</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>009</MSGNR>
+     <TEXT>Field &amp; does not exist in table &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>100</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders</TEXT>
     </T100>

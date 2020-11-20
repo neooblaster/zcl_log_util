@@ -237,7 +237,7 @@ DATA:
   " • [ OPTIONAL ] :: Define Pre filters on table data entries
   " --------------------------------------------------------------
   "
-  " Notes : In SAP, many customer has own "global settings table
+  " Notes : In SAP, many customers has own "global settings table
   "         used in their Core Model.
   "         Entries are ofter identified by WRICEF (DevCode),
   "         the functionnal domain and finally by a code
