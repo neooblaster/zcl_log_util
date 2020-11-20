@@ -98,6 +98,18 @@
      <MSGNR>104</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : &amp;, &amp;, &amp; n &amp;</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>105</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Original</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>106</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Overloaded (original: id=&amp;;class=&amp;;no=&amp;)</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

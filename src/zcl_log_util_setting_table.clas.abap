@@ -30,6 +30,7 @@ public section.
   class-data FALSE type C value ' ' ##NO_TEXT.
   data _CONFIG_VALIDATED type C value ' ' ##NO_TEXT.
 
+  class-methods CLASS_CONSTRUCTOR .
   methods CONSTRUCTOR .
   methods SET
     importing
@@ -136,6 +137,9 @@ public section.
       !I_FILTER_DATA_FIELD type NAME_FELD
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
+  methods GET_SETTING_MAP
+    returning
+      value(R_SETTING_MAP) type TY_SETTING_FIELD_MAP .
 PROTECTED SECTION.
 private section.
 
@@ -152,6 +156,10 @@ ENDCLASS.
 
 
 CLASS ZCL_LOG_UTIL_SETTING_TABLE IMPLEMENTATION.
+
+
+  method CLASS_CONSTRUCTOR.
+  endmethod.
 
 
   METHOD constructor.
@@ -198,6 +206,13 @@ CLASS ZCL_LOG_UTIL_SETTING_TABLE IMPLEMENTATION.
     self = me.
 
   ENDMETHOD.
+
+
+  method GET_SETTING_MAP.
+
+    r_setting_map = me->_setting_map.
+
+  endmethod.
 
 
   METHOD overload_id.

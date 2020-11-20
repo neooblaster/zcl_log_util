@@ -278,6 +278,13 @@ DATA:
   ).
 
 
+  " [ OPTIONAL  ] :: Set Overloading Filter value
+  " ----------------------------------------------
+  lr_overload->set_filter_devcode_value( 'ZCLLOGUTIL' ).
+  lr_overload->set_filter_domain_value( 'BC' ).
+  lr_overload->set_filter_data_value( 'OVER_LOG' ).
+
+
   " [ OPTIONAL  ] :: Enable Overloading
   " ------------------------------------
 *  lr_log_util->overloading( )->enable( )
