@@ -94,6 +94,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_CONVERT_TABLE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Convert entered structure into the other one provided</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_DEFINE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Dedicated class to define log table structure &amp; field role</DESCRIPT>
@@ -102,7 +108,13 @@
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
-     <DESCRIPT>Bufferized logs</DESCRIPT>
+     <DESCRIPT>Reference to user log table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_LOG_TABLE_BUFFER</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Bufferized log table for manipulation</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

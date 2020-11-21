@@ -64,6 +64,7 @@ protected section.
 private section.
 
   data _LOG_TABLE type ref to DATA .
+  data _LOG_TABLE_BUFFER type ref to DATA .
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
   data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
@@ -71,6 +72,13 @@ private section.
   methods SET_LOG_TABLE
     changing
       !T_LOG_TABLE type STANDARD TABLE .
+  methods _CONVERT_TABLE
+    importing
+      !I_TABLE_TO_CONVERT type ANY TABLE
+      !I_TABLE_TO_COPY type ANY TABLE optional
+      !I_STRUCTURE_TO_COPY type ANY optional
+    returning
+      value(R_TABLE_CONVERTED) type ref to DATA .
 ENDCLASS.
 
 
@@ -223,6 +231,18 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " ──┐ Default Log Table (ty_log_table)
 
+    " ──┐ SY Log Table
+    DATA lt_sy TYPE sy.
+    lr_define = r_log_util->define( lt_sy ).
+    lr_define->set(
+      msgid_field = 'MSGID'
+      msgno_field = 'MSGNO'
+      msgty_field = 'MSGTY'
+      msgv1_field = 'MSGV1'
+      msgv2_field = 'MSGV2'
+      msgv3_field = 'MSGV3'
+      msgv4_field = 'MSGV4'
+    ).
     " ──┐ PROTT Log Table
     DATA lt_prott TYPE prott.
     lr_define = r_log_util->define( lt_prott ).
@@ -376,44 +396,74 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   method LOG.
 
     DATA: " Variable & Internal Tables
-        lv_msgid              TYPE sy-msgid    ,
-        lv_msgno              TYPE sy-msgno    ,
-        lv_msgty              TYPE sy-msgty    ,
-        lv_msgv1              TYPE sy-msgv1    ,
-        lv_msgv2              TYPE sy-msgv2    ,
-        lv_msgv3              TYPE sy-msgv3    ,
-        lv_msgv4              TYPE sy-msgv4    ,
-        lv_msgtx              TYPE string      ,
+        lv_msgid              TYPE          sy-msgid    ,
+        lv_msgno              TYPE          sy-msgno    ,
+        lv_msgty              TYPE          sy-msgty    ,
+        lv_msgv1              TYPE          sy-msgv1    ,
+        lv_msgv2              TYPE          sy-msgv2    ,
+        lv_msgv3              TYPE          sy-msgv3    ,
+        lv_msgv4              TYPE          sy-msgv4    ,
+        lv_msgtx              TYPE          string      ,
 
-        lv_i_log_content_type TYPE string      ,
+        lv_i_log_content_type TYPE          string      ,
 
-        ls_field_definition   TYPE zcl_log_util_define=>ty_field_map .
+        ls_field_definition   TYPE          zcl_log_util_define=>ty_field_map ,
+        ls_buff_field_def     TYPE          zcl_log_util_define=>ty_field_map ,
+        lt_sy                 TYPE TABLE OF sy          .
 
     DATA: " References
-        lr_data               TYPE REF TO data .
+        lr_converted          TYPE REF TO   data ,
+        lr_data               TYPE REF TO   data .
 
     DATA: " Flags
-        lv_flg_use_symsg      TYPE c           . " Log working with sy-msgxx (most basic usage)
-                                                 " Log working with entered message texte
-                                                 " Log working with entered structure (use definition)
-                                                 " Log working with entered table     (use definition)
+        lv_flg_use_symsg      TYPE c             . " Log working with sy-msgxx (most basic usage)
+                                                   " Log working with entered message texte
+                                                   " Log working with entered structure (use definition)
+                                                   " Log working with entered table     (use definition)
 
     FIELD-SYMBOLS:
-                 <fs_log_table_t> TYPE STANDARD TABLE , " Internal Table
-                 <fs_log_table_s> TYPE ANY            , " Structure
-                 <fs_log_table_c> TYPE ANY            . " Component
+                 <fs_log_table_t>      TYPE STANDARD TABLE , " Internal Table
+                 <fs_log_table_s>      TYPE ANY            , " Structure
+                 <fs_log_table_c>      TYPE ANY            , " Component
+                 <fs_table_to_convert> TYPE STANDARD TABLE , " Table to convert
+                 <fs_table_to_copy>    TYPE STANDARD TABLE , " Table to copy type
+                 <fs_buff_structure>   TYPE ANY            . " Structure type of log buffer
 
 
 
     " --------------------------------------------------------------
-    " • Import Parameter management
+    " • Initialization
     " --------------------------------------------------------------
-    " ──┐ Import parameter identification
+    " ──┐ Get final (user) table for appending.
+    ASSIGN me->_log_table->* TO <fs_log_table_t>.
+
+    " ──┐ Create Structure of user log table.
+    CREATE DATA lr_data LIKE LINE OF <fs_log_table_t>.
+    ASSIGN lr_data->* TO <fs_log_table_s>.
+
+    " ──┐ Create Structure of buffer table.
+    ASSIGN me->_log_table_buffer->* TO <fs_table_to_convert>.
+    CREATE DATA lr_converted LIKE LINE OF <fs_table_to_convert>.
+    ASSIGN lr_converted->* TO <fs_buff_structure>.
+
+    " ──┐ Get table definition
+    ls_field_definition = me->_define->get_definition(
+      i_structure = <fs_log_table_s>
+    ).
+
+
+
+    " --------------------------------------------------------------
+    " • Import Parameters management
+    " --------------------------------------------------------------
+    " ──┐ Import parameters identification
     DESCRIBE FIELD i_log_content TYPE lv_i_log_content_type.
 
     IF lv_i_log_content_type EQ 'C'.
       IF i_log_content EQ 'INITIAL'.
         lv_flg_use_symsg = zcl_log_util=>true.
+      ELSE.
+        " @TODO : Only use text (no id no ty) (MESSAGE)
       ENDIF.
     ELSEIF lv_i_log_content_type EQ 'h' OR lv_i_log_content_type EQ 'v' OR lv_i_log_content_type EQ 'u'.
     ENDIF.
@@ -421,157 +471,59 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
     " --------------------------------------------------------------
-    " • Message components assignment
+    " • Message components assignments
     " --------------------------------------------------------------
+    " ──┐ Used without parameters
     IF lv_flg_use_symsg EQ zcl_log_util=>true.
-      lv_msgid = sy-msgid.
-      lv_msgno = sy-msgno.
-      lv_msgty = sy-msgty.
-      lv_msgv1 = sy-msgv1.
-      lv_msgv2 = sy-msgv2.
-      lv_msgv3 = sy-msgv3.
-      lv_msgv4 = sy-msgv4.
+      APPEND sy TO lt_sy.
+      ASSIGN lt_sy TO <fs_table_to_convert>.
     ENDIF.
 
 
 
     " --------------------------------------------------------------
-    " • Overloading
+    " • Convert input to buffer table
     " --------------------------------------------------------------
-    me->overload( )->overload( ).
-
-
-
-    " --------------------------------------------------------------
-    " • Making message texte
-    " --------------------------------------------------------------
-    MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
-    INTO lv_msgtx
-    WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.
+    me->_log_table_buffer = me->_convert_table(
+      EXPORTING
+        i_table_to_convert  = <fs_table_to_convert>
+        i_structure_to_copy = <fs_buff_structure>
+    ).
 
 
 
     " --------------------------------------------------------------
-    " • Registring in user table
+    " • Overloading Buffer
     " --------------------------------------------------------------
-*
-* @TODO : Loop on tab for comming strucutre / tables
-*         pour uniformiser le traitement, faire en sorte qu'on ai toujours une table (meme avec une entrée)
-*         pour l'assign si une entrée => applicable pour all
-*         pour l'assign si plusieurs entrée => applicable par index
-*           si meme nombre n pr n
-*           si delta nombre n pr n puis n(lastindex) pour les x restant
-*
-    " ──┐ Get table for appending.
-    ASSIGN me->_log_table->* TO <fs_log_table_t>.
-
-    " ──┐ Create Structure of user log table.
-    CREATE DATA lr_data LIKE LINE OF <fs_log_table_t>.
-    ASSIGN lr_data->* TO <fs_log_table_s>.
-
-    " ──┐ Get table definition
-    ls_field_definition = me->_define->get_definition(
+    " ──┐ Get Buffer table definition
+    ls_buff_field_def = me->_define->get_definition(
       i_structure = <fs_log_table_s>
     ).
 
-    " ──┐ Fill fields of structure
-    " ──────┐ Processing MESSAGE
-    IF ls_field_definition-field_message IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_message
-          i_value     = lv_msgtx
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing ID
-    IF ls_field_definition-field_id IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_id
-          i_value     = lv_msgid
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing NUMBER
-    IF ls_field_definition-field_number IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_number
-          i_value     = lv_msgno
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing TYPE
-    IF ls_field_definition-field_type IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_type
-          i_value     = lv_msgty
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing MSGV1
-    IF ls_field_definition-field_msgv1 IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_msgv1
-          i_value     = lv_msgv1
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing MSGV2
-    IF ls_field_definition-field_msgv2 IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_msgv2
-          i_value     = lv_msgv2
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing MSGV3
-    IF ls_field_definition-field_msgv3 IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_msgv3
-          i_value     = lv_msgv3
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
-
-    " ──────┐ Processing MSGV4
-    IF ls_field_definition-field_msgv4 IS NOT INITIAL.
-      zcl_log_util=>_update_field_of_structure(
-        EXPORTING
-          i_comp_name = ls_field_definition-field_msgv4
-          i_value     = lv_msgv4
-        CHANGING
-          c_structure = <fs_log_table_s>
-      ).
-    ENDIF.
+    " ──┐ Perform Overloading
+    me->overload( )->overload(
+      EXPORTING
+        i_log_field_def = ls_buff_field_def
+      CHANGING
+        c_log_table     = me->_log_table_buffer
+    ).
 
 
-    " ──┐ Append entry (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
-    APPEND <fs_log_table_s> TO <fs_log_table_t>.
+
+    " --------------------------------------------------------------
+    " • Registring Buffer in user table
+    " --------------------------------------------------------------
+      " --------------------------------------------------------------
+      " • Making message texte
+      " --------------------------------------------------------------
+      " -> dans la loop d'appending buff -> userlog
 
 
 
     " --------------------------------------------------------------
     " • Registring in Application Log
     " --------------------------------------------------------------
+    " @TODO : Make SLG
 
 
 
@@ -591,6 +543,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " Referencing User Log Table
     GET REFERENCE OF t_log_table INTO me->_log_table.
 
+    " Create a buffer table for internal manipulations.
+    CREATE DATA me->_log_table_buffer TYPE TABLE OF syst.
+
   endmethod.
 
 
@@ -609,6 +564,121 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ENDIF.
 
     self = me->_spot.
+
+  endmethod.
+
+
+  method _CONVERT_TABLE.
+
+    DATA:
+        lr_data_src_t    TYPE REF TO data                              ,
+        lr_data_src_s    TYPE REF TO data                              ,
+        lr_data_ref      TYPE REF TO data                              ,
+
+        lt_src_field_def TYPE        zcl_log_util_define=>ty_field_map ,
+        lt_tgt_field_def TYPE        zcl_log_util_define=>ty_field_map ,
+
+        lv_ref_type      TYPE        string                            ,
+        lv_def_idx       TYPE        i                                 .
+
+    FIELD-SYMBOLS:
+                 <fs_ref_structure> TYPE ANY            ,
+                 <fs_src_structure> TYPE ANY            ,
+                 <fs_src_table>     TYPE ANY TABLE      ,
+                 <fs_tgt_table>     TYPE STANDARD TABLE ,
+                 <fs_sdef_comp>     TYPE ANY            ,
+                 <fs_tdef_comp>     TYPE ANY            ,
+                 <fs_src_comp>      TYPE ANY            ,
+                 <fs_tgt_comp>      TYPE ANY            .
+
+
+
+    " --------------------------------------------------------------
+    " • Initialization
+    " --------------------------------------------------------------
+    " To perform copy, we need at least a structure
+    IF i_table_to_copy IS NOT SUPPLIED AND i_structure_to_copy IS NOT SUPPLIED.
+      " 010 :: ZCL_LOG_UTIL->_CONVERT_TABLE expect a table or a structure
+      MESSAGE e010.
+    ENDIF.
+
+    " If bot are supplied, structure has the priority (performance reason)
+    " ──┐ Managing entered structure
+    IF i_structure_to_copy IS SUPPLIED.
+      lv_ref_type = me->get_absolute_name( i_structure_to_copy ).
+    ENDIF.
+
+    " ──┐ Managing entered table only is structure has not been used.
+    IF i_table_to_copy IS SUPPLIED AND <fs_ref_structure> IS NOT ASSIGNED.
+      lv_ref_type = me->get_absolute_name( i_table_to_copy ).
+    ENDIF.
+
+    CREATE DATA lr_data_ref TYPE (lv_ref_type) .
+    ASSIGN lr_data_ref->* TO <fs_ref_structure>.
+
+    CREATE DATA r_table_converted TYPE TABLE OF (lv_ref_type).
+    ASSIGN r_table_converted->* TO <fs_tgt_table>.
+
+
+
+    " --------------------------------------------------------------
+    " • Getting definitions
+    " --------------------------------------------------------------
+    " Get source table structure
+    CREATE DATA lr_data_src_s LIKE LINE OF i_table_to_convert.
+    ASSIGN lr_data_src_s->* TO <fs_src_structure>.
+
+
+    " Retrieve both map definition
+    lt_src_field_def = me->_define->get_definition(
+      i_structure = <fs_src_structure>
+    ).
+    lt_tgt_field_def = me->_define->get_definition(
+      i_structure = <fs_ref_structure>
+    ).
+
+
+
+    " --------------------------------------------------------------
+    " • Perform conversion
+    " --------------------------------------------------------------
+    ASSIGN i_table_to_convert[] TO <fs_src_table>.
+    LOOP AT <fs_src_table> ASSIGNING <fs_src_structure>.
+      CLEAR <fs_ref_structure>.
+
+      " Index to read definition structure component
+      " Source & Target use the same structure of definition
+      " So we can loop to perform convertion (instead of managing each field)
+      lv_def_idx = 3. " First field is the TYPE_NAME and the second one will handle MESSAGE_TEXT
+
+      DO.
+        ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_src_field_def TO <fs_sdef_comp>.
+        ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_tgt_field_def TO <fs_tdef_comp>.
+
+        " End of reading of definition structure
+        IF sy-subrc NE 0.
+          EXIT.
+        ENDIF.
+
+        " Get component of Source table
+        ASSIGN COMPONENT <fs_sdef_comp> OF STRUCTURE <fs_src_structure> TO <fs_src_comp>.
+
+        " Get component of Target table
+        ASSIGN COMPONENT <fs_tdef_comp> OF STRUCTURE <fs_ref_structure> TO <fs_tgt_comp>.
+
+        " Updating
+        IF <fs_src_comp> IS ASSIGNED AND <fs_tgt_comp> IS ASSIGNED.
+          <fs_tgt_comp> = <fs_src_comp>.
+        ENDIF.
+
+        " Next component
+        lv_def_idx = lv_def_idx + 1.
+      ENDDO.
+
+      " Append converted to table
+      APPEND <fs_ref_structure> TO <fs_tgt_table>.
+
+    ENDLOOP.
 
   endmethod.
 

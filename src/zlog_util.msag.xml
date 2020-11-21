@@ -71,6 +71,12 @@
     <T100>
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>ZCL_LOG_UTIL-&gt;_CONVERT_TABLE expect a table or a structure</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>100</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders</TEXT>
     </T100>

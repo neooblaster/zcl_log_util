@@ -287,9 +287,9 @@ DATA:
 
   " [ OPTIONAL  ] :: Enable Overloading
   " ------------------------------------
-*  lr_log_util->overloading( )->enable( )
+  lr_overload->enable( ).
   " To disable :
-  " lr_log_util->overloading( )->disable( )
+  "lr_overload->disable( ).
 
 
   " [ OPTIONAL  ] :: Manage Message Type for Batch Job going to SPOOL
@@ -353,6 +353,8 @@ DATA:
   " ──┐ Working with current SY-MSGxx values
   MESSAGE e100 INTO lv_dummy. " Do not display but allow use case.
   lr_log_util->log( ).
+
+
   " ──┐ Working with current SY-MSGxx values and complet with my structure
 *  MESSAGE ID                             " Classic Way for Usage Case
 *  lr_log_util->log( )->assign( str ).    " Now log sy-msgxx with my values
