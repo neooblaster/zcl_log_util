@@ -409,7 +409,17 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
         ls_field_definition   TYPE          zcl_log_util_define=>ty_field_map ,
         ls_buff_field_def     TYPE          zcl_log_util_define=>ty_field_map ,
-        lt_sy                 TYPE TABLE OF sy          .
+        lt_sy                 TYPE TABLE OF sy          ,
+
+        " ──┐ Definition Table Field Names
+        lv_fmms               TYPE name_feld            , " Definition Table Message Text
+        lv_fmid               TYPE name_feld            , " Definition Table Message ID
+        lv_fmno               TYPE name_feld            , " Definition Table Message Numbert
+        lv_fmty               TYPE name_feld            , " Definition Table Message Type
+        lv_fmv1               TYPE name_feld            , " Definition Table Message Value 1
+        lv_fmv2               TYPE name_feld            , " Definition Table Message Value 2
+        lv_fmv3               TYPE name_feld            , " Definition Table Message Value 3
+        lv_fmv4               TYPE name_feld            . " Definition Table Message Value 4
 
     DATA: " References
         lr_converted          TYPE REF TO   data ,
@@ -427,14 +437,23 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
                  <fs_log_table_c>      TYPE ANY            , " Component
                  <fs_table_to_convert> TYPE STANDARD TABLE , " Table to convert
                  <fs_table_to_copy>    TYPE STANDARD TABLE , " Table to copy type
-                 <fs_buff_structure>   TYPE ANY            . " Structure type of log buffer
+                 <fs_buff_structure>   TYPE ANY            , " Structure type of log buffer
+                 <fs_buff_table>       TYPE STANDARD TABLE , " Buffer Table
+
+                 <fs_msgid>            TYPE ANY            , " Value of Message ID from Buffer
+                 <fs_msgno>            TYPE ANY            , " Value of Message Number from Buffer
+                 <fs_msgty>            TYPE ANY            , " Value of Message Type from Buffer
+                 <fs_msgv1>            TYPE ANY            , " Value of Message V1 from Buffer
+                 <fs_msgv2>            TYPE ANY            , " Value of Message V2 from Buffer
+                 <fs_msgv3>            TYPE ANY            , " Value of Message V3 from Buffer
+                 <fs_msgv4>            TYPE ANY            . " Value of Message V4 from Buffer
 
 
 
     " --------------------------------------------------------------
     " • Initialization
     " --------------------------------------------------------------
-    " ──┐ Get final (user) table for appending.
+    " ──┐ Get final User table log for appending.
     ASSIGN me->_log_table->* TO <fs_log_table_t>.
 
     " ──┐ Create Structure of user log table.
@@ -497,8 +516,17 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " ──┐ Get Buffer table definition
     ls_buff_field_def = me->_define->get_definition(
-      i_structure = <fs_log_table_s>
+      i_structure = <fs_buff_structure>
     ).
+
+    " ──┐ Get Field containing Messagae component (variable to ease readability)
+    lv_fmid  = ls_buff_field_def-field_id .
+    lv_fmno  = ls_buff_field_def-field_number .
+    lv_fmty  = ls_buff_field_def-field_type .
+    lv_fmv1  = ls_buff_field_def-field_msgv1 .
+    lv_fmv2  = ls_buff_field_def-field_msgv2 .
+    lv_fmv3  = ls_buff_field_def-field_msgv3 .
+    lv_fmv4  = ls_buff_field_def-field_msgv4 .
 
     " ──┐ Perform Overloading
     me->overload( )->overload(
@@ -513,10 +541,180 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Registring Buffer in user table
     " --------------------------------------------------------------
-      " --------------------------------------------------------------
-      " • Making message texte
-      " --------------------------------------------------------------
-      " -> dans la loop d'appending buff -> userlog
+    ASSIGN me->_log_table_buffer->* TO <fs_buff_table>.
+
+    LOOP AT <fs_buff_table> ASSIGNING <fs_buff_structure>.
+      " Set to initial value
+      CLEAR : lv_msgid ,
+              lv_msgno ,
+              lv_msgty ,
+              lv_msgv1 ,
+              lv_msgv2 ,
+              lv_msgv3 ,
+              lv_msgv4 .
+
+      " Get Back Message component from buffer table
+      " ──┐ ID
+      IF lv_fmid IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmid OF STRUCTURE <fs_buff_structure> TO <fs_msgid>.
+        IF <fs_msgid> IS ASSIGNED.
+          lv_msgid = <fs_msgid>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Number
+      IF lv_fmno IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmno OF STRUCTURE <fs_buff_structure> TO <fs_msgno>.
+        IF <fs_msgno> IS ASSIGNED.
+          lv_msgno = <fs_msgno>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Type
+      IF lv_fmty IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmty OF STRUCTURE <fs_buff_structure> TO <fs_msgty>.
+        IF <fs_msgty> IS ASSIGNED.
+          lv_msgty = <fs_msgty>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Message V1
+      IF lv_fmv1 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmv1 OF STRUCTURE <fs_buff_structure> TO <fs_msgv1>.
+        IF <fs_msgv1> IS ASSIGNED.
+          lv_msgv1 = <fs_msgv1>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Message V2
+      IF lv_fmv2 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmv2 OF STRUCTURE <fs_buff_structure> TO <fs_msgv2>.
+        IF <fs_msgv2> IS ASSIGNED.
+          lv_msgv2 = <fs_msgv2>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Message V3
+      IF lv_fmv3 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmv3 OF STRUCTURE <fs_buff_structure> TO <fs_msgv3>.
+        IF <fs_msgv3> IS ASSIGNED.
+          lv_msgv3 = <fs_msgv3>.
+        ENDIF.
+      ENDIF.
+
+      " ──┐ Message V4
+      IF lv_fmv4 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmv4 OF STRUCTURE <fs_buff_structure> TO <fs_msgv4>.
+        IF <fs_msgv4> IS ASSIGNED.
+          lv_msgv4 = <fs_msgv4>.
+        ENDIF.
+      ENDIF.
+
+      " Making Message Texte (Only if ID, Number & Type are provided)
+      IF lv_msgid IS NOT INITIAL AND lv_msgno IS NOT INITIAL AND lv_msgty IS NOT INITIAL.
+        MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
+        INTO lv_msgtx
+        WITH lv_msgv1 lv_msgv1 lv_msgv1 lv_msgv1.
+      ENDIF.
+
+
+      " ──┐ Fill fields of structure
+      " ──────┐ Processing MESSAGE
+      IF ls_field_definition-field_message IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_message
+            i_value     = lv_msgtx
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing ID
+      IF ls_field_definition-field_id IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_id
+            i_value     = lv_msgid
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing NUMBER
+      IF ls_field_definition-field_number IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_number
+            i_value     = lv_msgno
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing TYPE
+      IF ls_field_definition-field_type IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_type
+            i_value     = lv_msgty
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing MSGV1
+      IF ls_field_definition-field_msgv1 IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_msgv1
+            i_value     = lv_msgv1
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing MSGV2
+      IF ls_field_definition-field_msgv2 IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_msgv2
+            i_value     = lv_msgv2
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing MSGV3
+      IF ls_field_definition-field_msgv3 IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_msgv3
+            i_value     = lv_msgv3
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+      " ──────┐ Processing MSGV4
+      IF ls_field_definition-field_msgv4 IS NOT INITIAL.
+        zcl_log_util=>_update_field_of_structure(
+          EXPORTING
+            i_comp_name = ls_field_definition-field_msgv4
+            i_value     = lv_msgv4
+          CHANGING
+            c_structure = <fs_log_table_s>
+        ).
+      ENDIF.
+
+
+      " ──┐ Append entry (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
+      APPEND <fs_log_table_s> TO <fs_log_table_t>.
+
+    ENDLOOP.
+
+    " Clear Buffer Table
+    REFRESH <fs_buff_table>.
 
 
 

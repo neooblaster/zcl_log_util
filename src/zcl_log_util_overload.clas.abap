@@ -79,6 +79,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         lv_log_tab_name      TYPE string                                           ,
 
         " Variable to ease code reading
+        " ──┐ Settings Table
         lv_tname             TYPE name_feld                                        , " Setting Table Table Name
         lv_fsid              TYPE name_feld                                        , " Setting Table Source ID Field
         lv_fsno              TYPE name_feld                                        , " Setting Table Source Number Field
@@ -92,13 +93,46 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         lv_fov1              TYPE name_feld                                        , " Setting Table Overload Message V1 Field
         lv_fov2              TYPE name_feld                                        , " Setting Table Overload Message V2 Field
         lv_fov3              TYPE name_feld                                        , " Setting Table Overload Message V3 Field
-        lv_fov4              TYPE name_feld                                        . " Setting Table Overload Message V4 Field
+        lv_fov4              TYPE name_feld                                        , " Setting Table Overload Message V4 Field
+        " ──┐ Definition Table
+        lv_fmms              TYPE name_feld                                        , " Definition Table Message Text
+        lv_fmid              TYPE name_feld                                        , " Definition Table Message ID
+        lv_fmno              TYPE name_feld                                        , " Definition Table Message Numbert
+        lv_fmty              TYPE name_feld                                        , " Definition Table Message Type
+        lv_fmv1              TYPE name_feld                                        , " Definition Table Message Value 1
+        lv_fmv2              TYPE name_feld                                        , " Definition Table Message Value 2
+        lv_fmv3              TYPE name_feld                                        , " Definition Table Message Value 3
+        lv_fmv4              TYPE name_feld                                        . " Definition Table Message Value 4
+
+
 
     FIELD-SYMBOLS:
                  <fs_buff_table_t>  TYPE STANDARD TABLE ,
                  <fs_buff_table_s>  TYPE ANY            ,
                  <fs_setting_tab_t> TYPE STANDARD TABLE ,
-                 <fs_setting_tab_s> TYPE ANY            .
+                 <fs_setting_tab_s> TYPE ANY            ,
+
+                 " ──┐ Settings Table (For Overloading)
+                 <fs_ovr_comp_sid>  TYPE ANY            ,
+                 <fs_ovr_comp_sno>  TYPE ANY            ,
+                 <fs_ovr_comp_sty>  TYPE ANY            ,
+                 <fs_ovr_comp_oid>  TYPE ANY            ,
+                 <fs_ovr_comp_ono>  TYPE ANY            ,
+                 <fs_ovr_comp_oty>  TYPE ANY            ,
+                 <fs_ovr_comp_ov1>  TYPE ANY            ,
+                 <fs_ovr_comp_ov2>  TYPE ANY            ,
+                 <fs_ovr_comp_ov3>  TYPE ANY            ,
+                 <fs_ovr_comp_ov4>  TYPE ANY            ,
+
+                 " ──┐ Buffer Log Table (To Overload)
+                 <fs_log_comp_id>   TYPE ANY            ,
+                 <fs_log_comp_no>   TYPE ANY            ,
+                 <fs_log_comp_ty>   TYPE ANY            ,
+                 <fs_log_comp_v1>   TYPE ANY            ,
+                 <fs_log_comp_v2>   TYPE ANY            ,
+                 <fs_log_comp_v3>   TYPE ANY            ,
+                 <fs_log_comp_v4>   TYPE ANY            .
+
 
     " Do nothing if feature is not enabled
     CHECK me->_enabled EQ zcl_log_util_setting_table=>true.
@@ -116,6 +150,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     ENDIF.
 
     " Get settings table field map & assign to variable to reduce var names
+    " ──┐ Settings Table
     ls_setting_field_map = me->_get_setting_map( ).
     lv_tname = ls_setting_field_map-table_name .
     lv_fsid  = ls_setting_field_map-field_sid .
@@ -131,6 +166,14 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     lv_fov2  = ls_setting_field_map-field_omsgv2 .
     lv_fov3  = ls_setting_field_map-field_omsgv3 .
     lv_fov4  = ls_setting_field_map-field_omsgv4 .
+    " ──┐ Definition Table
+    lv_fmid  = i_log_field_def-field_id .
+    lv_fmno  = i_log_field_def-field_number .
+    lv_fmty  = i_log_field_def-field_type .
+    lv_fmv1  = i_log_field_def-field_msgv1 .
+    lv_fmv2  = i_log_field_def-field_msgv2 .
+    lv_fmv3  = i_log_field_def-field_msgv3 .
+    lv_fmv4  = i_log_field_def-field_msgv4 .
 
     " Performing Overloading
     ASSIGN c_log_table->* TO <fs_buff_table_t>.
@@ -146,13 +189,28 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
     LOOP AT <fs_buff_table_t> ASSIGNING <fs_buff_table_s>.
 
-      " Retrieve corresponding component for overloading
+      " Retrieve current component to find overloading rule
+      " ──┐ Initial Message ID
+      IF lv_fmid IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmid OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_id>.
+      ENDIF.
+
+      " ──┐ Initial Message Number
+      IF lv_fmno IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmno OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_no>.
+      ENDIF.
+
+      " ──┐ Initial Message Type
+      IF lv_fmty IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fmty OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_ty>.
+      ENDIF.
+
 
       " Get Overloading rule (if exist)
       " @TODO : Handle Params 1 & 2 input field (dynamic SQL clause for them)
-      READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = 'VL'
-                                                                     (lv_fsno) = '504'
-                                                                     (lv_fsty) = 'E'
+      READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
+                                                                     (lv_fsno) = <fs_log_comp_no>
+                                                                     (lv_fsty) = <fs_log_comp_ty>
                                                                      (lv_fssp) = ''.
 
       " If rule not found, process next entry
@@ -160,41 +218,76 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         EXIT.
       ENDIF.
 
-      " Update Entry
+      " Overloading Entry
+      " ──┐ ID
+      IF lv_foid IS NOT INITIAL.
+        ASSIGN COMPONENT lv_foid OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_oid>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_oid> IS ASSIGNED AND <fs_ovr_comp_oid> IS NOT INITIAL AND lv_fmid IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmid OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_id>.
+          <fs_log_comp_id> = <fs_ovr_comp_oid>.
+        ENDIF.
+      ENDIF.
 
+      " ──┐ Number
+      IF lv_fono IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fono OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_ono>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_ono> IS ASSIGNED AND <fs_ovr_comp_ono> IS NOT INITIAL AND lv_fmno IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmno OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_no>.
+          <fs_log_comp_no> = <fs_ovr_comp_ono>.
+        ENDIF.
+      ENDIF.
 
+      " ──┐ Type
+      IF lv_foty IS NOT INITIAL.
+        ASSIGN COMPONENT lv_foty OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_oty>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_oty> IS ASSIGNED AND <fs_ovr_comp_oty> IS NOT INITIAL AND lv_fmty IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmty OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_ty>.
+          <fs_log_comp_ty> = <fs_ovr_comp_oty>.
+        ENDIF.
+      ENDIF.
 
+      " ──┐ Message V1
+      IF lv_fov1 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fov1 OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_ov1>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_ov1> IS ASSIGNED AND <fs_ovr_comp_ov1> IS NOT INITIAL AND lv_fmv1 IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmv1 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v1>.
+          <fs_log_comp_v1> = <fs_ovr_comp_ov1>.
+        ENDIF.
+      ENDIF.
 
-        "WHERE lv_fsid = '1'.
-        "WHERE lv_fsid = ( <comp_id> ).
-          "AND ( 'input2' ) = ( <comp_no> )
-          "AND ( 'input3' ) = ( <comp_ty> )
-          "AND ( 'input4' ) = ( <comp_sp> ).
+      " ──┐ Message V2
+      IF lv_fov2 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fov2 OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_ov2>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_ov2> IS ASSIGNED AND <fs_ovr_comp_ov2> IS NOT INITIAL AND lv_fmv2 IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmv2 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v2>.
+          <fs_log_comp_v2> = <fs_ovr_comp_ov2>.
+        ENDIF.
+      ENDIF.
 
-      " lire la table _SETTING_TAB_DATA avec <settingtabl> = <valeur du field correspondant>
+      " ──┐ Message V3
+      IF lv_fov3 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fov3 OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_ov3>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_ov3> IS ASSIGNED AND <fs_ovr_comp_ov3> IS NOT INITIAL AND lv_fmv3 IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmv3 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v3>.
+          <fs_log_comp_v3> = <fs_ovr_comp_ov3>.
+        ENDIF.
+      ENDIF.
 
-
-      " _SETTING_TAB
-
-*TABLE_NAME
-*FIELD_FCODE
-*FIELD_FDOMAIN
-*FIELD_FDATA
-*FIELD_SID
-*FIELD_SNUMBER
-*FIELD_STYPE
-*FIELD_SSPOT
-*FIELD_SPARAM1
-*FIELD_SPARAM2
-*FIELD_OID
-*FIELD_ONUMBER
-*FIELD_OTYPE
-*FIELD_OMSGV1
-*FIELD_OMSGV2
-*FIELD_OMSGV3
-*FIELD_OMSGV4
-
-
+      " ──┐ Message V4
+      IF lv_fov4 IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fov4 OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_ov4>.
+        " Check Settings field found (assigned), it have a value and if target field is defined
+        IF <fs_ovr_comp_ov4> IS ASSIGNED AND <fs_ovr_comp_ov4> IS NOT INITIAL AND lv_fmv4 IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmv4 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v4>.
+          <fs_log_comp_v4> = <fs_ovr_comp_ov4>.
+        ENDIF.
+      ENDIF.
 
     ENDLOOP.
 
@@ -315,6 +408,8 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     ELSE.
       SELECT * FROM (lv_setting_tabname) INTO CORRESPONDING FIELDS OF TABLE <fs_setting_tab_t> WHERE (lv_where_clause).
     ENDIF.
+
+    me->_setting_tab_loaded = zcl_log_util_setting_table=>true.
 
   endmethod.
 ENDCLASS.

@@ -116,6 +116,12 @@
      <MSGNR>106</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Overloaded (original: id=&amp;;class=&amp;;no=&amp;)</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>107</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - &amp; &amp; &amp; &amp; (x000) was used. Overload done !</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

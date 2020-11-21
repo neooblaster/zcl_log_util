@@ -352,6 +352,10 @@ DATA:
   " Log My Entries
   " ──┐ Working with current SY-MSGxx values
   MESSAGE e100 INTO lv_dummy. " Do not display but allow use case.
+  "lr_log_util->log( ).
+
+  MESSAGE e000 INTO lv_dummy. " Do not display but allow use case.
+  " e000 will be overload by e107 (cf zoverlog TCODE)
   lr_log_util->log( ).
 
 
