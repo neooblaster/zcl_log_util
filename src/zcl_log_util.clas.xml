@@ -64,6 +64,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>MERGING</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Merge provided struct/table with provided log struct/table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>OVERLOAD</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Methode to configure Overloading Settings table</DESCRIPT>
@@ -100,9 +106,27 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_COUNT_TABLE_LINES</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Count the lines number of the provided table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_DEFINE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Dedicated class to define log table structure &amp; field role</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_LOG_LINES_AFTER_LOG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Number of line after login</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_LOG_LINES_BEFORE_LOG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Number of line before login</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

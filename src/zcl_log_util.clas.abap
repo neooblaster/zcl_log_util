@@ -32,7 +32,12 @@ public section.
       value(SELF) type ref to ZCL_LOG_UTIL_OVERLOAD .
   methods LOG
     importing
-      !I_LOG_CONTENT type ANY default 'INITIAL' .
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods MERGING
+    importing
+      !I_STRUCTURE type ANY optional .
   methods DISPLAY .
   methods SPOT
     importing
@@ -65,6 +70,8 @@ private section.
 
   data _LOG_TABLE type ref to DATA .
   data _LOG_TABLE_BUFFER type ref to DATA .
+  data _LOG_LINES_BEFORE_LOG type I .
+  data _LOG_LINES_AFTER_LOG type I .
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
   data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
@@ -79,6 +86,11 @@ private section.
       !I_STRUCTURE_TO_COPY type ANY optional
     returning
       value(R_TABLE_CONVERTED) type ref to DATA .
+  class-methods _COUNT_TABLE_LINES
+    importing
+      !I_TABLE type STANDARD TABLE
+    returning
+      value(R_LINES) type I .
 ENDCLASS.
 
 
@@ -426,16 +438,17 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lr_data               TYPE REF TO   data .
 
     DATA: " Flags
-        lv_flg_use_symsg      TYPE c             . " Log working with sy-msgxx (most basic usage)
-                                                   " Log working with entered message texte
-                                                   " Log working with entered structure (use definition)
-                                                   " Log working with entered table     (use definition)
+        lv_flg_use_symsg      TYPE c             , " Log working with sy-msgxx (most basic usage)
+        lv_flg_use_msgtx      TYPE c             , " Log working with entered message texte
+        lv_flg_use_struc      TYPE c             , " Log working with entered structure (use definition)
+        lv_flg_use_table      TYPE c             . " Log working with entered table     (use definition)
 
     FIELD-SYMBOLS:
                  <fs_log_table_t>      TYPE STANDARD TABLE , " Internal Table
                  <fs_log_table_s>      TYPE ANY            , " Structure
                  <fs_log_table_c>      TYPE ANY            , " Component
                  <fs_table_to_convert> TYPE STANDARD TABLE , " Table to convert
+                 <fs_sruct_to_convert> TYPE ANY            , " Structure to convert
                  <fs_table_to_copy>    TYPE STANDARD TABLE , " Table to copy type
                  <fs_buff_structure>   TYPE ANY            , " Structure type of log buffer
                  <fs_buff_table>       TYPE STANDARD TABLE , " Buffer Table
@@ -456,13 +469,19 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " ──┐ Get final User table log for appending.
     ASSIGN me->_log_table->* TO <fs_log_table_t>.
 
+    " ──┐ Count current number lines of logs
+    DESCRIBE TABLE <fs_log_table_t> LINES me->_log_lines_before_log.
+
     " ──┐ Create Structure of user log table.
     CREATE DATA lr_data LIKE LINE OF <fs_log_table_t>.
     ASSIGN lr_data->* TO <fs_log_table_s>.
 
     " ──┐ Create Structure of buffer table.
-    ASSIGN me->_log_table_buffer->* TO <fs_table_to_convert>.
-    CREATE DATA lr_converted LIKE LINE OF <fs_table_to_convert>.
+*    ASSIGN me->_log_table_buffer->* TO <fs_table_to_convert>.
+*    CREATE DATA lr_converted LIKE LINE OF <fs_table_to_convert>.
+*    ASSIGN lr_converted->* TO <fs_buff_structure>.
+    ASSIGN me->_log_table_buffer->* TO <fs_buff_table>.
+    CREATE DATA lr_converted LIKE LINE OF <fs_buff_table>.
     ASSIGN lr_converted->* TO <fs_buff_structure>.
 
     " ──┐ Get table definition
@@ -484,30 +503,59 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ELSE.
         " @TODO : Only use text (no id no ty) (MESSAGE)
       ENDIF.
-    ELSEIF lv_i_log_content_type EQ 'h' OR lv_i_log_content_type EQ 'v' OR lv_i_log_content_type EQ 'u'.
+
+    ELSEIF lv_i_log_content_type EQ 'h'.
+      lv_flg_use_table = zcl_log_util=>true.
+
+    ELSEIF lv_i_log_content_type EQ 'v' OR lv_i_log_content_type EQ 'u'.
+      lv_flg_use_struc = zcl_log_util=>true.
+
     ENDIF.
 
 
 
     " --------------------------------------------------------------
-    " • Message components assignments
+    " • Bufferization depending of message component
     " --------------------------------------------------------------
     " ──┐ Used without parameters
     IF lv_flg_use_symsg EQ zcl_log_util=>true.
       APPEND sy TO lt_sy.
-      ASSIGN lt_sy TO <fs_table_to_convert>.
+
+      " Convert input to buffer
+      me->_log_table_buffer = me->_convert_table(
+        EXPORTING
+          i_table_to_convert  = lt_sy
+          i_structure_to_copy = <fs_buff_structure>
+      ).
     ENDIF.
 
+    " ──┐ Used one parameters (Entered texte, structure or table)
+    " ─────┐ Message texte entered
+    IF lv_flg_use_msgtx EQ zcl_log_util=>true.
+      " @TODO : Managing simple message texte
+    ENDIF.
+    " ─────┐ Structure with message components
+    IF lv_flg_use_struc EQ zcl_log_util=>true.
+      CREATE DATA lr_data LIKE TABLE OF i_log_content.
+      ASSIGN lr_data->* TO <fs_table_to_convert>.
+      APPEND i_log_content TO <fs_table_to_convert>.
 
-
-    " --------------------------------------------------------------
-    " • Convert input to buffer table
-    " --------------------------------------------------------------
-    me->_log_table_buffer = me->_convert_table(
-      EXPORTING
-        i_table_to_convert  = <fs_table_to_convert>
-        i_structure_to_copy = <fs_buff_structure>
-    ).
+      " Convert input to buffer
+      me->_log_table_buffer = me->_convert_table(
+        EXPORTING
+          i_table_to_convert  = <fs_table_to_convert>
+          i_structure_to_copy = <fs_buff_structure>
+      ).
+    ENDIF.
+    " ─────┐ Log message table with message components
+    IF lv_flg_use_table EQ zcl_log_util=>true.
+      " Convert input to buffer
+      me->_log_table_buffer = me->_convert_table(
+        EXPORTING
+          i_table_to_convert  = i_log_content
+          i_structure_to_copy = <fs_buff_structure>
+      ).
+    ENDIF.
 
 
 
@@ -716,6 +764,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " Clear Buffer Table
     REFRESH <fs_buff_table>.
 
+    " Count number lines of logs after appending
+    DESCRIBE TABLE <fs_log_table_t> LINES me->_log_lines_after_log.
+
 
 
     " --------------------------------------------------------------
@@ -724,6 +775,166 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " @TODO : Make SLG
 
 
+
+
+
+    " --------------------------------------------------------------
+    " • Returning Self
+    " --------------------------------------------------------------
+    self = me.
+
+  endmethod.
+
+
+  method MERGING.
+
+    TYPES: BEGIN OF ty_comp_list  ,
+             comp  TYPE name_feld ,
+           END   OF ty_comp_list  .
+
+    DATA:
+        lv_appended_lines    TYPE           i      ,
+        lv_provded_lines     TYPE           i      ,
+        lv_starting_index    TYPE           i      ,
+        lv_i_struct_type     TYPE           string ,
+        lv_merge_mode        TYPE           string ,
+
+        ls_log_def           TYPE zcl_log_util_define=>ty_field_map    ,
+        lt_log_comp          TYPE cl_abap_structdescr=>component_table ,
+        lr_log_structdescr   TYPE REF TO cl_abap_structdescr           ,
+        ls_merge_def         TYPE zcl_log_util_define=>ty_field_map    ,
+        lt_merge_comp        TYPE cl_abap_structdescr=>component_table ,
+        ls_merge_comp        LIKE LINE OF  lt_merge_comp               ,
+        lr_merge_structdescr TYPE REF TO cl_abap_structdescr           ,
+        lt_def_comp          TYPE cl_abap_structdescr=>component_table ,
+        lr_def_structdescr   TYPE REF TO cl_abap_structdescr           ,
+        lv_type_name         TYPE          string                      ,
+        lr_data              TYPE REF TO   data                        ,
+        lr_data2             TYPE REF TO   data                        ,
+
+        lt_comp_list         TYPE TABLE OF ty_comp_list                ,
+        ls_comp_list         TYPE          ty_comp_list                ,
+        lv_comp              TYPE          name_feld                   .
+
+
+    FIELD-SYMBOLS:
+                 <fs_log_table_t>   TYPE STANDARD TABLE ,
+                 <fs_log_table_s>   TYPE ANY            ,
+                 <fs_mer_table_t>   TYPE ANY TABLE      ,
+                 <fs_mer_table_s>   TYPE ANY            ,
+                 <fs_def_comp>      TYPE ANY            ,
+                 <fs_comp>          TYPE ANY            .
+
+
+
+    " --------------------------------------------------------------
+    " • Initialization
+    " --------------------------------------------------------------
+    " ──┐ Count number of line appended
+    lv_appended_lines = me->_log_lines_after_log - me->_log_lines_before_log.
+
+    " ──┐ Count providing line for merging
+    DESCRIBE FIELD i_structure TYPE lv_i_struct_type.
+
+    IF lv_i_struct_type EQ 'h'.
+      lv_provded_lines = zcl_log_util=>_count_table_lines( i_structure ).
+
+    ELSE.
+      lv_provded_lines = 1.
+    ENDIF.
+
+    " ──┐ Determining the merging process :
+    IF lv_provded_lines EQ 1.
+      " When merge is a structure, complete field (one to many)
+      " With these data.
+      lv_merge_mode = 'ONE_TO_ALL'.
+
+    ELSEIF lv_appended_lines EQ lv_provded_lines.
+      " When merge is a table with the same number of append
+      " log, we complete field one by one (n to n).
+      lv_merge_mode = 'ONE_TO_ONE'.
+
+    ELSE.
+      " Else, we have a difference between appended log and
+      " provided completing data
+      " Merge ONE_TO_ONE and left other to blank
+      " -> In fine, the same process (until change management rule)
+      "    -> To see if we complete all leaving entries with the last
+      "       line provided for completion ??? In that case, a third process
+      "       will come.
+      lv_merge_mode = 'ONE_TO_ONE'.
+
+    ENDIF.
+
+    " ──┐ Identifying source data (Definition & Components)
+    " ─────┐ Log Table
+    ASSIGN me->_log_table->* TO <fs_log_table_t>.
+    CREATE DATA lr_data LIKE <fs_log_table_t>.
+    ASSIGN lr_data->* TO <fs_log_table_t>.
+    lr_log_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
+    lt_log_comp          = lr_log_structdescr->get_components( ).
+    ls_log_def           = me->_define->get_definition( <fs_log_table_t> ).
+    " ─────┐ Provided structure for merge
+    CREATE DATA lr_data LIKE TABLE OF i_structure.
+    ASSIGN lr_data->* TO <fs_log_table_t>.
+    lr_merge_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
+    lt_merge_comp          = lr_merge_structdescr->get_components( ).
+    ls_merge_def           = me->_define->get_definition( <fs_log_table_t> ).
+    " ─────┐ Definition Structure Component to get values
+    CREATE DATA lr_data LIKE TABLE OF ls_log_def.
+    ASSIGN lr_data->* TO <fs_log_table_t>.
+    lr_def_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
+    lt_def_comp          = lr_def_structdescr->get_components( ).
+
+    " From Definition structure components, retrieve
+    " fields to exclude on log & provided structures
+    LOOP AT lt_def_comp INTO DATA(ls_def_comp).
+      ASSIGN COMPONENT ls_def_comp-name OF STRUCTURE ls_log_def TO <fs_def_comp>.
+
+      IF <fs_def_comp> IS ASSIGNED AND <fs_def_comp> IS NOT INITIAL.
+        ls_comp_list-comp = <fs_def_comp>.
+        APPEND ls_comp_list TO lt_comp_list.
+      ENDIF.
+    ENDLOOP.
+
+
+    " --------------------------------------------------------------
+    " • Merge data
+    " --------------------------------------------------------------
+    CASE lv_merge_mode.
+      WHEN 'ONE_TO_ALL'.
+        lv_starting_index = me->_log_lines_before_log + 1.
+
+        " We will loop on User Log Table, only on new lines
+        ASSIGN me->_log_table->* TO <fs_log_table_t>.
+        LOOP AT <fs_log_table_t> ASSIGNING <fs_log_table_s> FROM lv_starting_index.
+
+          " Loop on field of provided structure
+          LOOP AT lt_merge_comp INTO ls_merge_comp.
+            lv_comp = ls_merge_comp-name.
+            " Retrive provided value to for merging
+            ASSIGN COMPONENT lv_comp OF STRUCTURE i_structure TO <fs_comp>.
+
+            " Merging
+            IF <fs_comp> IS ASSIGNED AND <fs_comp> IS NOT INITIAL.
+              zcl_log_util=>_update_field_of_structure(
+                EXPORTING
+                  i_comp_name = lv_comp
+                  i_value     = <fs_comp>
+                CHANGING
+                  c_structure = <fs_log_table_s>
+              ).
+            ENDIF.
+          ENDLOOP.
+
+        ENDLOOP.
+
+
+
+      WHEN 'ONE_TO_ONE'.
+      WHEN OTHERS.
+
+    ENDCASE.
 
   endmethod.
 
@@ -877,6 +1088,17 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       APPEND <fs_ref_structure> TO <fs_tgt_table>.
 
     ENDLOOP.
+
+  endmethod.
+
+
+  method _COUNT_TABLE_LINES.
+
+    " Has input parameter is type "ANY", we can not perform "lines( )"
+    " on structures. This method specifies type "STANDARD TABLE"
+    " so ABAP ocmpiler accept statement.
+
+    r_lines = lines( i_table ).
 
   endmethod.
 

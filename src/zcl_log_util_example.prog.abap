@@ -77,7 +77,9 @@ DATA:
     ls_log_table     TYPE          ty_my_log_str ,
     lt_trace_log     TYPE TABLE OF ty_raw_log    ,
     lt_ret_bapiret2  TYPE TABLE OF bapiret2      , " Example of FM : LE_DLV_DATE_CHANGE
+    ls_ret_bapiret2  TYPE          bapiret2      , " Example of FM : LE_DLV_DATE_CHANGE
     lt_ret_prott     TYPE TABLE of prott         , " Example of FM : WS_DELIVERY_UPDATE_2
+    ls_ret_prott     TYPE          prott         , " Example of FM : WS_DELIVERY_UPDATE_2
     lv_dummy         TYPE          string        . " Dummy variable to handle MESSAGE statement
 
 
@@ -153,11 +155,6 @@ DATA:
     msgv3_field = 'V3'
     msgv4_field = 'V4'
   ).
-
-
-  " [ OPTIONAL  ] :: Specifing With Log Table definition will use
-  " ---------------------------------------------------------------
-*  lr_log_util->set_output_type( ).
 
 
   " [ OPTIONAL  ] :: Configuring Application Log (SLG)
@@ -350,22 +347,62 @@ DATA:
   " ---------------------------------------------------------
 
   " Log My Entries
+  "
   " ──┐ Working with current SY-MSGxx values
   MESSAGE e100 INTO lv_dummy. " Do not display but allow use case.
-  "lr_log_util->log( ).
+  lr_log_util->log( ).
 
+  " ──┐ Working with current SY-MSGxx values
   MESSAGE e000 INTO lv_dummy. " Do not display but allow use case.
   " e000 will be overload by e107 (cf zoverlog TCODE)
   lr_log_util->log( ).
 
-
   " ──┐ Working with current SY-MSGxx values and complet with my structure
-*  MESSAGE ID                             " Classic Way for Usage Case
-*  lr_log_util->log( )->assign( str ).    " Now log sy-msgxx with my values
+  MESSAGE e100 INTO lv_dummy.      " Do not display but allow use case.
+  ls_log_table-icon = '@5C@'.      " Add my own data for log
+  lr_log_util->log( )->merging( ls_log_table ).    " Merge them
+  "lr_log_util->log( )->merging( lt_log_table ).   " Now log sy-msgxx with my values
+
   " ──┐ Working with my structure
-*  lr_log_util->log( ls_log_table ).
+  " Considering a return message structure :
+  ls_ret_bapiret2-id = 'VL'.
+  ls_ret_bapiret2-number = '504'.
+  ls_ret_bapiret2-type = 'E'.
+  ls_ret_bapiret2-message_v1 = 'PH_BAPIRET2_MSGV1'.
+  ls_ret_bapiret2-message_v2 = 'PH_BAPIRET2_MSGV2'.
+  ls_ret_bapiret2-message_v3 = 'PH_BAPIRET2_MSGV3'.
+  ls_ret_bapiret2-message_v4 = 'PH_BAPIRET2_MSGV4'.
+  lr_log_util->log( ls_ret_bapiret2 ).
+
   " ──┐ Working with table
-*  lr_log_util->log( ls_log_table ).
+  APPEND VALUE #(
+    msgno = '505'
+    msgid = 'VL'
+    msgty = 'W'
+    msgv1 = 'PH_PROTT_MSGV1_L1'
+    msgv2 = 'PH_PROTT_MSGV2_L1'
+    msgv3 = 'PH_PROTT_MSGV3_L1'
+    msgv4 = 'PH_PROTT_MSGV4_L1'
+  ) TO lt_ret_prott.
+  APPEND VALUE #(
+    msgno = '506'
+    msgid = 'VL'
+    msgty = 'E'
+    msgv1 = 'PH_PROTT_MSGV1_L2'
+    msgv2 = 'PH_PROTT_MSGV2_L2'
+    msgv3 = 'PH_PROTT_MSGV3_L2'
+    msgv4 = 'PH_PROTT_MSGV4_L2'
+  ) TO lt_ret_prott.
+  APPEND VALUE #(
+    msgno = '507'
+    msgid = 'VL'
+    msgty = 'I'
+    msgv1 = 'PH_PROTT_MSGV1_L3'
+    msgv2 = 'PH_PROTT_MSGV2_L3'
+    msgv3 = 'PH_PROTT_MSGV3_L3'
+    msgv4 = 'PH_PROTT_MSGV4_L3'
+  ) TO lt_ret_prott.
+  lr_log_util->log( lt_ret_prott ).
 
 
 

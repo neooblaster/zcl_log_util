@@ -96,6 +96,7 @@ public section.
     importing
       !I_ABSOLUTE_NAME type STRING optional
       !I_STRUCTURE type ANY optional
+    preferred parameter I_STRUCTURE
     returning
       value(R_DEFINITION) type TY_FIELD_MAP .
 protected section.
