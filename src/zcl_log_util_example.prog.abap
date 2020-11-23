@@ -346,25 +346,42 @@ DATA:
   "
   " ---------------------------------------------------------
 
-  " Log My Entries
-  "
-  " ──┐ Working with current SY-MSGxx values
+  " ---------------------------------------------------------
+  " <<<---[ Standard Logging (SY-MSGXX) ]--------------------
+  " ──┐ Sent message to dummy to enrich SY-MSGXX
   MESSAGE e100 INTO lv_dummy. " Do not display but allow use case.
   lr_log_util->log( ).
 
-  " ──┐ Working with current SY-MSGxx values
+  " ──┐ Sent message to dummy to enrich SY-MSGXX
   MESSAGE e000 INTO lv_dummy. " Do not display but allow use case.
   " e000 will be overload by e107 (cf zoverlog TCODE)
   lr_log_util->log( ).
 
-  " ──┐ Working with current SY-MSGxx values and complet with my structure
+  " ──┐  Sent message to dummy to enrich SY-MSGXX
   MESSAGE e100 INTO lv_dummy.      " Do not display but allow use case.
+  " ──┐ Add own data to my structure
   ls_log_table-icon = '@5C@'.      " Add my own data for log
+  " ──┐ Log & Complete data by merging
   lr_log_util->log( )->merging( ls_log_table ).    " Merge them
-  "lr_log_util->log( )->merging( lt_log_table ).   " Now log sy-msgxx with my values
 
-  " ──┐ Working with my structure
-  " Considering a return message structure :
+  " >>>---[ Standard Logging (SY-MSGXX) ]--------------------
+  " ---------------------------------------------------------
+
+
+
+  " ---------------------------------------------------------
+  " <<<---[ Logging Simple Text ]----------------------------
+  lr_log_util->log( 'Log simple text (default is type I)'(t01) ).
+  lr_log_util->log( 'Very very long text message (maximum handle is 200char. Message will be trim is length is upper than 250 char.'(t02) ).
+  " >>>---[ Logging Simple Text ]----------------------------
+  " ---------------------------------------------------------
+
+
+
+  " ---------------------------------------------------------
+  " <<<---[ Logging using Standard* Structure ]--------------
+  " * Standard can be a custom if structure has been defined.
+  " ──┐ Simulating BAPI Return in structure
   ls_ret_bapiret2-id = 'VL'.
   ls_ret_bapiret2-number = '504'.
   ls_ret_bapiret2-type = 'E'.
@@ -372,9 +389,19 @@ DATA:
   ls_ret_bapiret2-message_v2 = 'PH_BAPIRET2_MSGV2'.
   ls_ret_bapiret2-message_v3 = 'PH_BAPIRET2_MSGV3'.
   ls_ret_bapiret2-message_v4 = 'PH_BAPIRET2_MSGV4'.
+
+  " ──┐ Log BAPI Structure to my log table
   lr_log_util->log( ls_ret_bapiret2 ).
 
-  " ──┐ Working with table
+  " >>>---[ Logging using Standard* Structure ]--------------
+  " ---------------------------------------------------------
+
+
+  " ---------------------------------------------------------
+  " <<<---[ Logging using Standard* Tables ]-----------------
+  " * Standard can be a custom if table structure has been
+  "   defined.
+  " ──┐ Simulating BAPI Return in table
   APPEND VALUE #(
     msgno = '505'
     msgid = 'VL'
@@ -402,20 +429,47 @@ DATA:
     msgv3 = 'PH_PROTT_MSGV3_L3'
     msgv4 = 'PH_PROTT_MSGV4_L3'
   ) TO lt_ret_prott.
+
+  " ──┐ Log BAPI table to my log table
   lr_log_util->log( lt_ret_prott ).
 
+  " >>>---[ Logging using Standard* Tables ]-----------------
+  " ---------------------------------------------------------
+
+
+  " ---------------------------------------------------------
+  " <<<---[ Quick Logging ]----------------------------------
+  " All following method same import parameter than LOG
+  " except I_LOG_MSGTY
+  " ──┐ Abort
+  MESSAGE i108 INTO lv_dummy. " Raised as I, Log as Abort
+  lr_log_util->a(  ).
+
+  " ──┐ Error
+  MESSAGE i109 INTO lv_dummy. " Raised as I, Log as Error
+  lr_log_util->e(  ).
+
+  " ──┐ Warning
+  MESSAGE i110 INTO lv_dummy. " Raised as I, Log as Warning
+  lr_log_util->w(  ).
+
+  " ──┐ Info
+  MESSAGE i111 INTO lv_dummy. " Raised as I, Log as Info
+  lr_log_util->i(  ).
+
+  " ──┐ Success
+  MESSAGE i112 INTO lv_dummy. " Raised as I, Log as Success
+  lr_log_util->s(  ).
 
 
 
-  " Log FM return table (BAPIRET2)
-  " ──┐
-*  lr_log_util->log( lt_ret_bapiret2 ).
 
-  " Log FM 2 return table (PROTT)
-*  lr_log_util->log( lt_ret_prott ).
 
-  " Display collected logs
+  " ---------------------------------------------------------
+  "   How To display my log table
+  " ---------------------------------------------------------
+  " ──┐ Display Collected Log
   lr_log_util->display( ).
 
-  " Display Application Log
+  " ──┐ Display Application Log
 *  lr_log_util->slg( )->display( ).

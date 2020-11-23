@@ -16,6 +16,12 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>A</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Log as Abort</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
@@ -31,6 +37,12 @@
      <CMPNAME>DISPLAY</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Display registered logs</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>E</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Log as Error</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
@@ -58,6 +70,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>I</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Log as Info</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>LOG</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Feed log registry</DESCRIPT>
@@ -76,9 +94,21 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>S</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Log as Success</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>SET_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Referencing user log table for further manipulation</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>SPLIT_TEXT_TO_MSGVX</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Split provided text message in part of SY-MSGVx parts</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
@@ -97,6 +127,12 @@
      <CMPNAME>TY_LOG_TABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Internal logging table (for default)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>W</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Log as Warning</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
@@ -139,6 +175,48 @@
      <CMPNAME>_LOG_TABLE_BUFFER</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Bufferized log table for manipulation</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGID</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message ID when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGNO</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Number when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGTY</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Type when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGV1</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Value 1 when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGV2</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Value 2 when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGV3</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Value 3 when logging</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_MSGV4</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Requested Message Value 4 when logging</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

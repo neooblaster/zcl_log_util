@@ -33,11 +33,81 @@ public section.
   methods LOG
     importing
       !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGTY type SY-MSGTY optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods A
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods E
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods W
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods I
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
+  methods S
+    importing
+      !I_LOG_CONTENT type ANY default 'INITIAL'
+      !I_LOG_MSGID type SY-MSGID optional
+      !I_LOG_MSGNO type SY-MSGNO optional
+      !I_LOG_MSGV1 type SY-MSGV1 optional
+      !I_LOG_MSGV2 type SY-MSGV2 optional
+      !I_LOG_MSGV3 type SY-MSGV3 optional
+      !I_LOG_MSGV4 type SY-MSGV4 optional
+    preferred parameter I_LOG_CONTENT
     returning
       value(SELF) type ref to ZCL_LOG_UTIL .
   methods MERGING
     importing
-      !I_STRUCTURE type ANY optional .
+      !I_STRUCTURE type ANY optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL .
   methods DISPLAY .
   methods SPOT
     importing
@@ -56,6 +126,14 @@ public section.
       !I_ELEMENT type ANY
     returning
       value(R_ABS_NAME) type STRING .
+  class-methods SPLIT_TEXT_TO_MSGVX
+    importing
+      !I_TEXT_MESSAGE type STRING
+    exporting
+      !E_MSGV1 type SY-MSGV1
+      !E_MSGV2 type SY-MSGV2
+      !E_MSGV3 type SY-MSGV3
+      !E_MSGV4 type SY-MSGV4 .
   class-methods _UPDATE_FIELD_OF_STRUCTURE
     importing
       !I_COMP_NAME type NAME_FELD
@@ -75,6 +153,13 @@ private section.
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
   data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
+  data _MSGID type SY-MSGID .
+  data _MSGNO type SY-MSGNO .
+  data _MSGTY type SY-MSGTY .
+  data _MSGV1 type SY-MSGV1 .
+  data _MSGV2 type SY-MSGV2 .
+  data _MSGV3 type SY-MSGV3 .
+  data _MSGV4 type SY-MSGV4 .
 
   methods SET_LOG_TABLE
     changing
@@ -96,6 +181,22 @@ ENDCLASS.
 
 
 CLASS ZCL_LOG_UTIL IMPLEMENTATION.
+
+
+  method A.
+
+    me->log(
+      i_log_content = i_log_content
+      i_log_msgid   = i_log_msgid
+      i_log_msgno   = i_log_msgno
+      i_log_msgty   = 'A'
+      i_log_msgv1   = i_log_msgv1
+      i_log_msgv2   = i_log_msgv2
+      i_log_msgv3   = i_log_msgv3
+      i_log_msgv4   = i_log_msgv4
+    ).
+
+  endmethod.
 
 
   METHOD CONSTRUCTOR.
@@ -218,6 +319,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     lr_table->display( ).
 
   ENDMETHOD.
+
+
+  method E.
+
+    me->log(
+      i_log_content = i_log_content
+      i_log_msgid   = i_log_msgid
+      i_log_msgno   = i_log_msgno
+      i_log_msgty   = 'E'
+      i_log_msgv1   = i_log_msgv1
+      i_log_msgv2   = i_log_msgv2
+      i_log_msgv3   = i_log_msgv3
+      i_log_msgv4   = i_log_msgv4
+    ).
+
+  endmethod.
 
 
   method FACTORY.
@@ -405,6 +522,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  method I.
+
+    me->log(
+      i_log_content = i_log_content
+      i_log_msgid   = i_log_msgid
+      i_log_msgno   = i_log_msgno
+      i_log_msgty   = 'I'
+      i_log_msgv1   = i_log_msgv1
+      i_log_msgv2   = i_log_msgv2
+      i_log_msgv3   = i_log_msgv3
+      i_log_msgv4   = i_log_msgv4
+    ).
+
+  endmethod.
+
+
   method LOG.
 
     DATA: " Variable & Internal Tables
@@ -494,6 +627,19 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Import Parameters management
     " --------------------------------------------------------------
+    " Parameter are supplied with initial walue when used with QuickLogguers
+    IF i_log_msgid IS SUPPLIED AND i_log_msgid IS NOT INITIAL. me->_msgid = i_log_msgid. ENDIF.
+    IF i_log_msgno IS SUPPLIED AND i_log_msgno IS NOT INITIAL. me->_msgno = i_log_msgno. ENDIF.
+    IF i_log_msgty IS SUPPLIED AND i_log_msgty IS NOT INITIAL. me->_msgty = i_log_msgty. ENDIF.
+    IF i_log_msgv1 IS SUPPLIED AND i_log_msgv1 IS NOT INITIAL. me->_msgv1 = i_log_msgv1. ENDIF.
+    IF i_log_msgv2 IS SUPPLIED AND i_log_msgv2 IS NOT INITIAL. me->_msgv2 = i_log_msgv2. ENDIF.
+    IF i_log_msgv3 IS SUPPLIED AND i_log_msgv3 IS NOT INITIAL. me->_msgv3 = i_log_msgv3. ENDIF.
+    IF i_log_msgv4 IS SUPPLIED AND i_log_msgv4 IS NOT INITIAL. me->_msgv4 = i_log_msgv4. ENDIF.
+
+
+    " --------------------------------------------------------------
+    " • Import Parameter I_LOG_CONTENT management
+    " --------------------------------------------------------------
     " ──┐ Import parameters identification
     DESCRIBE FIELD i_log_content TYPE lv_i_log_content_type.
 
@@ -501,7 +647,23 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       IF i_log_content EQ 'INITIAL'.
         lv_flg_use_symsg = zcl_log_util=>true.
       ELSE.
-        " @TODO : Only use text (no id no ty) (MESSAGE)
+        CLEAR: lv_msgv1, lv_msgv2,
+               lv_msgv3, lv_msgv4.
+
+        " Convert Simple Message Text to Message Entity
+        " We will use i011 WITH
+        zcl_log_util=>split_text_to_msgvx(
+          EXPORTING
+            i_text_message = i_log_content
+          IMPORTING
+            e_msgv1        = lv_msgv1
+            e_msgv2        = lv_msgv2
+            e_msgv3        = lv_msgv3
+            e_msgv4        = lv_msgv4
+        ).
+
+        MESSAGE i000 WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4 INTO lv_msgtx.
+        lv_flg_use_symsg = zcl_log_util=>true.
       ENDIF.
 
     ELSEIF lv_i_log_content_type EQ 'h'.
@@ -662,7 +824,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       IF lv_msgid IS NOT INITIAL AND lv_msgno IS NOT INITIAL AND lv_msgty IS NOT INITIAL.
         MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
         INTO lv_msgtx
-        WITH lv_msgv1 lv_msgv1 lv_msgv1 lv_msgv1.
+        WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.
       ENDIF.
 
 
@@ -773,6 +935,21 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " • Registring in Application Log
     " --------------------------------------------------------------
     " @TODO : Make SLG
+
+
+
+
+
+    " --------------------------------------------------------------
+    " • Flushing Attributes
+    " --------------------------------------------------------------
+    CLEAR: me->_msgid ,
+           me->_msgno ,
+           me->_msgty ,
+           me->_msgv1 ,
+           me->_msgv2 ,
+           me->_msgv3 ,
+           me->_msgv4 .
 
 
 
@@ -930,11 +1107,15 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         ENDLOOP.
 
 
-
       WHEN 'ONE_TO_ONE'.
+
+
+
       WHEN OTHERS.
 
     ENDCASE.
+
+    self = me.
 
   endmethod.
 
@@ -947,6 +1128,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  method S.
+
+    me->log(
+      i_log_content = i_log_content
+      i_log_msgid   = i_log_msgid
+      i_log_msgno   = i_log_msgno
+      i_log_msgty   = 'S'
+      i_log_msgv1   = i_log_msgv1
+      i_log_msgv2   = i_log_msgv2
+      i_log_msgv3   = i_log_msgv3
+      i_log_msgv4   = i_log_msgv4
+    ).
+
+  endmethod.
+
+
   method SET_LOG_TABLE.
 
     " Referencing User Log Table
@@ -954,6 +1151,33 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " Create a buffer table for internal manipulations.
     CREATE DATA me->_log_table_buffer TYPE TABLE OF syst.
+
+  endmethod.
+
+
+  method SPLIT_TEXT_TO_MSGVX.
+
+    TYPES : BEGIN OF ty_parts,
+              part1 TYPE c LENGTH 50  ,
+              part2 TYPE c LENGTH 50  ,
+              part3 TYPE c LENGTH 50  ,
+              part4 TYPE c LENGTH 50  ,
+              rest  TYPE c LENGTH 824 , " Rest to prevent dump (Max 1024)
+            END   OF ty_parts.
+
+    DATA:
+        lv_msgtx_len TYPE i        ,
+        ls_parts     TYPE ty_parts .
+
+    " Count lenght of the provided text message
+    lv_msgtx_len = strlen( i_text_message ).
+
+    MOVE i_text_message TO ls_parts.
+
+    e_msgv1 = ls_parts-part1.
+    e_msgv2 = ls_parts-part2.
+    e_msgv3 = ls_parts-part3.
+    e_msgv4 = ls_parts-part4.
 
   endmethod.
 
@@ -977,24 +1201,47 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  method W.
+
+    me->log(
+      i_log_content = i_log_content
+      i_log_msgid   = i_log_msgid
+      i_log_msgno   = i_log_msgno
+      i_log_msgty   = 'W'
+      i_log_msgv1   = i_log_msgv1
+      i_log_msgv2   = i_log_msgv2
+      i_log_msgv3   = i_log_msgv3
+      i_log_msgv4   = i_log_msgv4
+    ).
+
+  endmethod.
+
+
   method _CONVERT_TABLE.
 
     DATA:
-        lr_data_src_t    TYPE REF TO data                              ,
-        lr_data_src_s    TYPE REF TO data                              ,
-        lr_data_ref      TYPE REF TO data                              ,
+        lr_data_src_t      TYPE REF TO  data                                 ,
+        lr_data_src_s      TYPE REF TO  data                                 ,
+        lr_data_ref        TYPE REF TO  data                                 ,
 
-        lt_src_field_def TYPE        zcl_log_util_define=>ty_field_map ,
-        lt_tgt_field_def TYPE        zcl_log_util_define=>ty_field_map ,
+        lt_src_field_def   TYPE         zcl_log_util_define=>ty_field_map    ,
+        lt_tgt_field_def   TYPE         zcl_log_util_define=>ty_field_map    ,
 
-        lv_ref_type      TYPE        string                            ,
-        lv_def_idx       TYPE        i                                 .
+        lv_ref_type        TYPE         string                               ,
+        lv_def_idx         TYPE         i                                    ,
+        lr_def_structdescr TYPE REF TO  cl_abap_structdescr                  ,
+        lt_def_comp        TYPE         cl_abap_structdescr=>component_table ,
+        ls_def_comp        LIKE LINE OF lt_def_comp                          ,
+        lv_wip_str         TYPE         string                               ,
+        lv_use_wip         TYPE         c LENGTH 1                           .
 
     FIELD-SYMBOLS:
                  <fs_ref_structure> TYPE ANY            ,
                  <fs_src_structure> TYPE ANY            ,
                  <fs_src_table>     TYPE ANY TABLE      ,
                  <fs_tgt_table>     TYPE STANDARD TABLE ,
+                 <fs_def_tab>       TYPE ANY            ,
+                 <fs_def_str>       TYPE ANY            ,
                  <fs_sdef_comp>     TYPE ANY            ,
                  <fs_tdef_comp>     TYPE ANY            ,
                  <fs_src_comp>      TYPE ANY            ,
@@ -1046,6 +1293,12 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       i_structure = <fs_ref_structure>
     ).
 
+    " Retrieve Definition Components
+    CREATE DATA lr_data_ref LIKE TABLE OF lt_src_field_def.
+    ASSIGN lr_data_ref->* TO <fs_def_tab>.
+    lr_def_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_def_tab> ).
+    lt_def_comp          = lr_def_structdescr->get_components( ).
+
 
 
     " --------------------------------------------------------------
@@ -1061,6 +1314,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       lv_def_idx = 3. " First field is the TYPE_NAME and the second one will handle MESSAGE_TEXT
 
       DO.
+        " Get Fields references
         ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_src_field_def TO <fs_sdef_comp>.
         ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_tgt_field_def TO <fs_tdef_comp>.
 
@@ -1075,9 +1329,60 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         " Get component of Target table
         ASSIGN COMPONENT <fs_tdef_comp> OF STRUCTURE <fs_ref_structure> TO <fs_tgt_comp>.
 
+        " Get corresponding Field Definition Name
+        READ TABLE lt_def_comp INTO ls_def_comp INDEX lv_def_idx.
+
+        " Force Value depending of usage of Log() & QuickLogguers.
+        " -> Using "WIP" variable due to procted nature of field <fs_src_comp>
+        "    (importing paramter) s.o we can not update field symbol.
+        "    The flag lv_use_wip indicating to use
+        "    content of variable instead of field symbol on component.
+        CASE ls_def_comp-name.
+          WHEN 'FIELD_ID'.
+            IF me->_msgid IS NOT INITIAL.
+              lv_wip_str = me->_msgid.
+              lv_use_wip = zcl_log_util=>true.
+            ENDIF.
+          WHEN 'FIELD_NUMBER'.
+            IF me->_msgno IS NOT INITIAL.
+              lv_wip_str = me->_msgno.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN 'FIELD_TYPE'.
+            IF me->_msgty IS NOT INITIAL.
+              lv_wip_str = me->_msgty.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN 'FIELD_MSGV1'.
+            IF me->_msgv1 IS NOT INITIAL.
+              lv_wip_str = me->_msgv1.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN 'FIELD_MSGV2'.
+            IF me->_msgv2 IS NOT INITIAL.
+              lv_wip_str = me->_msgv2.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN 'FIELD_MSGV3'.
+            IF me->_msgv3 IS NOT INITIAL.
+              lv_wip_str = me->_msgv3.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN 'FIELD_MSGV4'.
+            IF me->_msgv4 IS NOT INITIAL.
+              lv_wip_str = me->_msgv4.
+              lv_use_wip = zcl_log_util=>true.
+             ENDIF.
+          WHEN OTHERS.
+        ENDCASE.
+
         " Updating
         IF <fs_src_comp> IS ASSIGNED AND <fs_tgt_comp> IS ASSIGNED.
-          <fs_tgt_comp> = <fs_src_comp>.
+          IF lv_use_wip EQ zcl_log_util=>true.
+            <fs_tgt_comp> = lv_wip_str.
+          ELSE.
+            <fs_tgt_comp> = <fs_src_comp>.
+          ENDIF.
         ENDIF.
 
         " Next component

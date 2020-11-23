@@ -12,7 +12,7 @@
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>000</MSGNR>
-     <TEXT>&amp; &amp; &amp; &amp;</TEXT>
+     <TEXT>&amp;1&amp;2&amp;3&amp;4</TEXT>
     </T100>
     <T100>
      <SPRSL>F</SPRSL>
@@ -77,6 +77,11 @@
     <T100>
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>011</MSGNR>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>100</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders</TEXT>
     </T100>
@@ -121,6 +126,36 @@
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>107</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - &amp; &amp; &amp; &amp; (x000) was used. Overload done !</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>108</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;a( ).</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>109</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;e( ).</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>110</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;w( ).</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>111</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;i( ).</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>112</MSGNR>
+     <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;s( ).</TEXT>
     </T100>
    </T100>
   </asx:values>

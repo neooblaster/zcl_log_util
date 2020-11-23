@@ -6,6 +6,10 @@ class ZCL_LOG_UTIL_DEFINE definition
 public section.
 
   types:
+    " Change made on this structure implies updating here
+    " - ZLOG_UTIL->LOG
+    " - ZLOG_UTIL->_CONVERT_TABLE
+    " - ZLOG_UTIL_OVERLOAD->OVERLOAD
     begin of ty_field_map,
             abs_name      TYPE string    ,
             field_message TYPE name_feld ,

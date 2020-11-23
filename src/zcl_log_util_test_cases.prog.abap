@@ -201,6 +201,7 @@ WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 "
 " [ ] lr_log_util->set_output_table
 " [ ] lr_log_util->set_input_table
+" [ ] lr_log_util->set_output_type
 "
 " [X] lr_log_util->display( ) (default table / custom table)
 " [X] lr_log_util->set_log_structure( )
