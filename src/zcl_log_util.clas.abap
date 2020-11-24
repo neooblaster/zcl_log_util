@@ -180,6 +180,12 @@ private section.
       !I_TABLE type STANDARD TABLE
     returning
       value(R_LINES) type I .
+  methods _GET_CHECKED_MESSAGES
+    importing
+      !I_SRC_TABLE type STANDARD TABLE
+      !I_MSG_TYPES type ANY
+    exporting
+      !E_OUT_TABLE type STANDARD TABLE .
 ENDCLASS.
 
 
@@ -250,47 +256,157 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   METHOD DISPLAY.
 
     DATA:
-        lr_table       TYPE REF TO   cl_salv_table            ,
-        lr_functions   TYPE REF TO   cl_salv_functions        ,
-        lr_display     TYPE REF TO   cl_salv_display_settings ,
-        lr_columns     TYPE REF TO   cl_salv_columns_table    ,
-        lr_column      TYPE REF TO   cl_salv_column_table     ,
-        key            TYPE          salv_s_layout_key        ,
-        lv_error_msg   TYPE          string                   ,
-        lr_tabl_desc   TYPE REF TO   cl_abap_structdescr      ,
-        lt_tabl_comp   TYPE          abap_compdescr_tab       ,
-        lr_data        TYPE REF TO   data                     ,
-        lv_assigned(1) TYPE          c                        .
+        lr_table       TYPE REF TO   cl_salv_table                        ,
+        lr_functions   TYPE REF TO   cl_salv_functions                    ,
+        lr_display     TYPE REF TO   cl_salv_display_settings             ,
+        lr_columns     TYPE REF TO   cl_salv_columns_table                ,
+        lr_column      TYPE REF TO   cl_salv_column_table                 ,
+        key            TYPE          salv_s_layout_key                    ,
+        lv_error_msg   TYPE          string                               ,
+        lr_tabl_desc   TYPE REF TO   cl_abap_structdescr                  ,
+        lt_tabl_comp   TYPE          abap_compdescr_tab                   ,
+        lr_data        TYPE REF TO   data                                 ,
+        lv_assigned(1) TYPE          c                                    ,
+        ls_spool       TYPE          zcl_log_util_batch=>ty_message_types ,
+        ls_protocol    TYPE          zcl_log_util_batch=>ty_message_types ,
+        lr_data_spool  TYPE REF TO   data                                 ,
+        lr_data_proto  TYPE REF TO   data                                 ,
+        lr_data_4_typ  TYPE REF TO   data                                 ,
+        ls_log_def     TYPE          zcl_log_util_define=>ty_field_map    ,
+        lv_msgtx_field TYPE          name_feld                            ,
+        lv_msgid_field TYPE          name_feld                            ,
+        lv_msgno_field TYPE          name_feld                            ,
+        lv_msgty_field TYPE          name_feld                            ,
+        lv_msgtx       TYPE          string                               ,
+        lv_msgid       TYPE          sy-msgid                             ,
+        lv_msgno       TYPE          sy-msgno                             ,
+        lv_msgty       TYPE          sy-msgty                             ,
+        lv_msgcode     TYPE          string                               .
 
     FIELD-SYMBOLS:
-                 <fst_log_table> TYPE any table ,
-                 <fss_log_table> TYPE any       .
-
-
-
-
-    " @TODO : temp table
-    DATA lt_tmp_table TYPE TABLE OF ekko.
-
-
-    " @TODO : Depending of mode (sy-batch)
-    " CHECK lines( lt_error_rep ) > 0.
+                 <fs_log_table_t>            TYPE ANY TABLE      ,
+                 <fs_log_table_s>            TYPE ANY            ,
+                 <fs_log_table_spool_t>      TYPE STANDARD TABLE ,
+                 <fs_log_table_spool_s>      TYPE ANY            ,
+                 <fs_log_table_proto_t>      TYPE STANDARD TABLE ,
+                 <fs_log_table_proto_s>      TYPE ANY            ,
+                 <fs_str_for_typing>         TYPE ANY            ,
+                 <fs_log_table_to_display_t> TYPE ANY TABLE      ,
+                 <fs_log_table_to_display_s> TYPE ANY            ,
+                 <fs_comp_msgtx>             TYPE ANY            ,
+                 <fs_comp_msgid>             TYPE ANY            ,
+                 <fs_comp_msgno>             TYPE ANY            ,
+                 <fs_comp_msgty>             TYPE ANY            .
 
 
     " Convert Reference Data to table
-    ASSIGN me->_log_table->* TO <fst_log_table>.
+    ASSIGN me->_log_table->* TO <fs_log_table_t>.
+
+
+    " Display will differe depending of execution mode
+    " ──┐ Job executed in batch mode
+    " @TODO : TMP
+    sy-batch = 'X'.
+    IF sy-batch EQ 'X'.
+      " Get Outputs definitions for batch mode
+      me->batch( )->get(
+        IMPORTING
+          e_spool    = ls_spool
+          e_protocol = ls_protocol
+      ).
+
+      " Preparing Step :
+      " ──┐ Creation a table for SPOOL & PROTOCOL
+      " ─────┐ Create a dynamic type base on <fs_log_table_t>
+      CREATE DATA lr_data_4_typ LIKE LINE OF <fs_log_table_t>.
+      ASSIGN lr_data_4_typ->* TO <fs_str_for_typing>.
+
+      " ─────┐ Create a dynamic table fr spool with dynamic type <fs_str_for_typing>
+      CREATE DATA lr_data_spool LIKE TABLE OF <fs_str_for_typing>.
+      ASSIGN lr_data_spool->* TO <fs_log_table_spool_t>.
+
+      " ─────┐ Create a dynamic table for protocol with dynamic type <fs_str_for_typing>
+      CREATE DATA lr_data_proto LIKE TABLE OF <fs_str_for_typing>.
+      ASSIGN lr_data_proto->* TO <fs_log_table_proto_t>.
+
+
+      " Dispatch Messages by output
+      " ──┐ Add message for Output SPOOL
+      me->_get_checked_messages(
+        EXPORTING
+          i_src_table = <fs_log_table_t>
+          i_msg_types = ls_spool
+        IMPORTING
+          e_out_table = <fs_log_table_spool_t>
+      ).
+
+      " ──┐ Add message for Output PROTOCOL
+      me->_get_checked_messages(
+        EXPORTING
+          i_src_table = <fs_log_table_t>
+          i_msg_types = ls_protocol
+        IMPORTING
+          e_out_table = <fs_log_table_proto_t>
+      ).
+
+
+      " ──┐ Use ALV Display for Spool
+      ASSIGN <fs_log_table_spool_t> TO <fs_log_table_to_display_t>.
+
+      " ──┐ Read to WRITE output for Protocol.
+      " Get Structure Definition
+      ls_log_def = me->define( )->get_definition(
+        EXPORTING
+          i_structure = <fs_str_for_typing>
+      ).
+      "lv_type_field = ls_src_tab_def-field_type.
+
+      lv_msgtx_field  = ls_log_def-field_message .
+      lv_msgid_field  = ls_log_def-field_id .
+      lv_msgno_field  = ls_log_def-field_number .
+      lv_msgty_field  = ls_log_def-field_type .
+
+      LOOP AT <fs_log_table_proto_t> ASSIGNING <fs_log_table_proto_s>.
+        CLEAR lv_msgtx.
+
+        ASSIGN COMPONENT lv_msgtx_field OF STRUCTURE <fs_log_table_proto_s> TO <fs_comp_msgtx> .
+        IF <fs_comp_msgtx> IS ASSIGNED. lv_msgtx = <fs_comp_msgtx>. ENDIF.
+        ASSIGN COMPONENT lv_msgid_field OF STRUCTURE <fs_log_table_proto_s> TO <fs_comp_msgid> .
+        IF <fs_comp_msgid> IS ASSIGNED. lv_msgid = <fs_comp_msgid>. ENDIF.
+        ASSIGN COMPONENT lv_msgno_field OF STRUCTURE <fs_log_table_proto_s> TO <fs_comp_msgno> .
+        IF <fs_comp_msgno> IS ASSIGNED. lv_msgno = <fs_comp_msgno>. ENDIF.
+        ASSIGN COMPONENT lv_msgty_field OF STRUCTURE <fs_log_table_proto_s> TO <fs_comp_msgty> .
+        IF <fs_comp_msgty> IS ASSIGNED. lv_msgty = <fs_comp_msgty>. ENDIF.
+
+        CONCATENATE lv_msgty lv_msgno lv_msgid INTO lv_msgcode.
+        " @TODO : Voir pour définir un prefix
+        CONCATENATE '[' lv_msgcode '] :: ' lv_msgtx INTO lv_msgtx SEPARATED BY space.
+
+        WRITE : / lv_msgtx .
+      ENDLOOP.
+
+    " ──┐ Job executed in foreground
+    ELSE.
+      ASSIGN <fs_log_table_t> TO <fs_log_table_to_display_t>.
+
+    ENDIF.
+
+
 
     " @TODO : voir si lines marche sur field symbol
     " Check if table is not empty
-    LOOP AT <fst_log_table> ASSIGNING <fss_log_table>.
+    LOOP AT <fs_log_table_to_display_t> ASSIGNING <fs_log_table_to_display_s>.
       lv_assigned = 'X'.
       EXIT.
     ENDLOOP.
 
-    "CHECK lv_assigned EQ 'X'.
+    " Display message table empty only for foreground
+    " else MESSAGE will dump the program execution in Batch Mode
     IF lv_assigned NE 'X'.
-      " 003 :: There is no entry in the log table to display
-      MESSAGE i003.
+      IF sy-batch NE 'X'.
+        " 003 :: There is no entry in the log table to display
+        MESSAGE i003.
+      ENDIF.
       EXIT.
     ENDIF.
 
@@ -299,7 +415,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         IMPORTING
           r_salv_table = lr_table
         CHANGING
-          t_table      = <fst_log_table>
+          "t_table      = <fs_log_table_t>
+          t_table      = <fs_log_table_to_display_t>
       ).
       CATCH cx_salv_msg.
     ENDTRY.
@@ -1233,19 +1350,11 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
   method SPOT.
 
-    DATA:
-        lr_log_util_spot TYPE REF TO zcl_log_util_spot
-        .
-
-    " If not yet instanciated
-    IF me->_spot IS NOT BOUND.
-      CREATE OBJECT lr_log_util_spot
-        EXPORTING spot = spot.
-
-      lr_log_util_spot = me->_spot = lr_log_util_spot.
+    IF spot IS SUPPLIED.
+      self = me->overload( )->spot( spot ).
+    ELSE.
+      self = me->overload( )->spot(   ).
     ENDIF.
-
-    self = me->_spot.
 
   endmethod.
 
@@ -1453,6 +1562,58 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " so ABAP ocmpiler accept statement.
 
     r_lines = lines( i_table ).
+
+  endmethod.
+
+
+  method _GET_CHECKED_MESSAGES.
+
+    DATA:
+        ls_src_tab_def  TYPE        zcl_log_util_define=>ty_field_map ,
+        lr_data         TYPE REF TO data                              ,
+        lr_data_out_tab TYPE REF TO data                              ,
+        lv_type_field   TYPE        name_feld                         .
+
+
+    FIELD-SYMBOLS:
+                 <fs_i_src_table_s> TYPE ANY            ,
+                 <fs_c_out_table_t> TYPE STANDARD TABLE ,
+                 <fs_comp>          TYPE ANY            ,
+                 <fs_comp_flg>      TYPE ANY            .
+
+    " We have to find which field of provided source table stand for Message TYPE
+    CREATE DATA lr_data LIKE LINE OF i_src_table.
+    ASSIGN lr_data->* TO <fs_i_src_table_s>. " << To have appropriate type
+
+    ls_src_tab_def = me->define( )->get_definition(
+      EXPORTING
+        i_structure = <fs_i_src_table_s>
+    ).
+    lv_type_field = ls_src_tab_def-field_type.
+
+
+    " Create reference to prevent dump for dynamic type conflict
+    CREATE DATA lr_data_out_tab LIKE TABLE OF <fs_i_src_table_s>.
+    ASSIGN lr_data_out_tab->* TO <fs_c_out_table_t>.
+
+
+    LOOP AT i_src_table ASSIGNING <fs_i_src_table_s>.
+      ASSIGN COMPONENT lv_type_field OF STRUCTURE <fs_i_src_table_s> TO <fs_comp>.
+
+      IF <fs_comp> IS ASSIGNED.
+
+        ASSIGN COMPONENT <fs_comp> OF STRUCTURE i_msg_types TO <fs_comp_flg>.
+
+        IF <fs_comp_flg> IS ASSIGNED AND <fs_comp_flg> EQ 'X'.
+
+          APPEND <fs_i_src_table_s> TO <fs_c_out_table_t>.
+
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+
+    "c_out_table[] = <fs_c_out_table_t>[].
+    e_out_table = <fs_c_out_table_t>[].
 
   endmethod.
 

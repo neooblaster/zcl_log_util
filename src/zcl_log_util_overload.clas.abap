@@ -25,6 +25,11 @@ public section.
       !I_LOG_FIELD_DEF type ZCL_LOG_UTIL_DEFINE=>TY_FIELD_MAP
     changing
       !C_LOG_TABLE type ref to DATA .
+  methods SPOT
+    importing
+      !SPOT type ZDT_LOG_UTIL_SPOT optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SPOT .
 protected section.
 private section.
 
@@ -35,6 +40,7 @@ private section.
   data _SETTING_TAB_DATA type ref to DATA .
   data _SETTING_TAB_LOADED type C value ' ' ##NO_TEXT.
   data _ENABLED type C .
+  data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
 
   methods _LOAD_SETTING_TABLE .
   methods _GET_SETTING_MAP
@@ -77,6 +83,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         ls_setting_field_map TYPE zcl_log_util_setting_table=>TY_SETTING_FIELD_MAP ,
 
         lv_log_tab_name      TYPE string                                           ,
+        lv_spot_id           TYPE zdt_log_util_spot                                ,
 
         " Variable to ease code reading
         " ──┐ Settings Table
@@ -136,6 +143,11 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
     " Do nothing if feature is not enabled
     CHECK me->_enabled EQ zcl_log_util_setting_table=>true.
+
+    " Get Spot ID if enabled
+    IF me->spot( )->is_enabled( ) EQ zcl_log_util_spot=>true.
+      lv_spot_id = me->spot( )->get_spot_id( ).
+    ENDIF.
 
     "
     " Load data if it has not been done yet
@@ -211,7 +223,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
       READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
                                                                      (lv_fsno) = <fs_log_comp_no>
                                                                      (lv_fsty) = <fs_log_comp_ty>
-                                                                     (lv_fssp) = ''.
+                                                                     (lv_fssp) = lv_spot_id.
 
       " If rule not found, process next entry
       IF sy-subrc NE 0.
@@ -331,6 +343,29 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
     " Indicating data has not been load (indeed change implies reloading)
     me->_setting_tab_loaded = zcl_log_util_setting_table=>false.
+
+  endmethod.
+
+
+  method SPOT.
+
+    DATA:
+        lr_log_util_spot TYPE REF TO zcl_log_util_spot
+        .
+
+    " If not yet instanciated
+    IF me->_spot IS NOT BOUND.
+      CREATE OBJECT lr_log_util_spot
+        EXPORTING spot = spot.
+
+      lr_log_util_spot = me->_spot = lr_log_util_spot.
+    ELSE.
+      IF spot IS SUPPLIED.
+        me->_spot->set_spot_id( spot ).
+      ENDIF.
+    ENDIF.
+
+    self = me->_spot.
 
   endmethod.
 

@@ -5,6 +5,15 @@ class ZCL_LOG_UTIL_BATCH definition
 
 public section.
 
+  types:
+    BEGIN OF TY_MESSAGE_TYPES ,
+      a TYPE c LENGTH 1       ,
+      e TYPE c LENGTH 1       ,
+      w TYPE c LENGTH 1       ,
+      s TYPE c LENGTH 1       ,
+      i TYPE c LENGTH 1       ,
+    END   OF TY_MESSAGE_TYPES .
+
   methods CONSTRUCTOR .
   methods SPOOL
     returning
@@ -30,18 +39,13 @@ public section.
   methods ALL
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_BATCH .
-  methods GET .
+  methods GET
+    exporting
+      !E_SPOOL type TY_MESSAGE_TYPES
+      !E_PROTOCOL type TY_MESSAGE_TYPES .
 protected section.
 private section.
 
-  types:
-    BEGIN OF TY_MESSAGE_TYPES ,
-      a TYPE c LENGTH 1       ,
-      e TYPE c LENGTH 1       ,
-      w TYPE c LENGTH 1       ,
-      s TYPE c LENGTH 1       ,
-      i TYPE c LENGTH 1       ,
-    END   OF TY_MESSAGE_TYPES .
   types:
     BEGIN OF TY_OUTPUTS_HDL    ,
       spool    TYPE c LENGTH 1 ,
@@ -133,6 +137,10 @@ CLASS ZCL_LOG_UTIL_BATCH IMPLEMENTATION.
 
 
   method GET.
+
+    e_spool    = me->_spool.
+    e_protocol = me->_protocol.
+
   endmethod.
 
 

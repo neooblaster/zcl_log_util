@@ -166,6 +166,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_GET_CHECKED_MESSAGES</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Collected checked message to output table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_LOG_LINES_AFTER_LOG</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Number of line after login</DESCRIPT>

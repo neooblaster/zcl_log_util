@@ -8,7 +8,9 @@ public section.
   types:
     " Change made on this structure implies updating here
     " - ZLOG_UTIL->LOG
+    " - ZLOG_UTIL->DISPLAY
     " - ZLOG_UTIL->_CONVERT_TABLE
+    " - ZLOG_UTIL->_GET_CHECKED_MESSAGES
     " - ZLOG_UTIL_OVERLOAD->OVERLOAD
     begin of ty_field_map,
             abs_name      TYPE string    ,

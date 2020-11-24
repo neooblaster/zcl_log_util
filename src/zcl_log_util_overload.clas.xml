@@ -10,6 +10,7 @@
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
+    <MSG_ID>ZLOG_UTIL</MSG_ID>
    </VSEOCLASS>
    <DESCRIPTIONS>
     <SEOCOMPOTX>
@@ -59,6 +60,12 @@
      <CMPNAME>SET_FILTER_DOMAIN_VALUE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Set global pre-filter &apos;DOMAIN&apos; for overloading</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set handler on specified point in parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
@@ -113,6 +120,12 @@
      <CMPNAME>_SETTING_TAB_LOADED</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Indicating if we have collected data from setting table</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
+     <CMPNAME>_SPOT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
   </asx:values>

@@ -301,19 +301,17 @@ DATA:
 
   " ---------------------------------------------------------
   " <<<---[ Managing Spool ]---------------------------------
-  " " ──┐
-  "lo_batch->spool( )->a( ).
-  "lo_batch->spool( )->a( ).
-  "lo_batch->spool( )->a( ).
+  " " ──┐ By Default, All are enabled. Remove I & S
+  lo_batch->i( )->s( )->spool( ).
   " <<<---[ Managing Spool ]---------------------------------
   " ---------------------------------------------------------
 
   " ---------------------------------------------------------
   " <<<---[ Managing Protocol ]------------------------------
-  " ──┐ By Default, all are disabled
-  "lo_batch->protocol( )->all( ). " All checked for Protocol
-  "lo_batch->protocol( )->e( ).   " So recall disabled it
-  lo_batch->e( )->all( ).
+  " ──┐ By Default, all are disabled : All to spool except E
+  lo_batch->protocol( )->all( ). " All checked for Protocol
+  lo_batch->protocol( )->e( ).   " So recall disabled it
+  "lo_batch->e( )->all( ).
   " <<<---[ Managing Protocol ]------------------------------
   " ---------------------------------------------------------
 
@@ -501,6 +499,30 @@ DATA:
   " ──┐ Success
   MESSAGE i112 INTO lv_dummy. " Raised as I, Log as Success
   lr_log_util->s(  ).
+
+
+
+
+  " ---------------------------------------------------------
+  "   How to handle message using spot
+  " ---------------------------------------------------------
+  "   SPOT allows to mark the message with unique ID in the program
+  "   Like this, you can overload only the following message
+  "   even if the same message appear in another place in the program
+  "
+  " ---------------------------------------------------------
+  " ──┐ An overload rule exist for i105 for spot  MYSPOT
+  lr_log_util->spot( 'MYSPOT' )->start( ).
+  MESSAGE i105 INTO lv_dummy.
+  lr_log_util->log( ).
+  " ──┐ An overload rule exist for i105 for spot  MYNEWSPOT
+  lr_log_util->spot( 'MYNEWSPOT' ). " Max Lenght = 10
+  MESSAGE i105 INTO lv_dummy.
+  lr_log_util->log( ).
+  " ──┐ Disabling spot will no longer overload
+  lr_log_util->spot( )->stop( ).
+  MESSAGE i105 INTO lv_dummy.
+  lr_log_util->log( ).
 
 
 

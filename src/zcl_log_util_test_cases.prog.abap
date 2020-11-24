@@ -44,17 +44,26 @@ DATA: " EXCEPTIONS
 
 
 
+FORM init_log_util.
+  zcl_log_util=>factory(
+    " Retrieving your object to use in your program
+    IMPORTING
+      r_log_util  = lr_log_util
+    " Linking your log table
+    CHANGING
+      t_log_table = lt_log_table
+  ).
+ENDFORM.
+
+
+
+
 *&---------------------------------------------------------------------*
 *&  Initialization
 *&---------------------------------------------------------------------*
-zcl_log_util=>factory(
-  " Retrieving your object to use in your program
-  IMPORTING
-    r_log_util  = lr_log_util
-  " Linking your log table
-  CHANGING
-    t_log_table = lt_log_table
-).
+INITIALIZATION.
+PERFORM init_log_util.
+
 
 
 " Faire une table interne à l'instance pour le stockage des valeurs si pas de mapping
@@ -150,7 +159,7 @@ ENDTRY.
 *& Rule SPOT_003 : Test Starting Spot
 *&-----------------------------------------*
 CLEAR lr_log_util.
-CREATE OBJECT lr_log_util.
+PERFORM init_log_util.
 
 " Starting.
 lr_log_util->spot( 'SPOT_NAME' )->start( ).
