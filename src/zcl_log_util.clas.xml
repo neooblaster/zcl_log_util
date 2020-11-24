@@ -112,6 +112,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>SLG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Method to configure Application Log</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>SPLIT_TEXT_TO_MSGVX</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Split provided text message in part of SY-MSGVx parts</DESCRIPT>
@@ -241,6 +247,12 @@
      <CMPNAME>_OVERLOAD</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Dedicated class to overload log entry</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_SLG</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to log in Application Log</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

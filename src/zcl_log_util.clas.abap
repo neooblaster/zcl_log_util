@@ -119,6 +119,9 @@ public section.
       value(SELF) type ref to ZCL_LOG_UTIL_SPOT
     raising
       ZCX_LOG_UTIL .
+  methods SLG
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SLG .
   class-methods GET_RELATIVE_NAME
     importing
       !I_ELEMENT type ANY
@@ -164,6 +167,7 @@ private section.
   data _MSGV2 type SY-MSGV2 .
   data _MSGV3 type SY-MSGV3 .
   data _MSGV4 type SY-MSGV4 .
+  data _SLG type ref to ZCL_LOG_UTIL_SLG .
 
   methods SET_LOG_TABLE
     changing
@@ -305,8 +309,6 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " Display will differe depending of execution mode
     " ──┐ Job executed in batch mode
-    " @TODO : TMP
-    sy-batch = 'X'.
     IF sy-batch EQ 'X'.
       " Get Outputs definitions for batch mode
       me->batch( )->get(
@@ -474,6 +476,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     CREATE OBJECT r_log_util->_define.
     CREATE OBJECT r_log_util->_overload.
     CREATE OBJECT r_log_util->_batch.
+    CREATE OBJECT r_log_util->_slg.
 
     r_log_util->set_log_table(
       CHANGING
@@ -678,6 +681,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_msgv3              TYPE          sy-msgv3    ,
         lv_msgv4              TYPE          sy-msgv4    ,
         lv_msgtx              TYPE          string      ,
+        lv_msgxx_flg          TYPE          c LENGTH 1  ,
+        lv_msgtx_flg          TYPE          c LENGTH 1  ,
 
         lv_i_log_content_type TYPE          string      ,
 
@@ -775,6 +780,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     IF lv_i_log_content_type EQ 'C'.
       IF i_log_content EQ 'INITIAL'.
         lv_flg_use_symsg = zcl_log_util=>true.
+        " Free Message entered (for SLG)
+        lv_msgxx_flg = 'X'.
       ELSE.
         CLEAR: lv_msgv1, lv_msgv2,
                lv_msgv3, lv_msgv4.
@@ -793,13 +800,19 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
         MESSAGE i000 WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4 INTO lv_msgtx.
         lv_flg_use_symsg = zcl_log_util=>true.
+        " Free Message entered (for SLG)
+        lv_msgtx_flg = 'X'.
       ENDIF.
 
     ELSEIF lv_i_log_content_type EQ 'h'.
       lv_flg_use_table = zcl_log_util=>true.
+      " Standard Message entered (for SLG)
+      lv_msgxx_flg = 'X'.
 
     ELSEIF lv_i_log_content_type EQ 'v' OR lv_i_log_content_type EQ 'u'.
       lv_flg_use_struc = zcl_log_util=>true.
+      " Standard Message entered (for SLG)
+      lv_msgxx_flg = 'X'.
 
     ENDIF.
 
@@ -1050,6 +1063,26 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       " ──┐ Append entry (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
       APPEND <fs_log_table_s> TO <fs_log_table_t>.
 
+      " ──┐ Registring in Application Log
+      IF me->slg( )->is_enabled( ) EQ 'X'.
+        me->slg( )->log(
+          EXPORTING
+            " ──┐ Standard Message
+            i_msgid     = lv_msgid
+            i_msgno     = lv_msgno
+            i_msgty     = lv_msgty
+            i_msgv1     = lv_msgv1
+            i_msgv2     = lv_msgv2
+            i_msgv3     = lv_msgv3
+            i_msgv4     = lv_msgv4
+            i_msgxx_flg = lv_msgxx_flg
+
+            " ──┐ Free Text Message
+            i_msgtx     = lv_msgtx
+            i_msgtx_flg = lv_msgtx_flg
+        ).
+      ENDIF.
+
     ENDLOOP.
 
     " Clear Buffer Table
@@ -1057,13 +1090,6 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " Count number lines of logs after appending
     DESCRIBE TABLE <fs_log_table_t> LINES me->_log_lines_after_log.
-
-
-
-    " --------------------------------------------------------------
-    " • Registring in Application Log
-    " --------------------------------------------------------------
-    " @TODO : Make SLG
 
 
 
@@ -1317,6 +1343,13 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " Create a buffer table for internal manipulations.
     CREATE DATA me->_log_table_buffer TYPE TABLE OF syst.
+
+  endmethod.
+
+
+  method SLG.
+
+    self = me->_slg.
 
   endmethod.
 

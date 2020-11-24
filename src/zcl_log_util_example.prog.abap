@@ -160,6 +160,8 @@ DATA:
 
   " [ OPTIONAL  ] :: Configuring Application Log (SLG)
   " ---------------------------------------------------
+  DATA lr_slg TYPE REF TO zcl_log_util_slg.
+  lr_slg = lr_log_util->slg( ).
   " ──┐ Set Main Object
 *  lr_log_util->slg( )->set_object( ).
   " ──┐ Set Sub-object
@@ -173,9 +175,9 @@ DATA:
 *  lr_log_util->slg( ).
 
   " ──┐ Enabling Application Log
-*  lr_log_util->slg( )->enable( ).
+  lr_slg->enable( ).
   " To Disable :
-  " lr_log_util->slg( )->disable( ).
+  " lr_slg->slg( )->disable( ).
 
 
   " [ OPTIONAL  ] :: Configuring Overloading
@@ -535,4 +537,4 @@ DATA:
   lr_log_util->display( ).
 
   " ──┐ Display Application Log
-*  lr_log_util->slg( )->display( ).
+  lr_log_util->slg( )->display( ).
