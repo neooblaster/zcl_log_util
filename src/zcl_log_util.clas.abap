@@ -30,6 +30,9 @@ public section.
   methods OVERLOAD
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_OVERLOAD .
+  methods BATCH
+    returning
+      value(R_BATCH) type ref to ZCL_LOG_UTIL_BATCH .
   methods LOG
     importing
       !I_LOG_CONTENT type ANY default 'INITIAL'
@@ -153,6 +156,7 @@ private section.
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
   data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
+  data _BATCH type ref to ZCL_LOG_UTIL_BATCH .
   data _MSGID type SY-MSGID .
   data _MSGNO type SY-MSGNO .
   data _MSGTY type SY-MSGTY .
@@ -195,6 +199,13 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       i_log_msgv3   = i_log_msgv3
       i_log_msgv4   = i_log_msgv4
     ).
+
+  endmethod.
+
+
+  method BATCH.
+
+    r_batch = me->_batch.
 
   endmethod.
 
@@ -345,6 +356,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     CREATE OBJECT r_log_util.
     CREATE OBJECT r_log_util->_define.
     CREATE OBJECT r_log_util->_overload.
+    CREATE OBJECT r_log_util->_batch.
 
     r_log_util->set_log_table(
       CHANGING
@@ -973,6 +985,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_appended_lines    TYPE           i      ,
         lv_provded_lines     TYPE           i      ,
         lv_starting_index    TYPE           i      ,
+        lv_picking_index     TYPE           i      ,
         lv_i_struct_type     TYPE           string ,
         lv_merge_mode        TYPE           string ,
 
@@ -991,7 +1004,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
         lt_comp_list         TYPE TABLE OF ty_comp_list                ,
         ls_comp_list         TYPE          ty_comp_list                ,
-        lv_comp              TYPE          name_feld                   .
+        lv_comp              TYPE          name_feld                   ,
+        lv_idx               TYPE          i                           .
 
 
     FIELD-SYMBOLS:
@@ -1000,7 +1014,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
                  <fs_mer_table_t>   TYPE ANY TABLE      ,
                  <fs_mer_table_s>   TYPE ANY            ,
                  <fs_def_comp>      TYPE ANY            ,
-                 <fs_comp>          TYPE ANY            .
+                 <fs_comp>          TYPE ANY            ,
+                 <fs_i_structure_t> TYPE STANDARD TABLE ,
+                 <fs_i_structure_s> TYPE ANY            .
 
 
 
@@ -1051,12 +1067,20 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     lr_log_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
     lt_log_comp          = lr_log_structdescr->get_components( ).
     ls_log_def           = me->_define->get_definition( <fs_log_table_t> ).
+
     " ─────┐ Provided structure for merge
-    CREATE DATA lr_data LIKE TABLE OF i_structure.
-    ASSIGN lr_data->* TO <fs_log_table_t>.
-    lr_merge_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
-    lt_merge_comp          = lr_merge_structdescr->get_components( ).
-    ls_merge_def           = me->_define->get_definition( <fs_log_table_t> ).
+    IF lv_i_struct_type EQ 'h'. " Internal Table Provided
+      lr_merge_structdescr   = zcl_log_util_define=>get_table_structdescr( i_structure ).
+      lt_merge_comp          = lr_merge_structdescr->get_components( ).
+      ls_merge_def           = me->_define->get_definition( <fs_log_table_t> ).
+    ELSE.
+      CREATE DATA lr_data LIKE TABLE OF i_structure.
+      ASSIGN lr_data->* TO <fs_log_table_t>.
+      lr_merge_structdescr   = zcl_log_util_define=>get_table_structdescr( <fs_log_table_t> ).
+      lt_merge_comp          = lr_merge_structdescr->get_components( ).
+      ls_merge_def           = me->_define->get_definition( <fs_log_table_t> ).
+    ENDIF.
+
     " ─────┐ Definition Structure Component to get values
     CREATE DATA lr_data LIKE TABLE OF ls_log_def.
     ASSIGN lr_data->* TO <fs_log_table_t>.
@@ -1078,6 +1102,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Merge data
     " --------------------------------------------------------------
+    " @TODO : Possibility to merge processing
     CASE lv_merge_mode.
       WHEN 'ONE_TO_ALL'.
         lv_starting_index = me->_log_lines_before_log + 1.
@@ -1085,11 +1110,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         " We will loop on User Log Table, only on new lines
         ASSIGN me->_log_table->* TO <fs_log_table_t>.
         LOOP AT <fs_log_table_t> ASSIGNING <fs_log_table_s> FROM lv_starting_index.
-
           " Loop on field of provided structure
           LOOP AT lt_merge_comp INTO ls_merge_comp.
             lv_comp = ls_merge_comp-name.
-            " Retrive provided value to for merging
+            " Retrieve provided value for merging
             ASSIGN COMPONENT lv_comp OF STRUCTURE i_structure TO <fs_comp>.
 
             " Merging
@@ -1103,12 +1127,37 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
               ).
             ENDIF.
           ENDLOOP.
-
         ENDLOOP.
 
 
       WHEN 'ONE_TO_ONE'.
+        ASSIGN i_structure TO <fs_i_structure_t>.
+        ASSIGN me->_log_table->* TO <fs_log_table_t>.
 
+        LOOP AT <fs_i_structure_t> ASSIGNING <fs_i_structure_s>.
+          " Find User log Table Corresponding Index
+          lv_picking_index = me->_log_lines_before_log + sy-tabix + 1.
+          READ TABLE <fs_log_table_t> ASSIGNING <fs_log_table_s> INDEX lv_picking_index.
+
+          " Loop on field of provided structure (instance of loop)
+          LOOP AT lt_merge_comp INTO ls_merge_comp.
+            lv_comp = ls_merge_comp-name.
+
+            " Retrieve provided value for merging
+            ASSIGN COMPONENT lv_comp OF STRUCTURE <fs_i_structure_s> TO <fs_comp>.
+
+            " Merging
+            IF <fs_comp> IS ASSIGNED AND <fs_comp> IS NOT INITIAL.
+              zcl_log_util=>_update_field_of_structure(
+                EXPORTING
+                  i_comp_name = lv_comp
+                  i_value     = <fs_comp>
+                CHANGING
+                  c_structure = <fs_log_table_s>
+              ).
+            ENDIF.
+          ENDLOOP.
+        ENDLOOP.
 
 
       WHEN OTHERS.

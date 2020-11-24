@@ -22,6 +22,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>BATCH</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Method to configure output in Batch Mode</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
@@ -90,7 +96,7 @@
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>OVERLOAD</CMPNAME>
      <LANGU>F</LANGU>
-     <DESCRIPT>Methode to configure Overloading Settings table</DESCRIPT>
+     <DESCRIPT>Method to configure Overloading Settings table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
@@ -133,6 +139,12 @@
      <CMPNAME>W</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Log as Warning</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
+     <CMPNAME>_BATCH</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Dedicated class to manage log behavior under batch execution</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>

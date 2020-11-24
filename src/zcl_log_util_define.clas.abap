@@ -215,7 +215,10 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
       lr_structdescr ?= cl_abap_structdescr=>describe_by_data( <fs_i_table> ).
 
     ELSE.
-      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( i_table ).
+      LOOP AT i_table ASSIGNING <fs_i_table>.
+        EXIT.
+      ENDLOOP.
+      lr_structdescr ?= cl_abap_structdescr=>describe_by_data( <fs_i_table> ).
     ENDIF.
 
     r_structdescr = lr_structdescr.

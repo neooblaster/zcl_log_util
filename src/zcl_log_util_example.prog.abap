@@ -74,6 +74,7 @@ TYPES:    fileindex TYPE i,
 DATA:
     lr_log_util      TYPE REF TO   zcl_log_util  ,
     lt_log_table     TYPE TABLE OF ty_my_log_str ,
+    lt_tmp_table     TYPE TABLE OF ty_my_log_str ,
     ls_log_table     TYPE          ty_my_log_str ,
     lt_trace_log     TYPE TABLE OF ty_raw_log    ,
     lt_ret_bapiret2  TYPE TABLE OF bapiret2      , " Example of FM : LE_DLV_DATE_CHANGE
@@ -290,7 +291,33 @@ DATA:
 
 
   " [ OPTIONAL  ] :: Manage Message Type for Batch Job going to SPOOL
+  "
+  " Notes : By default, all types will be displayed in Spool
+  "         If a type is enable for an output, recalling will disabled it
+  "
   " ------------------------------------------------------------------
+  DATA: lo_batch TYPE REF TO zcl_log_util_batch.
+  lo_batch = lr_log_util->batch( ).
+
+  " ---------------------------------------------------------
+  " <<<---[ Managing Spool ]---------------------------------
+  " " ──┐
+  "lo_batch->spool( )->a( ).
+  "lo_batch->spool( )->a( ).
+  "lo_batch->spool( )->a( ).
+  " <<<---[ Managing Spool ]---------------------------------
+  " ---------------------------------------------------------
+
+  " ---------------------------------------------------------
+  " <<<---[ Managing Protocol ]------------------------------
+  " ──┐ By Default, all are disabled
+  "lo_batch->protocol( )->all( ). " All checked for Protocol
+  "lo_batch->protocol( )->e( ).   " So recall disabled it
+  lo_batch->e( )->all( ).
+  " <<<---[ Managing Protocol ]------------------------------
+  " ---------------------------------------------------------
+
+
 *  lr_log_util->batch( )->spool( ).           " All going to spool
 *  lr_log_util->batch( )->a( )->spool( ).
 *  lr_log_util->batch( )->e( )->spool( ).
@@ -430,8 +457,22 @@ DATA:
     msgv4 = 'PH_PROTT_MSGV4_L3'
   ) TO lt_ret_prott.
 
+  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   " ──┐ Log BAPI table to my log table
-  lr_log_util->log( lt_ret_prott ).
+  ls_log_table-icon = '@J1@'.      " Add my own data for log
+  lr_log_util->log( lt_ret_prott )->merging( ls_log_table ). " Mergin will append my 1 lines (structure) to all BAPI message
+
+  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  " ──┐ Complete data for BAPI (Only 2 line for 3 message)
+  APPEND VALUE #(
+    icon = '@5D@'
+  ) TO lt_tmp_table.
+  APPEND VALUE #(
+    icon = '@5C@'
+  ) TO lt_tmp_table.
+
+  lr_log_util->log( lt_ret_prott )->merging( lt_tmp_table ). " Mergin will append my 2 lines on 2 first entry of BAPI
+
 
   " >>>---[ Logging using Standard* Tables ]-----------------
   " ---------------------------------------------------------
