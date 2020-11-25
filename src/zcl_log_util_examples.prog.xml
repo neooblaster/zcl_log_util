@@ -42,6 +42,48 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_DEM03</KEY>
+     <ENTRY>Execution of Demo 03</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM04</KEY>
+     <ENTRY>Execution of Demo 04</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM05</KEY>
+     <ENTRY>Execution of Demo 05</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM06</KEY>
+     <ENTRY>Execution of Demo 06</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM07</KEY>
+     <ENTRY>Execution of Demo 07</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM08</KEY>
+     <ENTRY>Execution of Demo 08</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM09</KEY>
+     <ENTRY>Execution of Demo 09</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_SELDEM</KEY>
      <ENTRY>Selected demo</ENTRY>
      <LENGTH>21</LENGTH>

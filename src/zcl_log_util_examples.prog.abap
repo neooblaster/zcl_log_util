@@ -19,12 +19,19 @@
 *&                                                                            &*
 *&  #01 : ZCL_LOG_UTIL - Get started                                          &*
 *&  #02 : Logging using own table                                             &*
+*&  #03 : Adding extra data on log entry                                      &*
+*&  #04 : Logging BAPI return tables                                          &*
+*&  #05 : Logging BAPI return tables filled with extra data                   &*
+*&  #06 : Logging many entries with extra data                                &*
+*&  #07 : Logging in Application Log                                          &*
+*&  #08 : Enabling / Disabling Application Log                                &*
+*&  #09 : Logging specifying type                                             &*
+*&                                                                            &*
+*&  #R1 : List of object that can be logged (text, std, str, tab)             &*
 *&                                                                            &*
 *&                                                                            &*
-*&                                                                            &*
-*&                                                                            &*
-*&                                                                            &*
-*&                                                                            &*
+*&   add parameter vbeln pour demo 4 & demo 5                                 &*
+*&   add parameter to choose display in demo 7                                &*
 *&                                                                            &*
 *&----------------------------------------------------------------------------&*
 *&--------------------------[   PROJECT TODO   ]------------------------------&*
@@ -74,7 +81,63 @@ START-OF-SELECTION.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_01.
   ENDIF.
 
-  " ZCL_LOG_UTIL - Example #01
+  "&-------------------------------------&"
+  "&---[  Demo Number 02  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem02 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_02.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 03  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem03 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_03.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 04  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem04 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_04.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 05  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem05 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_05.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 06  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem06 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_06.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 07  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem07 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_07.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 08  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem08 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_08.
+  ENDIF.
+
+  "&-------------------------------------&"
+  "&---[  Demo Number 09  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem09 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_09.
+  ENDIF.
+
+  " ZCL_LOG_UTIL - Example #09
 
 
 

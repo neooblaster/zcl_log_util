@@ -35,8 +35,15 @@
 *&---------------#---------------------------------------------------------&*
 *&-------------------------------------------------------------------------&*
 SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
-  PARAMETERS: p_dem01 RADIOBUTTON GROUP seld MODIF ID d01 USER-COMMAND fm ,
-              p_dem02 RADIOBUTTON GROUP seld MODIF ID d02                 .
+  PARAMETERS: p_dem01 RADIOBUTTON GROUP seld MODIF ID rad USER-COMMAND fm ,
+              p_dem02 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem03 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem04 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem05 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem06 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem07 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem08 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem09 RADIOBUTTON GROUP seld MODIF ID rad                 .
 SELECTION-SCREEN END   OF BLOCK blkdemo.
 
 SELECTION-SCREEN BEGIN OF BLOCK blkdeta WITH FRAME TITLE text-t02.

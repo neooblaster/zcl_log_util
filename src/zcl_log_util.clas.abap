@@ -494,6 +494,32 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
   method FACTORY.
+    " --------------------------------------------------------------
+    " --------------------------------------------------------------
+    "
+    "   Please Confer to programme (SE38) ZCL_LOG_UTIL_EXAMPLES
+    "   to find all existing example to works with ZCL_LOG_UTIL.
+    "
+    " --------------------------------------------------------------
+    " --------------------------------------------------------------
+
+
+    " --------------------------------------------------------------
+    " -------------------[ DEFINED TABLE LIST ]---------------------
+    " --------------------------------------------------------------
+    "
+    "   - zcl_log_util=>ty_log_table
+    "   - PROTT
+    "   - BAPIRET1
+    "   - BAPIRET2
+    "   - BAPI_CORU_RETURN
+    "   - BAPI_ORDER_RETURN
+    "   - BDCMSGCOLL
+    "   - RCOMP
+    "
+    " --------------------------------------------------------------
+    " --------------------------------------------------------------
+
 
     " --------------------------------------------------------------
     " • Instanciations of sub objects
@@ -1317,7 +1343,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
         LOOP AT <fs_i_structure_t> ASSIGNING <fs_i_structure_s>.
           " Find User log Table Corresponding Index
-          lv_picking_index = me->_log_lines_before_log + sy-tabix + 1.
+          lv_picking_index = me->_log_lines_before_log + sy-tabix.
           READ TABLE <fs_log_table_t> ASSIGNING <fs_log_table_s> INDEX lv_picking_index.
 
           " Loop on field of provided structure (instance of loop)
@@ -1543,6 +1569,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       lv_def_idx = 3. " First field is the TYPE_NAME and the second one will handle MESSAGE_TEXT
 
       DO.
+        CLEAR : lv_use_wip ,
+                lv_wip_str .
+
         " Get Fields references
         ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_src_field_def TO <fs_sdef_comp>.
         ASSIGN COMPONENT lv_def_idx OF STRUCTURE lt_tgt_field_def TO <fs_tdef_comp>.

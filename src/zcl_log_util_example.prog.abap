@@ -114,10 +114,10 @@ INITIALIZATION.
   zcl_log_util=>factory(
     " Retrieving your object to use in your program
     IMPORTING
-      r_log_util  = lr_log_util
+      e_log_util  = lr_log_util
     " Linking your log table
     CHANGING
-      t_log_table = lt_log_table
+      c_log_table = lt_log_table
   ).
 
   " [ MANDATORY FOR ] :: Mandatory for custom log tables (your own)
@@ -179,19 +179,18 @@ INITIALIZATION.
   DATA lr_slg TYPE REF TO zcl_log_util_slg.
   lr_slg = lr_log_util->slg( ).
   " ──┐ Set Main Object
-*  lr_log_util->slg( )->set_object( ).
+  lr_slg->set_object( 'ZMYPO' ).
   " ──┐ Set Sub-object
-*  lr_log_util->slg( )->set_sub_object( ).
+  lr_slg->set_sub_object( 'PO_CREATE' ). " Subobject is mandatory if your main has sub object
   " ──┐ Set External Number
-*  lr_log_util->slg( )->set_ext_number( ).
+  lr_slg->set_external_number( '500000123' ).
   " ──┐ Set Retention time
 *  lr_log_util->slg( )->set_retention ).
 
-  " ──┐ Configuring Application Log (Super Method)
-*  lr_log_util->slg( ).
+
 
   " ──┐ Enabling Application Log
-  "lr_slg->enable( ).
+  lr_slg->enable( ).
   " To Disable :
   " lr_slg->slg( )->disable( ).
 
@@ -448,7 +447,7 @@ INITIALIZATION.
   "   defined.
   " ──┐ Simulating BAPI Return in table
   APPEND VALUE #(
-    msgno = '505'
+    msgno = '100'
     msgid = 'VL'
     msgty = 'W'
     msgv1 = 'PH_PROTT_MSGV1_L1'
@@ -457,7 +456,7 @@ INITIALIZATION.
     msgv4 = 'PH_PROTT_MSGV4_L1'
   ) TO lt_ret_prott.
   APPEND VALUE #(
-    msgno = '506'
+    msgno = '101'
     msgid = 'VL'
     msgty = 'E'
     msgv1 = 'PH_PROTT_MSGV1_L2'
@@ -466,7 +465,7 @@ INITIALIZATION.
     msgv4 = 'PH_PROTT_MSGV4_L2'
   ) TO lt_ret_prott.
   APPEND VALUE #(
-    msgno = '507'
+    msgno = '102'
     msgid = 'VL'
     msgty = 'I'
     msgv1 = 'PH_PROTT_MSGV1_L3'
@@ -483,10 +482,10 @@ INITIALIZATION.
   " - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   " ──┐ Complete data for BAPI (Only 2 line for 3 message)
   APPEND VALUE #(
-    icon = '@5D@'
+    icon = '@AA@'
   ) TO lt_tmp_table.
   APPEND VALUE #(
-    icon = '@5C@'
+    icon = '@AA@'
   ) TO lt_tmp_table.
 
   lr_log_util->log( lt_ret_prott )->merging( lt_tmp_table ). " Mergin will append my 2 lines on 2 first entry of BAPI

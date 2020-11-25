@@ -11,9 +11,19 @@ public section.
       !I_SLG_OBJECT type BALOBJ_D
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SLG .
-  methods SET_SUB_OBJECT .
-  methods SET_EXTERNAL_NUMBER .
-  methods SET_RETENTION .
+  methods SET_SUB_OBJECT
+    importing
+      !I_SLG_SUB_OBJECT type BALSUBOBJ
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SLG .
+  methods SET_EXTERNAL_NUMBER
+    importing
+      !I_SLG_EXT_NUMBER type BALNREXT
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SLG .
+  methods SET_RETENTION
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SLG .
   methods LOG
     importing
       !I_MSGID type SY-MSGID optional
@@ -78,6 +88,11 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
     FIELD-SYMBOLS:
                  <fs_log_header_s> TYPE balhdr.
+
+
+    " Check if SLG is enabled
+    CHECK me->is_enabled( ) EQ 'X'.
+
 
     CALL FUNCTION 'BAL_FILTER_CREATE'
       EXPORTING
@@ -185,8 +200,9 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
 
     DATA:
-        ls_s_msg     TYPE bal_s_msg           .
-        "lv_probclass TYPE bal_s_msg-probclass .
+        ls_s_msg     TYPE bal_s_msg           ,
+        "lv_probclass TYPE bal_s_msg-probclass ,
+        lv_free_text TYPE c LENGTH 1024       .
 
 
     " If Application Log is not handled, create BAL
@@ -221,7 +237,30 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
     " Managing Free Message Text
     IF i_msgtx_flg IS SUPPLIED AND i_msgtx_flg EQ 'X'.
-      " @TODO : Implement free text
+      lv_free_text = i_msgtx.
+      CALL FUNCTION 'BAL_LOG_MSG_ADD_FREE_TEXT'
+        EXPORTING
+          i_log_handle              = me->_slg_handler
+          i_msgty                   = i_msgty
+          i_probclass               = me->_slg_probclass
+          i_text                    = lv_free_text
+*         I_S_CONTEXT               =
+*         I_S_PARAMS                =
+*         I_DETLEVEL                = '1'
+*       IMPORTING
+*         E_S_MSG_HANDLE            =
+*         E_MSG_WAS_LOGGED          =
+*         E_MSG_WAS_DISPLAYED       =
+       EXCEPTIONS
+          log_not_found             = 1
+          msg_inconsistent          = 2
+          log_is_full               = 3
+          OTHERS                    = 4.
+
+      IF sy-subrc <> 0.
+        " TODO : implement error message
+      ENDIF.
+
     ENDIF.
 
     " Save entry
@@ -231,29 +270,36 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
 
   method SET_EXTERNAL_NUMBER.
+
+    me->_slg_ext_number = i_slg_ext_number.
+
+    self = me.
+
   endmethod.
 
 
   method SET_OBJECT.
 
+    me->_slg_object = i_slg_object.
 
-
-
-
-
-
-
-
-
+    self = me.
 
   endmethod.
 
 
   method SET_RETENTION.
+
+    self = me.
+
   endmethod.
 
 
   method SET_SUB_OBJECT.
+
+    me->_slg_sub_object = i_slg_sub_object.
+
+    self = me.
+
   endmethod.
 
 

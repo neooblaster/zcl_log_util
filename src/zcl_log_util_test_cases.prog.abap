@@ -48,10 +48,10 @@ FORM init_log_util.
   zcl_log_util=>factory(
     " Retrieving your object to use in your program
     IMPORTING
-      r_log_util  = lr_log_util
+      e_log_util  = lr_log_util
     " Linking your log table
     CHANGING
-      t_log_table = lt_log_table
+      c_log_table = lt_log_table
   ).
 ENDFORM.
 
