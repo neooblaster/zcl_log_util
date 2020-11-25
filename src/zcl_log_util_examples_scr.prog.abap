@@ -43,7 +43,17 @@ SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
               p_dem06 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem07 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem08 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem09 RADIOBUTTON GROUP seld MODIF ID rad                 .
+              p_dem09 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem10 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem11 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem12 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem13 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem14 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem15 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem16 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem17 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem18 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem19 RADIOBUTTON GROUP seld MODIF ID rad                 .
 SELECTION-SCREEN END   OF BLOCK blkdemo.
 
 SELECTION-SCREEN BEGIN OF BLOCK blkdeta WITH FRAME TITLE text-t02.

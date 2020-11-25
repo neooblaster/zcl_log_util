@@ -26,6 +26,11 @@
 *&  #07 : Logging in Application Log                                          &*
 *&  #08 : Enabling / Disabling Application Log                                &*
 *&  #09 : Logging specifying type                                             &*
+*&  #10 : Overloading Log Messages                                            &*
+*&  #11 : Overloading Log Messages using my own Setting Table                 &*
+*&  #12 : Overloading "Spot ID"                                               &*
+*&  #13 : Logging for Batch Job                                               &*
+*&  #14 : Managing outpus for Batch Job                                       &*
 *&                                                                            &*
 *&  #R1 : List of object that can be logged (text, std, str, tab)             &*
 *&                                                                            &*
@@ -137,7 +142,14 @@ START-OF-SELECTION.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_09.
   ENDIF.
 
-  " ZCL_LOG_UTIL - Example #09
+  "&-------------------------------------&"
+  "&---[  Demo Number 10  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem10 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_10.
+  ENDIF.
+
+  " ZCL_LOG_UTIL - Example #10
 
 
 
