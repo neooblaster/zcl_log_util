@@ -84,15 +84,31 @@ DATA:
     lv_dummy         TYPE          string        . " Dummy variable to handle MESSAGE statement
 
 
+DATA : GV_DEBUG TYPE C LENGTH 1.
 
 
+FORM break.
 
+  DATA l_exit.
+
+  IF GV_DEBUG EQ 'X'.
+    DO.
+      CHECK l_exit = 'X'.
+      EXIT.
+    ENDDO.
+  ENDIF.
+
+ENDFORM.
 
 
 *&----------------------------------------------------------------------------&"
 *&   Initialization                                                           &"
 *&----------------------------------------------------------------------------&"
-"INITIALIZATION.
+INITIALIZATION.
+  GV_DEBUG = ''.
+
+  perform break.
+
   " [ MANDATORY ] :: Initialization of Log Util class
   " --------------------------------------------------
   zcl_log_util=>factory(
@@ -175,7 +191,7 @@ DATA:
 *  lr_log_util->slg( ).
 
   " ──┐ Enabling Application Log
-  lr_slg->enable( ).
+  "lr_slg->enable( ).
   " To Disable :
   " lr_slg->slg( )->disable( ).
 
@@ -313,6 +329,8 @@ DATA:
   " ──┐ By Default, all are disabled : All to spool except E
   lo_batch->protocol( )->all( ). " All checked for Protocol
   lo_batch->protocol( )->e( ).   " So recall disabled it
+  " For exercice, finally, removing A & W (dedicated to spool)
+  lo_batch->a( )->w( )->protocol( ).
   "lo_batch->e( )->all( ).
   " <<<---[ Managing Protocol ]------------------------------
   " ---------------------------------------------------------

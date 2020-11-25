@@ -256,12 +256,6 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
-     <CMPNAME>_SPOT</CMPNAME>
-     <LANGU>F</LANGU>
-     <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_LOG_UTIL</CLSNAME>
      <CMPNAME>_UPDATE_FIELD_OF_STRUCTURE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Update field of provided structure with component name</DESCRIPT>

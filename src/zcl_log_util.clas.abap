@@ -8,20 +8,27 @@ public section.
 
   types:
     BEGIN OF ty_log_table ,
-            icon    TYPE alv_icon,
-            message TYPE md_message_text,
-            id      TYPE sy-msgid,
-            number  TYPE sy-msgno,
-            type    TYPE sy-msgty,
-            spot    TYPE zdt_log_util_spot,
-          END   OF ty_log_table .
+            icon    TYPE alv_icon          , " Icon according to message type
+            message TYPE md_message_text   , " Generated message from ID & Number
+            id      TYPE sy-msgid          , " Message ID Class
+            number  TYPE sy-msgno          , " Message Number
+            type    TYPE sy-msgty          , " Message Type
+            spot    TYPE zdt_log_util_spot , " Related Spot
+            msgv1   TYPE sy-msgv1          , " Message Value 1
+            msgv2   TYPE sy-msgv2          , " Message Value 2
+            msgv3   TYPE sy-msgv3          , " Message Value 3
+            msgv4   TYPE sy-msgv4          , " Message Value 4
+          END   OF ty_log_table            .
+
+  class-data TRUE type C value 'X' ##NO_TEXT.
+  class-data FALSE type C value ' ' ##NO_TEXT.
 
   methods CONSTRUCTOR .
   class-methods FACTORY
     exporting
-      !R_LOG_UTIL type ref to ZCL_LOG_UTIL
+      !E_LOG_UTIL type ref to ZCL_LOG_UTIL
     changing
-      !T_LOG_TABLE type STANDARD TABLE .
+      !C_LOG_TABLE type STANDARD TABLE .
   methods DEFINE
     importing
       !I_STRUCTURE type ANY default 'INITIAL'
@@ -147,16 +154,12 @@ public section.
     changing
       !C_STRUCTURE type ANY .
 protected section.
-
-  class-data TRUE type C value 'X' ##NO_TEXT.
-  class-data FALSE type C value ' ' ##NO_TEXT.
 private section.
 
   data _LOG_TABLE type ref to DATA .
   data _LOG_TABLE_BUFFER type ref to DATA .
   data _LOG_LINES_BEFORE_LOG type I .
   data _LOG_LINES_AFTER_LOG type I .
-  data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
   data _DEFINE type ref to ZCL_LOG_UTIL_DEFINE .
   data _OVERLOAD type ref to ZCL_LOG_UTIL_OVERLOAD .
   data _BATCH type ref to ZCL_LOG_UTIL_BATCH .
@@ -285,6 +288,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_msgid       TYPE          sy-msgid                             ,
         lv_msgno       TYPE          sy-msgno                             ,
         lv_msgty       TYPE          sy-msgty                             ,
+        lv_msgv1       TYPE          sy-msgv1                             ,
+        lv_msgv2       TYPE          sy-msgv2                             ,
+        lv_msgv3       TYPE          sy-msgv3                             ,
+        lv_msgv4       TYPE          sy-msgv4                             ,
         lv_msgcode     TYPE          string                               .
 
     FIELD-SYMBOLS:
@@ -382,9 +389,28 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
         CONCATENATE lv_msgty lv_msgno lv_msgid INTO lv_msgcode.
         " @TODO : Voir pour définir un prefix
-        CONCATENATE '[' lv_msgcode '] :: ' lv_msgtx INTO lv_msgtx SEPARATED BY space.
+        CONCATENATE '[' lv_msgcode '] ::' lv_msgtx INTO lv_msgtx SEPARATED BY space RESPECTING BLANKS.
 
-        WRITE : / lv_msgtx .
+        CLEAR: lv_msgv1, lv_msgv2,
+               lv_msgv3, lv_msgv4.
+
+        " Convert Simple Message Text to Message Entity
+        " We will use i011 WITH
+        zcl_log_util=>split_text_to_msgvx(
+          EXPORTING
+            i_text_message = lv_msgtx
+          IMPORTING
+            e_msgv1        = lv_msgv1
+            e_msgv2        = lv_msgv2
+            e_msgv3        = lv_msgv3
+            e_msgv4        = lv_msgv4
+        ).
+
+        " Raising "Message" type Info
+        " We can not use original one to raised message due to dump in batch mode
+        " for types A, E and W
+        MESSAGE i000 WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.
+
       ENDLOOP.
 
     " ──┐ Job executed in foreground
@@ -472,15 +498,15 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Instanciations of sub objects
     " --------------------------------------------------------------
-    CREATE OBJECT r_log_util.
-    CREATE OBJECT r_log_util->_define.
-    CREATE OBJECT r_log_util->_overload.
-    CREATE OBJECT r_log_util->_batch.
-    CREATE OBJECT r_log_util->_slg.
+    CREATE OBJECT e_log_util.
+    CREATE OBJECT e_log_util->_define.
+    CREATE OBJECT e_log_util->_overload.
+    CREATE OBJECT e_log_util->_batch.
+    CREATE OBJECT e_log_util->_slg.
 
-    r_log_util->set_log_table(
+    e_log_util->set_log_table(
       CHANGING
-        t_log_table = t_log_table
+        t_log_table = c_log_table
     ).
 
 
@@ -491,10 +517,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     DATA lr_define TYPE REF TO zcl_log_util_define.
 
     " ──┐ Default Log Table (ty_log_table)
+    DATA lt_log_table TYPE zcl_log_util=>ty_log_table.
+    lr_define = e_log_util->define( lt_log_table ).
+    lr_define->set(
+      msgtx_field = 'MESSAGE'
+      msgid_field = 'ID'
+      msgno_field = 'NUMBER'
+      msgty_field = 'TYPE'
+      msgv1_field = 'MSGV1'
+      msgv2_field = 'MSGV2'
+      msgv3_field = 'MSGV3'
+      msgv4_field = 'MSGV4'
+    ).
 
     " ──┐ SY Log Table
     DATA lt_sy TYPE sy.
-    lr_define = r_log_util->define( lt_sy ).
+    lr_define = e_log_util->define( lt_sy ).
     lr_define->set(
       msgid_field = 'MSGID'
       msgno_field = 'MSGNO'
@@ -506,7 +544,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ PROTT Log Table
     DATA lt_prott TYPE prott.
-    lr_define = r_log_util->define( lt_prott ).
+    lr_define = e_log_util->define( lt_prott ).
     lr_define->set(
       msgid_field = 'MSGID'
       msgno_field = 'MSGNO'
@@ -518,7 +556,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ BAPIRET1 Log Table
     DATA lt_bapiret1 TYPE bapiret1.
-    lr_define = r_log_util->define( lt_bapiret1 ).
+    lr_define = e_log_util->define( lt_bapiret1 ).
     lr_define->set(
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
@@ -530,7 +568,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ BAPIRET2 Log Table
     DATA lt_bapiret2 TYPE bapiret2.
-    lr_define = r_log_util->define( lt_bapiret2 ).
+    lr_define = e_log_util->define( lt_bapiret2 ).
     lr_define->set(
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
@@ -542,7 +580,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ BAPI_CORU_RETURN Log Table
     DATA lt_bapi_coru_ret TYPE bapi_coru_return.
-    lr_define = r_log_util->define( lt_bapi_coru_ret ).
+    lr_define = e_log_util->define( lt_bapi_coru_ret ).
     lr_define->set(
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
@@ -554,7 +592,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ BAPI_ORDER_RETURN Log Table
     DATA lt_bapi_oder_ret TYPE bapi_order_return.
-    lr_define = r_log_util->define( lt_bapi_oder_ret ).
+    lr_define = e_log_util->define( lt_bapi_oder_ret ).
     lr_define->set(
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
@@ -566,7 +604,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ).
     " ──┐ BDCMSGCOLL Log Table
     DATA lt_bdcmsgcoll TYPE bdcmsgcoll.
-    lr_define = r_log_util->define( lt_bdcmsgcoll ).
+    lr_define = e_log_util->define( lt_bdcmsgcoll ).
     lr_define->set(
       msgid_field = 'MSGID'
       msgno_field = 'MSGNR'
@@ -581,7 +619,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 * @TODO : Include structure not managed by strucdescr (currently)
 *
 *    DATA lt_hrpad_message TYPE hrpad_message.
-*    lr_define = r_log_util->define( lt_hrpad_message ).
+*    lr_define = e_log_util->define( lt_hrpad_message ).
 *    lr_define->set(
 *      msgid_field = 'MSGID'
 *      msgno_field = 'MSGNO'
@@ -596,7 +634,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 * @TODO : Include structure not managed by strucdescr (currently)
 *
 *    DATA lt_rcomp TYPE rcomp.
-*    lr_define = r_log_util->define( lt_rcomp ).
+*    lr_define = e_log_util->define( lt_rcomp ).
 *    lr_define->set(
 *      msgid_field = 'MSGID'
 *      msgno_field = 'MSGNO'
@@ -614,7 +652,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     DATA lr_overload      TYPE REF TO zcl_log_util_overload.
     DATA lr_setting_table TYPE REF TO zcl_log_util_setting_table.
-    lr_overload      = r_log_util->overload( ).
+    lr_overload      = e_log_util->overload( ).
     lr_setting_table = lr_overload->setting_tab( ).
     lr_setting_table->set(
       i_table_name            = 'ZLOG_UTIL_OVERLO'
