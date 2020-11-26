@@ -1027,7 +1027,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ENDIF.
 
       " Making Message Texte (Only if ID, Number & Type are provided)
-      IF lv_msgid IS NOT INITIAL AND lv_msgno IS NOT INITIAL AND lv_msgty IS NOT INITIAL.
+      " lv_msgno is considered as INITIAL for number 000
+      IF lv_msgid IS NOT INITIAL AND lv_msgty IS NOT INITIAL.
         MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
         INTO lv_msgtx
         WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.

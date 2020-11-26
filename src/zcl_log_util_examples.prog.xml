@@ -31,55 +31,115 @@
     <item>
      <ID>S</ID>
      <KEY>P_DEM01</KEY>
-     <ENTRY>Execution of Demo 01</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 01 - Get started</ENTRY>
+     <LENGTH>29</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM02</KEY>
-     <ENTRY>Execution of Demo 02</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 02 - Log. using own table</ENTRY>
+     <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM03</KEY>
-     <ENTRY>Execution of Demo 03</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 03 - Adding extra data</ENTRY>
+     <LENGTH>35</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM04</KEY>
-     <ENTRY>Execution of Demo 04</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 04 - Log. BAPI return tab</ENTRY>
+     <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM05</KEY>
-     <ENTRY>Execution of Demo 05</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 05 - Log. BAPI tab w/data</ENTRY>
+     <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM06</KEY>
-     <ENTRY>Execution of Demo 06</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 06 - Many entries w/data</ENTRY>
+     <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM07</KEY>
-     <ENTRY>Execution of Demo 07</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 07 - Application Log SLG</ENTRY>
+     <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM08</KEY>
-     <ENTRY>Execution of Demo 08</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 08 - Enable/Disable SLG</ENTRY>
+     <LENGTH>36</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM09</KEY>
-     <ENTRY>Execution of Demo 09</ENTRY>
+     <ENTRY>Demo 09 - Log. specifying type</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM10</KEY>
+     <ENTRY>Demo 10 - Overloading messages</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM11</KEY>
+     <ENTRY>Demo 11 - Over. using own tabl</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM12</KEY>
+     <ENTRY>Demo 12 - Over. using Spot ID</ENTRY>
+     <LENGTH>37</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM13</KEY>
+     <ENTRY>Execution of Demo 13</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM14</KEY>
+     <ENTRY>Execution of Demo 14</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM15</KEY>
+     <ENTRY>Execution of Demo 15</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM16</KEY>
+     <ENTRY>Execution of Demo 16</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM17</KEY>
+     <ENTRY>Execution of Demo 17</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM18</KEY>
+     <ENTRY>Execution of Demo 18</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM19</KEY>
+     <ENTRY>Execution of Demo 19</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>

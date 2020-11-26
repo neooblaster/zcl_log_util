@@ -12,9 +12,12 @@
 *&  •  2.) Declaring own specific log table type
 *&  •  3.) Initialization of ZCL_LOG_UTIL with our table
 *&  •  3.) Define role of our field
-*&  •  4.) Logging a Message 1
-*&  •  5.) Logging a Message 2 which will overload
-*&  •  6.) Displaying Log
+*&  •  4.) Enabling Overloading
+*&  •  5.) Logging a Message 1 which will overload
+*&  •  6.) Logging a Message 2 which will overload
+*&  •  7.) Disabling Overloading
+*&  •  5.) Relogging Message 2 which will not overload
+*&  •  9.) Displaying Log
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -106,32 +109,33 @@
 *&
 *&  How Overloading Works :
 *&
-*&    Considering the following entries in your table for Custom Message Classe ZMYCLA
+*&    Considering the following entries in your table for Custom Message Classe ZLOG_UTIL
 *&
-*&    ZMYCLA :
-*&      000 :: & & & &
-*&      001 :: Message Number 1
-*&      002 :: Message Number 2 With & & & &
-*&      003 :: An error occurs
-*&      004 :: A last example
+*&    ZLOG_UTIL :
+*&      000 :: &1&2&3&4
+*&      100 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders
+*&      101 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 2 with 1 placeholders : &
+*&      102 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 3 with 2 placeholders : & and &
+*&      103 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 4 with 3 placeholders : &, & ADN &
+*&      104 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : &, &, & n &
 *&
 *&
-*&  #------#---------#------#---------#---------#---------#----------#--------#---------#---------#---------#---------#---------#---------#---------#---------#
-*&  | CODE | DOMAINE | DATA | INPUT1  | INPUT2  | INPUT3  | INPUT4   | INPUT5 | OUTPUT1 | OUTPUT2 | OUTPUT3 | OUTPUT4 | OUTPUT5 | OUTPUT6 | OUTPUT7 | OUTPUT8 |
-*&  #------#---------#------#---------#---------#---------#----------#--------#---------#---------#---------#---------#---------#---------#---------#---------#
-*&  |      |         |      | ZMYCLA  | 003     | E       |          |        | ZMYCLA  | 000     | W       | AL      | PHA     | BE      | T       |         | << ENTRY 1
-*&  |      |         |      | ZMYCLA  | 002     | E       |          |        |         |         | S       | NOT     | AN      | ERROR   |         |         | << ENTRY 2
-*&  #------#---------#------#---------#---------#---------#----------#--------#---------#---------#---------#---------#---------#---------#---------#---------#
+*&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
+*&  | CODE | DOMAINE | DATA | INPUT1     | INPUT2  | INPUT3  | INPUT4   | INPUT5 | OUTPUT1   | OUTPUT2 | OUTPUT3 | OUTPUT4 | OUTPUT5 | OUTPUT6 | OUTPUT7 | OUTPUT8 |
+*&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
+*&  |      |         |      | ZLOG_UTIL  | 100     | E       |          |        | ZLOG_UTIL | 000     | W       | AL      | PHA     | BE      | TA      |         | << ENTRY 1
+*&  |      |         |      | ZLOG_UTIL  | 104     | E       |          |        |           |         | S       | NOT     | AN      | ERROR   |         |         | << ENTRY 2
+*&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
 *&
 *&  Case 1 :
 *&  ---------
 *&    Logging the followging message :
 *&
-*&       e003(zmycla) which displays without overloading : "An error occurs" with type (E)
+*&       e100(zlog_util) which displays without overloading : "ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders" with type (E)
 *&
 *&    After overloading using entry 1 becomes :
 *&
-*&       w000(zmyclass) which displays : "AL PHA BE TA" (With type W)
+*&       w000(zlog_util) which displays : "ALPHABETA" (With type W)
 *&
 *&
 *&
@@ -139,11 +143,11 @@
 *&  ---------
 *&    Logging the followging message :
 *&
-*&       e002(zmycla) WITH 'a' 'b' 'c' 'd' which displays without overloading : "Message Number 2 With a b c d" (With type E)
+*&       e104(zlog_util) WITH 'a' 'b' 'c' 'd' which displays without overloading : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : a, b, c n d" (With type E)
 *&
 *&    After overloading using entry 2 becomes :
 *&
-*&       s002(zmyclass) which displays : "Message Number 2 With NOT AN ERROR &" (With type S)
+*&       s104(zlog_util) which displays : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : NOT, AN, ERROR n d" (With type S)
 *&
 *&
 *&
@@ -216,24 +220,63 @@ lr10_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& •  4.) Logging a Message 1
+*& •  4.) Enabling Overloading
 *&----------------------------------------------------------------------*
+lr10_log_util->overload( )->enable( ).
+
+
+
+*&----------------------------------------------------------------------*
+*& •  5.) Logging a Message 1 which will overload
+*&----------------------------------------------------------------------*
+" Logging directly to change using MESSAGE ID ... INTO dummy variable.
+lr10_log_util->e(
+  i_log_msgid = 'ZLOG_UTIL'
+  i_log_msgno = '100'
+).
+">>> Expected : "ALPHABETA" with type W
 
 
 
 *&----------------------------------------------------------------------*
 *& •  5.) Logging a Message 2 which will overload
 *&----------------------------------------------------------------------*
+" Logging directly to change using MESSAGE ID ... INTO dummy variable.
+lr10_log_util->e(
+  i_log_msgid = 'ZLOG_UTIL'
+  i_log_msgno = '104'
+  i_log_msgv1 = 'a'
+  i_log_msgv2 = 'b'
+  i_log_msgv3 = 'c'
+  i_log_msgv4 = 'd'
+).
+">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : NOT, AN, ERROR n d" with type S
 
 
 
 *&----------------------------------------------------------------------*
-*& •  6.) Displaying Log
+*& •  7.) Disabling Overloading
 *&----------------------------------------------------------------------*
+lr10_log_util->overload( )->disable( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& • 10.) Displaying Log
+*& •  5.) Relogging Message 2 which will not overload
+*&----------------------------------------------------------------------*
+" Logging directly to change using MESSAGE ID ... INTO dummy variable.
+lr10_log_util->e(
+  i_log_msgid = 'ZLOG_UTIL'
+  i_log_msgno = '104'
+  i_log_msgv1 = 'a'
+  i_log_msgv2 = 'b'
+  i_log_msgv3 = 'c'
+  i_log_msgv4 = 'd'
+).
+">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : a, b, c n d"
+
+
+*&----------------------------------------------------------------------*
+*& •  8.) Displaying Log
 *&----------------------------------------------------------------------*
 lr10_log_util->display( ).
