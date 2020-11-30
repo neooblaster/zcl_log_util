@@ -763,6 +763,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_msgtx              TYPE          string      ,
         lv_msgxx_flg          TYPE          c LENGTH 1  ,
         lv_msgtx_flg          TYPE          c LENGTH 1  ,
+        lv_ignored            TYPE          c LENGTH 1  ,
 
         lv_i_log_content_type TYPE          string      ,
 
@@ -982,13 +983,14 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     LOOP AT <fs_buff_table> ASSIGNING <fs_buff_structure>.
       " Set to initial value
-      CLEAR : lv_msgid ,
-              lv_msgno ,
-              lv_msgty ,
-              lv_msgv1 ,
-              lv_msgv2 ,
-              lv_msgv3 ,
-              lv_msgv4 .
+      CLEAR : lv_msgid   ,
+              lv_msgno   ,
+              lv_msgty   ,
+              lv_msgv1   ,
+              lv_msgv2   ,
+              lv_msgv3   ,
+              lv_msgv4   ,
+              lv_ignored .
 
       " Get Back Message component from buffer table
       " ──┐ ID
@@ -1146,11 +1148,31 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ENDIF.
 
 
-      " ──┐ Append entry (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
-      APPEND <fs_log_table_s> TO <fs_log_table_t>.
+      " ──┐ Append entry only if not INGORE (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
+      IF lv_msgv4 EQ 'ZCL_LOG_UTIL_IGNORED'.
+        " If message is IGNORE (Add it to APP LOG with warning)
+        lv_ignored = 'X'.
+
+      ELSE.
+        APPEND <fs_log_table_s> TO <fs_log_table_t>.
+
+      ENDIF.
 
       " ──┐ Registring in Application Log
       IF me->slg( )->is_enabled( ) EQ 'X'.
+        " Is the message is ignored ?
+        IF lv_ignored EQ 'X'.
+          me->slg( )->log(
+            EXPORTING
+              " ──┐ Standard Message
+              i_msgid     = 'ZLOG_UTIL'
+              i_msgno     = '013'
+              i_msgty     = 'W'
+              i_msgxx_flg = 'X'
+          ).
+        ENDIF.
+
+        " Regular loging (to prevent message loosing)
         me->slg( )->log(
           EXPORTING
             " ──┐ Standard Message

@@ -11,13 +11,19 @@ public section.
       value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
   methods SET_FILTER_DEVCODE_VALUE
     importing
-      !I_VALUE type C optional .
+      !I_VALUE type C optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
   methods SET_FILTER_DOMAIN_VALUE
     importing
-      !I_VALUE type C optional .
+      !I_VALUE type C optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
   methods SET_FILTER_DATA_VALUE
     importing
-      !I_VALUE type C optional .
+      !I_VALUE type C optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
   methods ENABLE .
   methods DISABLE .
   methods OVERLOAD
@@ -30,6 +36,12 @@ public section.
       !SPOT type ZDT_LOG_UTIL_SPOT optional
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SPOT .
+  methods SET_PARAMS
+    importing
+      !I_PARAM_1 type STRING optional
+      !I_PARAM_2 type STRING optional
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
 protected section.
 private section.
 
@@ -41,6 +53,8 @@ private section.
   data _SETTING_TAB_LOADED type C value ' ' ##NO_TEXT.
   data _ENABLED type C .
   data _SPOT type ref to ZCL_LOG_UTIL_SPOT .
+  data _PARAM_1 type STRING .
+  data _PARAM_2 type STRING .
 
   methods _LOAD_SETTING_TABLE .
   methods _GET_SETTING_MAP
@@ -101,6 +115,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         lv_fov2              TYPE name_feld                                        , " Setting Table Overload Message V2 Field
         lv_fov3              TYPE name_feld                                        , " Setting Table Overload Message V3 Field
         lv_fov4              TYPE name_feld                                        , " Setting Table Overload Message V4 Field
+        lv_foig              TYPE name_feld                                        , " Setting Table Overload Ignore flag
         " ──┐ Definition Table
         lv_fmms              TYPE name_feld                                        , " Definition Table Message Text
         lv_fmid              TYPE name_feld                                        , " Definition Table Message ID
@@ -130,6 +145,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
                  <fs_ovr_comp_ov2>  TYPE ANY            ,
                  <fs_ovr_comp_ov3>  TYPE ANY            ,
                  <fs_ovr_comp_ov4>  TYPE ANY            ,
+                 <fs_ovr_comp_oig>  TYPE ANY            ,
 
                  " ──┐ Buffer Log Table (To Overload)
                  <fs_log_comp_id>   TYPE ANY            ,
@@ -178,6 +194,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     lv_fov2  = ls_setting_field_map-field_omsgv2 .
     lv_fov3  = ls_setting_field_map-field_omsgv3 .
     lv_fov4  = ls_setting_field_map-field_omsgv4 .
+    lv_foig  = ls_setting_field_map-field_oignore .
     " ──┐ Definition Table
     lv_fmid  = i_log_field_def-field_id .
     lv_fmno  = i_log_field_def-field_number .
@@ -219,11 +236,31 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
 
       " Get Overloading rule (if exist)
-      " @TODO : Handle Params 1 & 2 input field (dynamic SQL clause for them)
-      READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
-                                                                     (lv_fsno) = <fs_log_comp_no>
-                                                                     (lv_fsty) = <fs_log_comp_ty>
-                                                                     (lv_fssp) = lv_spot_id.
+      IF lv_fsp1 IS INITIAL AND lv_fsp2 IS INITIAL.
+        READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
+                                                                       (lv_fsno) = <fs_log_comp_no>
+                                                                       (lv_fsty) = <fs_log_comp_ty>
+                                                                       (lv_fssp) = lv_spot_id.
+      ELSEIF lv_fsp1 IS NOT INITIAL AND lv_fsp2 IS NOT INITIAL.
+        READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
+                                                                       (lv_fsno) = <fs_log_comp_no>
+                                                                       (lv_fsty) = <fs_log_comp_ty>
+                                                                       (lv_fssp) = lv_spot_id
+                                                                       (lv_fsp1) = me->_param_1
+                                                                       (lv_fsp2) = me->_param_2.
+      ELSEIF lv_fsp1 IS NOT INITIAL.
+        READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
+                                                                       (lv_fsno) = <fs_log_comp_no>
+                                                                       (lv_fsty) = <fs_log_comp_ty>
+                                                                       (lv_fssp) = lv_spot_id
+                                                                       (lv_fsp1) = me->_param_1.
+      ELSEIF lv_fsp2 IS NOT INITIAL.
+        READ TABLE <fs_setting_tab_t> INTO <fs_setting_tab_s> WITH KEY (lv_fsid) = <fs_log_comp_id>
+                                                                       (lv_fsno) = <fs_log_comp_no>
+                                                                       (lv_fsty) = <fs_log_comp_ty>
+                                                                       (lv_fssp) = lv_spot_id
+                                                                       (lv_fsp2) = me->_param_2.
+      ENDIF.
 
       " If rule not found, process next entry
       IF sy-subrc NE 0.
@@ -231,6 +268,20 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
       ENDIF.
 
       " Overloading Entry
+      " ──┐ Check if message request as IGNORED (Special Case)
+      IF lv_foig IS NOT INITIAL.
+        ASSIGN COMPONENT lv_foig OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_oig>.
+
+        " When Ignore is defined and has a value, we want to set ZLOG_UTIL 999 meaning IGNORE
+        IF <fs_ovr_comp_oig> IS ASSIGNED AND <fs_ovr_comp_oig> IS NOT INITIAL AND lv_fmv4 IS NOT INITIAL.
+          ASSIGN COMPONENT lv_fmv4 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v4>.
+          <fs_log_comp_v4> = 'ZCL_LOG_UTIL_IGNORED'.
+
+          " No longer process overloading
+          CONTINUE.
+        ENDIF.
+      ENDIF.
+
       " ──┐ ID
       IF lv_foid IS NOT INITIAL.
         ASSIGN COMPONENT lv_foid OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_oid>.
@@ -345,6 +396,19 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     me->_setting_tab_loaded = zcl_log_util_setting_table=>false.
 
   endmethod.
+
+
+  METHOD set_params.
+
+    IF i_param_1 IS SUPPLIED.
+      me->_param_1 = i_param_1.
+    ENDIF.
+
+    IF i_param_2 IS SUPPLIED.
+      me->_param_2 = i_param_2.
+    ENDIF.
+
+  ENDMETHOD.
 
 
   method SPOT.

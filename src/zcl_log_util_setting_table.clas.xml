@@ -63,6 +63,12 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
+     <CMPNAME>OVERLOAD_IGNORE</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Set Field Name standing for Ignore Flag (remove)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SETTING_TABLE</CLSNAME>
      <CMPNAME>OVERLOAD_MSGV1</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Set Field Name standing for Overload Msg V1 (rewrite)</DESCRIPT>

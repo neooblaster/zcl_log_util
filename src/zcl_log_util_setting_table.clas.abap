@@ -24,6 +24,7 @@ public section.
             field_omsgv2    TYPE name_feld ,
             field_omsgv3    TYPE name_feld ,
             field_omsgv4    TYPE name_feld ,
+            field_oignore   TYPE name_feld ,
           END   OF ty_setting_field_map .
 
   class-data TRUE type C value 'X' ##NO_TEXT.
@@ -50,7 +51,8 @@ public section.
       !I_OVERLOAD_MSGV1_FIELD type NAME_FELD optional
       !I_OVERLOAD_MSGV2_FIELD type NAME_FELD optional
       !I_OVERLOAD_MSGV3_FIELD type NAME_FELD optional
-      !I_OVERLOAD_MSGV4_FIELD type NAME_FELD optional .
+      !I_OVERLOAD_MSGV4_FIELD type NAME_FELD optional
+      !I_OVERLOAD_IGNORE_FIELD type NAME_FELD optional .
   methods TABLE_NAME
     importing
       !I_TABLE_NAME type TABNAME
@@ -120,6 +122,11 @@ public section.
   methods OVERLOAD_MSGV4
     importing
       !I_OVERLOAD_MSGV4_FIELD type NAME_FELD
+    returning
+      value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
+  methods OVERLOAD_IGNORE
+    importing
+      !I_OVERLOAD_IGNORE_FIELD type NAME_FELD
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
   methods FILTER_DEVCODE
@@ -229,6 +236,20 @@ CLASS ZCL_LOG_UTIL_SETTING_TABLE IMPLEMENTATION.
   ENDMETHOD.
 
 
+  method OVERLOAD_IGNORE.
+
+    " Store settings.
+    me->_setting_map-field_oignore = I_OVERLOAD_IGNORE_FIELD.
+
+    " Check if all settings are done.
+    me->_check_setting( I_OVERLOAD_IGNORE_FIELD ).
+
+    " Returning for chaining.
+    self = me.
+
+  endmethod.
+
+
   METHOD overload_msgv1.
 
     " Store settings.
@@ -332,6 +353,7 @@ CLASS ZCL_LOG_UTIL_SETTING_TABLE IMPLEMENTATION.
     me->overload_msgv2( i_overload_msgv2_field ).
     me->overload_msgv3( i_overload_msgv3_field ).
     me->overload_msgv4( i_overload_msgv4_field ).
+    me->overload_ignore( i_overload_ignore_field ).
 
   ENDMETHOD.
 

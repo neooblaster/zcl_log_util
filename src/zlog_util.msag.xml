@@ -84,7 +84,13 @@
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>012</MSGNR>
-     <TEXT>Creation of application failed. Check Object &amp; Sub-object.</TEXT>
+     <TEXT>Appl. Log is enabled but something happens wrong (check SLG Object &amp; Sub)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>013</MSGNR>
+     <TEXT>The following message has been ignored :</TEXT>
     </T100>
     <T100>
      <SPRSL>F</SPRSL>
