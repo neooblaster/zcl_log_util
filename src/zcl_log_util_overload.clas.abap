@@ -227,7 +227,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
       " If rule not found, process next entry
       IF sy-subrc NE 0.
-        EXIT.
+        CONTINUE.
       ENDIF.
 
       " Overloading Entry

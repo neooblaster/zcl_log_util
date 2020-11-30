@@ -10,6 +10,7 @@
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
+    <MSG_ID>ZLOG_UTIL</MSG_ID>
    </VSEOCLASS>
    <DESCRIPTIONS>
     <SEOCOMPOTX>
@@ -35,6 +36,30 @@
      <CMPNAME>ENABLE</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Enable logging in Application Log</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
+     <CMPNAME>GET_EXTERNAL_NUMBER</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return current App Log external number set</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
+     <CMPNAME>GET_OBJECT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return current App Log object set</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
+     <CMPNAME>GET_RETENTION</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return current App Log retention time set</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
+     <CMPNAME>GET_SUB_OBJECT</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Return current App Log sub-object set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
@@ -64,7 +89,7 @@
      <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
      <CMPNAME>SET_RETENTION</CMPNAME>
      <LANGU>F</LANGU>
-     <DESCRIPT>Define Application Log Retention Time</DESCRIPT>
+     <DESCRIPT>Define Application Log Retention Time (in day)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
@@ -149,6 +174,12 @@
      <CMPNAME>_SLG_PROBCLASS</CMPNAME>
      <LANGU>F</LANGU>
      <DESCRIPT>Selected App Log Probclass</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
+     <CMPNAME>_SLG_RETENTION</CMPNAME>
+     <LANGU>F</LANGU>
+     <DESCRIPT>Retention time in days set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>

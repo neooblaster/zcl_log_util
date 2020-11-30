@@ -22,6 +22,8 @@ public section.
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SLG .
   methods SET_RETENTION
+    importing
+      !I_SLG_RETENTION_DAYS type I
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SLG .
   methods LOG
@@ -35,7 +37,8 @@ public section.
       !I_MSGV4 type SY-MSGV4 optional
       !I_MSGXX_FLG type ABAP_BOOL optional
       !I_MSGTX type STRING optional
-      !I_MSGTX_FLG type ABAP_BOOL optional .
+      !I_MSGTX_FLG type ABAP_BOOL optional
+    preferred parameter I_MSGTX .
   methods ENABLE .
   methods DISABLE .
   methods IS_ENABLED
@@ -45,6 +48,18 @@ public section.
   methods _CREATE .
   methods _SAVE .
   methods _DESTRUCTOR .
+  methods GET_OBJECT
+    returning
+      value(R_SLG_OBJECT) type BALOBJ_D .
+  methods GET_SUB_OBJECT
+    returning
+      value(R_SLG_SUB_OBJECT) type BALSUBOBJ .
+  methods GET_EXTERNAL_NUMBER
+    returning
+      value(R_SLG_EXT_NUMBER) type BALNREXT .
+  methods GET_RETENTION
+    returning
+      value(R_SLG_RETENTION) type I .
 protected section.
 private section.
 
@@ -54,6 +69,7 @@ private section.
   data _SLG_SUB_OBJECT type BALSUBOBJ .
   data _SLG_EXT_NUMBER type BALNREXT .
   data _SLG_PROBCLASS type BALPROBCL value '4' ##NO_TEXT.
+  data _SLG_RETENTION type I value 30 ##NO_TEXT.
   class-data _PROBCLASS_VERY_HIGH type BALPROBCL value '1' ##NO_TEXT.
   class-data _PROBCLASS_HIGH type BALPROBCL value '2' ##NO_TEXT.
   class-data _PROBCLASS_MEDIUM type BALPROBCL value '3' ##NO_TEXT.
@@ -188,6 +204,34 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
   endmethod.
 
 
+  method GET_EXTERNAL_NUMBER.
+
+    r_slg_ext_number = me->_slg_ext_number.
+
+  endmethod.
+
+
+  method GET_OBJECT.
+
+    r_slg_object = me->_slg_object.
+
+  endmethod.
+
+
+  method GET_RETENTION.
+
+    r_slg_retention = me->_slg_retention.
+
+  endmethod.
+
+
+  method GET_SUB_OBJECT.
+
+    r_slg_sub_object = me->_slg_sub_object.
+
+  endmethod.
+
+
   method IS_ENABLED.
 
     r_enabled = me->_slg_enabled.
@@ -197,12 +241,11 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
   method LOG.
 
-
-
     DATA:
-        ls_s_msg     TYPE bal_s_msg           ,
+        ls_s_msg      TYPE bal_s_msg           ,
         "lv_probclass TYPE bal_s_msg-probclass ,
-        lv_free_text TYPE c LENGTH 1024       .
+        lv_free_text  TYPE c LENGTH 1024       ,
+        lv_msgtx_flag TYPE c LENGTH 1          .
 
 
     " If Application Log is not handled, create BAL
@@ -210,6 +253,20 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
       me->_create( ).
     ENDIF.
 
+    " Let considering if ONLY i_msgtx (PREFERED) is supplied
+    " So, flag indicator is not enabled => set value to X
+    IF    i_msgid     IS NOT SUPPLIED
+      AND i_msgno     IS NOT SUPPLIED
+      AND i_msgty     IS NOT SUPPLIED
+      AND i_msgv1     IS NOT SUPPLIED
+      AND i_msgv2     IS NOT SUPPLIED
+      AND i_msgv3     IS NOT SUPPLIED
+      AND i_msgv4     IS NOT SUPPLIED
+      AND i_msgxx_flg IS NOT SUPPLIED
+      AND i_msgtx     IS     SUPPLIED AND i_msgtx IS NOT INITIAL
+      AND i_msgtx_flg IS NOT SUPPLIED.
+      lv_msgtx_flag = 'X'.
+    ENDIF.
     " Managing Standard Message (sy-msgxx)
     IF i_msgxx_flg IS SUPPLIED AND i_msgxx_flg EQ 'X'.
       ls_s_msg-msgid = i_msgid .
@@ -236,7 +293,9 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
     ENDIF.
 
     " Managing Free Message Text
-    IF i_msgtx_flg IS SUPPLIED AND i_msgtx_flg EQ 'X'.
+    IF   ( i_msgtx_flg   IS SUPPLIED AND i_msgtx_flg EQ 'X' )
+      OR ( lv_msgtx_flag EQ 'X' ).
+
       lv_free_text = i_msgtx.
       CALL FUNCTION 'BAL_LOG_MSG_ADD_FREE_TEXT'
         EXPORTING
@@ -289,6 +348,8 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
   method SET_RETENTION.
 
+    me->_slg_retention = i_slg_retention_days.
+
     self = me.
 
   endmethod.
@@ -312,11 +373,12 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Initialization
     " --------------------------------------------------------------
-    ls_bal_s_log-object    = me->_slg_object.
-    ls_bal_s_log-subobject = me->_slg_sub_object.
-    ls_bal_s_log-extnumber = me->_slg_ext_number.
-    ls_bal_s_log-aluser    = sy-uname.           " @TODO : VOir pour customized
-    ls_bal_s_log-alprog    = sy-repid.           " @TODO : VOir pour customized
+    ls_bal_s_log-object     = me->_slg_object.
+    ls_bal_s_log-subobject  = me->_slg_sub_object.
+    ls_bal_s_log-extnumber  = me->_slg_ext_number.
+    ls_bal_s_log-aluser     = sy-uname.                     " @TODO : VOir pour customized
+    ls_bal_s_log-alprog     = sy-repid.                     " @TODO : VOir pour customized
+    ls_bal_s_log-aldate_del = sy-datum + me->_slg_retention.
 
 
 
@@ -334,8 +396,8 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
           OTHERS                  = 2.
 
       IF sy-subrc NE 0.
-        " @TODO : Implement error message
-        " Application Log is enabled but something happens wrong (check SLG Object, Subobject)
+        " 012 :: Appl. Log is enabled but something happens wrong (check SLG Object & Sub)
+        MESSAGE e012.
       ENDIF.
 
     ENDIF.
@@ -349,12 +411,16 @@ CLASS ZCL_LOG_UTIL_SLG IMPLEMENTATION.
 
   method _SAVE.
 
+    DATA: lt_log_hdl TYPE bal_t_logh.
+
+    APPEND me->_slg_handler TO lt_log_hdl.
+
     CALL FUNCTION 'BAL_DB_SAVE'
       EXPORTING
 *        i_client          = sy-mandt
 *        i_in_update_task  = ' '
-        i_save_all        = 'X'
-*        i_t_log_handle   =
+*       i_save_all        = 'X'
+         i_t_log_handle   = lt_log_hdl
 *      IMPORTING
 *        e_new_lognumbers =
       EXCEPTIONS

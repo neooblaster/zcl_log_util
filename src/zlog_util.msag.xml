@@ -84,6 +84,7 @@
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>012</MSGNR>
+     <TEXT>Creation of application failed. Check Object &amp; Sub-object.</TEXT>
     </T100>
     <T100>
      <SPRSL>F</SPRSL>

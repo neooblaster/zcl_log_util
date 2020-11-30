@@ -149,7 +149,14 @@ START-OF-SELECTION.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_10.
   ENDIF.
 
-  " ZCL_LOG_UTIL - Example #10
+  "&-------------------------------------&"
+  "&---[  Demo Number 11  ]--------------&"
+  "&-------------------------------------&"
+  IF p_dem11 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_11.
+  ENDIF.
+
+  " ZCL_LOG_UTIL - Example #11
 
 
 
