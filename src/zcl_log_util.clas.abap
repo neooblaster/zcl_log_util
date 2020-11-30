@@ -18,7 +18,7 @@ public section.
             msgv2   TYPE sy-msgv2          , " Message Value 2
             msgv3   TYPE sy-msgv3          , " Message Value 3
             msgv4   TYPE sy-msgv4          , " Message Value 4
-          END   OF ty_log_table            .
+          END   OF ty_log_table .
 
   class-data TRUE type C value 'X' ##NO_TEXT.
   class-data FALSE type C value ' ' ##NO_TEXT.
@@ -28,7 +28,7 @@ public section.
     exporting
       !E_LOG_UTIL type ref to ZCL_LOG_UTIL
     changing
-      !C_LOG_TABLE type STANDARD TABLE .
+      !C_LOG_TABLE type STANDARD TABLE optional .
   methods DEFINE
     importing
       !I_STRUCTURE type ANY default 'INITIAL'
@@ -129,6 +129,9 @@ public section.
   methods SLG
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SLG .
+  methods SET_LOG_TABLE
+    changing
+      !T_LOG_TABLE type STANDARD TABLE .
   class-methods GET_RELATIVE_NAME
     importing
       !I_ELEMENT type ANY
@@ -172,9 +175,6 @@ private section.
   data _MSGV4 type SY-MSGV4 .
   data _SLG type ref to ZCL_LOG_UTIL_SLG .
 
-  methods SET_LOG_TABLE
-    changing
-      !T_LOG_TABLE type STANDARD TABLE .
   methods _CONVERT_TABLE
     importing
       !I_TABLE_TO_CONVERT type ANY TABLE
@@ -249,7 +249,12 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " Set handler to specified structure (lv_i_struc_type prevent dump due to it position)
     IF lv_i_struc_type EQ 'C' AND i_structure EQ 'INITIAL'.
       ASSIGN me->_log_table->* TO <fs_structure>.
-      me->_define->handling( <fs_structure> ).
+      IF <fs_structure> IS NOT ASSIGNED.
+        me->_define->handling( <fs_structure> ).
+      ELSE.
+        " 011 :: &, No internal log table is defined
+        MESSAGE e011 WITH 'ZCL_LOG_UTIL->DEFINE'.
+      ENDIF.
     ELSE.
       me->_define->handling( i_structure ).
     ENDIF.
@@ -312,6 +317,11 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " Convert Reference Data to table
     ASSIGN me->_log_table->* TO <fs_log_table_t>.
+
+    IF <fs_log_table_t> IS NOT ASSIGNED.
+      " 011 :: &, No internal log table is defined
+      MESSAGE e011 WITH 'ZCL_LOG_UTIL->DISPLAY'.
+    ENDIF.
 
 
     " Display will differe depending of execution mode
@@ -530,10 +540,16 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     CREATE OBJECT e_log_util->_batch.
     CREATE OBJECT e_log_util->_slg.
 
-    e_log_util->set_log_table(
-      CHANGING
-        t_log_table = c_log_table
-    ).
+    IF c_log_table IS SUPPLIED.
+      e_log_util->set_log_table(
+        CHANGING
+          t_log_table = c_log_table
+      ).
+    ENDIF.
+
+
+    " Create a buffer table for internal manipulations.
+    CREATE DATA e_log_util->_log_table_buffer TYPE TABLE OF syst.
 
 
 
@@ -799,6 +815,11 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " ──┐ Get final User table log for appending.
     ASSIGN me->_log_table->* TO <fs_log_table_t>.
+
+    IF <fs_log_table_t> IS NOT ASSIGNED.
+      " 011 :: &, No internal log table is defined
+      MESSAGE e011 WITH 'ZCL_LOG_UTIL->LOG'.
+    ENDIF.
 
     " ──┐ Count current number lines of logs
     DESCRIBE TABLE <fs_log_table_t> LINES me->_log_lines_before_log.
@@ -1231,6 +1252,13 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     " • Initialization
     " --------------------------------------------------------------
+    " Check is Internal Log Table is set
+    IF me->_log_table IS INITIAL.
+      " 011 :: &, No internal log table is defined
+      MESSAGE e011 WITH 'ZCL_LOG_UTIL->MERGING'.
+    ENDIF.
+
+
     " ──┐ Count number of line appended
     lv_appended_lines = me->_log_lines_after_log - me->_log_lines_before_log.
 
@@ -1406,8 +1434,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " Referencing User Log Table
     GET REFERENCE OF t_log_table INTO me->_log_table.
 
-    " Create a buffer table for internal manipulations.
-    CREATE DATA me->_log_table_buffer TYPE TABLE OF syst.
+    me->_log_lines_before_log = 0.
+    me->_log_lines_after_log  = 0.
 
   endmethod.
 

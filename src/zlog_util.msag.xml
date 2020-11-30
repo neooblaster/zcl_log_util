@@ -78,6 +78,12 @@
      <SPRSL>F</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>011</MSGNR>
+     <TEXT>&amp;, No internal log table is defined</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>012</MSGNR>
     </T100>
     <T100>
      <SPRSL>F</SPRSL>
