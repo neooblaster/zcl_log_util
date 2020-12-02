@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_04
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_070
 *&----------------------------------------------------------------------*
 
 
@@ -11,9 +11,10 @@
 *&  • 1.) Declaring own specific log table type
 *&  • 2.) Initialization of ZCL_LOG_UTIL with our table
 *&  • 3.) Define role of our field
-*&  • 4.) Call BAPI generating error
-*&  • 5.) Log BAPI messages
-*&  • 6.) Displaying logs
+*&  • 4.) Configuration Application Log
+*&  • 5.) Call BAPI generating error
+*&  • 6.) Log BAPI messages
+*&  • 7.) Displaying logs
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -24,7 +25,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty4_my_log_table         ,
+TYPES: BEGIN OF ty70_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -37,7 +38,7 @@ TYPES: BEGIN OF ty4_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty4_my_log_table         .
+       END   OF ty70_my_log_table         .
 
 
 
@@ -45,20 +46,20 @@ TYPES: BEGIN OF ty4_my_log_table         ,
 *& • 2.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt4_log_table TYPE TABLE OF ty4_my_log_table.
+DATA: lt70_log_table TYPE TABLE OF ty70_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr4_log_util TYPE REF TO zcl_log_util.
+DATA: lr70_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr4_log_util
+    e_log_util  = lr70_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt4_log_table
+    c_log_table = lt70_log_table
 ).
 
 
@@ -69,7 +70,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr4_log_util->define( )->set(
+lr70_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -83,21 +84,48 @@ lr4_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& • 4.) Call BAPI generating error
+*& • 4.) Configuration Application Log
 *&----------------------------------------------------------------------*
-DATA: lt4_bapi_ret_tab TYPE TABLE OF bapiret2 .
-DATA: ls4_poheader     TYPE bapimepoheader    .
-DATA: ls4_poheaderx    TYPE bapimepoheaderx   .
+" You can directly use ZCL_LOG_UTIL instance to manipulate SLG
+" but for readibility, I use another data reference
+DATA: lr70_slg TYPE REF TO zcl_log_util_slg.
 
-ls4_poheader-doc_type  = 'ZTYP'.
-ls4_poheaderx-doc_type = 'X'.
+" ──┐ Get SLG Instance
+lr70_slg = lr70_log_util->slg( ).
+
+" ──┐ Set Application Log Main Object & Sub-object
+"     !! Sub-object is mandatory if your main has at least one sub-object.
+lr70_slg->set_object( 'ZMYPO' ).
+lr70_slg->set_sub_object( 'PO_CHANGE' ).
+
+" ──┐ You can provided External Number (Like PO Number)
+lr70_slg->set_external_number( '4500001189' ).
+
+" ──┐ You can also set retention time of logs in days
+lr70_slg->set_retention( 30 ).
+
+
+" ──┐ Finally, we enable the functionnality
+lr70_slg->enable( ).
+" <<<--- From here, all call of method log( ) will add an entry(ies) to Application Log
+
+
+*&----------------------------------------------------------------------*
+*& • 5.) Call BAPI generating error
+*&----------------------------------------------------------------------*
+DATA: lt70_bapi_ret_tab TYPE TABLE OF bapiret2 .
+DATA: ls70_poheader     TYPE bapimepoheader    .
+DATA: ls70_poheaderx    TYPE bapimepoheaderx   .
+
+ls70_poheader-doc_type  = 'ZTYP'.
+ls70_poheaderx-doc_type = 'X'.
 
 
 CALL FUNCTION 'BAPI_PO_CHANGE'
   EXPORTING
     purchaseorder                = '4500001189'
-    poheader                     = ls4_poheader
-    POHEADERX                    = ls4_poheaderx
+    poheader                     = ls70_poheader
+    POHEADERX                    = ls70_poheaderx
 *   POADDRVENDOR                 =
     testrun                      = 'X'
 *   MEMORY_UNCOMPLETE            =
@@ -115,7 +143,7 @@ CALL FUNCTION 'BAPI_PO_CHANGE'
 *   EXPHEADER                    =
 *   EXPPOEXPIMPHEADER            =
  TABLES
-    return                       = lt4_bapi_ret_tab
+    return                       = lt70_bapi_ret_tab
 *   POITEM                       =
 *   POITEMX                      =
 *   POADDRDELIVERY               =
@@ -162,7 +190,7 @@ CALL FUNCTION 'BAPI_PO_CHANGE'
 
 
 *&----------------------------------------------------------------------*
-*& • 5.) Log BAPI messages
+*& • 6.) Log BAPI messages
 *&----------------------------------------------------------------------*
 " Now we want to log returned table
 "
@@ -170,25 +198,21 @@ CALL FUNCTION 'BAPI_PO_CHANGE'
 "    If table is not know, you can define field as you already done for
 "    your own custom table using DEFINE( )->SET( )
 "
-"    List available here : zcl_log_util=>factory( ) :
+"    List available here :
 "
-"        - zcl_log_util=>ty_log_table
-"        - PROTT
-"        - BAPIRET1
-"        - BAPIRET2
-"        - BAPI_CORU_RETURN
-"        - BAPI_ORDER_RETURN
-"        - BDCMSGCOLL
-"        - RCOMP
 "
-*&----------------------------------------------------------------------*
-lr4_log_util->log( lt4_bapi_ret_tab ).
+lr70_log_util->log( lt70_bapi_ret_tab ).
 
 
 
 *&----------------------------------------------------------------------*
-*& • 6.) Displaying logs
+*& • 7.) Displaying logs
 *&----------------------------------------------------------------------*
 " ZCL_LOG_UTIL offer a display feature using ALV
 " It prevent use to make your own routine using ALV on your table
-lr4_log_util->display( ).
+" ──┐ Display my Log Table
+lr70_log_util->display( ).
+
+" ──┐ Display Application Log result
+lr70_slg->display( ).
+" You can run like this : r7_log_util->slg( )->display( ).

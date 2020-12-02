@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_08
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_080
 *&----------------------------------------------------------------------*
 
 
@@ -28,7 +28,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty8_my_log_table         ,
+TYPES: BEGIN OF ty80_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -41,7 +41,7 @@ TYPES: BEGIN OF ty8_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty8_my_log_table         .
+       END   OF ty80_my_log_table         .
 
 
 
@@ -49,20 +49,20 @@ TYPES: BEGIN OF ty8_my_log_table         ,
 *& • 2.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt8_log_table TYPE TABLE OF ty8_my_log_table.
+DATA: lt80_log_table TYPE TABLE OF ty80_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr8_log_util TYPE REF TO zcl_log_util.
+DATA: lr80_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr8_log_util
+    e_log_util  = lr80_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt8_log_table
+    c_log_table = lt80_log_table
 ).
 
 
@@ -73,7 +73,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr8_log_util->define( )->set(
+lr80_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -91,64 +91,64 @@ lr8_log_util->define( )->set(
 *&----------------------------------------------------------------------*
 " You can directly use ZCL_LOG_UTIL instance to manipulate SLG
 " but for readibility, I use another data reference
-DATA: lr8_slg TYPE REF TO zcl_log_util_slg.
+DATA: lr80_slg TYPE REF TO zcl_log_util_slg.
 
 " ──┐ Get SLG Instance
-lr8_slg = lr8_log_util->slg( ).
+lr80_slg = lr80_log_util->slg( ).
 
 " ──┐ Set Application Log Main Object & Sub-object
 "     !! Sub-object is mandatory if your main has at least one sub-object.
-lr8_slg->set_object( 'ZMYPO' ).
-lr8_slg->set_sub_object( 'PO_CHANGE' ).
+lr80_slg->set_object( 'ZMYPO' ).
+lr80_slg->set_sub_object( 'PO_CHANGE' ).
 
 " ──┐ You can provided External Number (Like PO Number)
-lr8_slg->set_external_number( '4500001189' ).
+lr80_slg->set_external_number( '4500001189' ).
 
 " ──┐ You can also set retention time of logs
 "lr8_slg->set_external_number( '4500001189' ).
 
 
 " ──┐ Finally, we enable the functionnality
-lr8_slg->enable( ).
+lr80_slg->enable( ).
 " <<<--- From here, all call of method log( ) will add an entry(ies) to Application Log
 
 
 *&----------------------------------------------------------------------*
 *& • 5.) Logging an error message
 *&----------------------------------------------------------------------*
-lr8_log_util->log( 'Logging Message 1 - Expected in Application Log' ).
+lr80_log_util->log( 'Logging Message 1 - Expected in Application Log' ).
 
 
 
 *&----------------------------------------------------------------------*
 *& •  6.) Disabling Application Log
 *&----------------------------------------------------------------------*
-lr8_slg->disable( ).
+lr80_slg->disable( ).
 
 
 
 *&----------------------------------------------------------------------*
 *& •  7.) Logging an another error message
 *&----------------------------------------------------------------------*
-lr8_log_util->log( 'Logging Message 2 - Not Expected in Application Log' ).
+lr80_log_util->log( 'Logging Message 2 - Not Expected in Application Log' ).
 
 
 
 *&----------------------------------------------------------------------*
 *& •  8.) Re-enabling Application Log
 *&----------------------------------------------------------------------*
-lr8_slg->enable( ).
+lr80_slg->enable( ).
 
 
 
 *&----------------------------------------------------------------------*
 *& •  9.) Logging an last another error message
 *&----------------------------------------------------------------------*
-lr8_log_util->log( 'Logging Message 3 - Expected in Application Log' ).
+lr80_log_util->log( 'Logging Message 3 - Expected in Application Log' ).
 
 
 
 *&----------------------------------------------------------------------*
 *& • 10.) Displaying Application Logs
 *&----------------------------------------------------------------------*
-lr8_slg->display( ).
+lr80_slg->display( ).

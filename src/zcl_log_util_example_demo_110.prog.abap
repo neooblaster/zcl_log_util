@@ -1,5 +1,5 @@
 *&---------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_11
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_110
 *&---------------------------------------------------------------------*
 DATA lr_util TYPE REF TO zcl_log_util.
 DATA lv_obj TYPE BALOBJ_D.

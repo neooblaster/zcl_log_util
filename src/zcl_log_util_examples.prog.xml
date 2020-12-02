@@ -30,115 +30,121 @@
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM01</KEY>
-     <ENTRY>Demo 01 - Get started</ENTRY>
-     <LENGTH>29</LENGTH>
+     <KEY>P_DEM010</KEY>
+     <ENTRY>Demo 010 - Get started</ENTRY>
+     <LENGTH>30</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM02</KEY>
-     <ENTRY>Demo 02 - Log. using own table</ENTRY>
-     <LENGTH>38</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM03</KEY>
-     <ENTRY>Demo 03 - Adding extra data</ENTRY>
-     <LENGTH>35</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM04</KEY>
-     <ENTRY>Demo 04 - Log. BAPI return tab</ENTRY>
-     <LENGTH>38</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM05</KEY>
-     <ENTRY>Demo 05 - Log. BAPI tab w/data</ENTRY>
-     <LENGTH>38</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM06</KEY>
-     <ENTRY>Demo 06 - Many entries w/data</ENTRY>
+     <KEY>P_DEM020</KEY>
+     <ENTRY>Demo 020 - Log. using own tab</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM07</KEY>
-     <ENTRY>Demo 07 - Application Log SLG</ENTRY>
-     <LENGTH>37</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM08</KEY>
-     <ENTRY>Demo 08 - Enable/Disable SLG</ENTRY>
+     <KEY>P_DEM030</KEY>
+     <ENTRY>Demo 030 - Adding extra data</ENTRY>
      <LENGTH>36</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM09</KEY>
-     <ENTRY>Demo 09 - Log. specifying type</ENTRY>
+     <KEY>P_DEM040</KEY>
+     <ENTRY>Demo 040 - Log.BAPI return tab</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM10</KEY>
-     <ENTRY>Demo 10 - Overloading messages</ENTRY>
+     <KEY>P_DEM050</KEY>
+     <ENTRY>Demo 050 - Log.BAPI tab w/data</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM11</KEY>
-     <ENTRY>Demo 11 - Over. using own tabl</ENTRY>
+     <KEY>P_DEM060</KEY>
+     <ENTRY>Demo 060 - Many entries w/data</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM12</KEY>
-     <ENTRY>Demo 12 - Over. using Spot ID</ENTRY>
+     <KEY>P_DEM065</KEY>
+     <ENTRY>Demo 065 - Many Log Tables</ENTRY>
+     <LENGTH>34</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM070</KEY>
+     <ENTRY>Demo 070 - Application Log SLG</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM080</KEY>
+     <ENTRY>Demo 080 - Enable/Disable SLG</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM13</KEY>
+     <KEY>P_DEM090</KEY>
+     <ENTRY>Demo 090 - Log. specifying typ</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM100</KEY>
+     <ENTRY>Demo 100 - Overloading messges</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM110</KEY>
+     <ENTRY>Demo 110 - Over.using own tabl</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM120</KEY>
+     <ENTRY>Demo 120 - Over. using Spot ID</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM130</KEY>
      <ENTRY>Execution of Demo 13</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM14</KEY>
+     <KEY>P_DEM140</KEY>
      <ENTRY>Execution of Demo 14</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM15</KEY>
+     <KEY>P_DEM150</KEY>
      <ENTRY>Execution of Demo 15</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM16</KEY>
+     <KEY>P_DEM160</KEY>
      <ENTRY>Execution of Demo 16</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM17</KEY>
+     <KEY>P_DEM170</KEY>
      <ENTRY>Execution of Demo 17</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM18</KEY>
+     <KEY>P_DEM180</KEY>
      <ENTRY>Execution of Demo 18</ENTRY>
      <LENGTH>28</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM19</KEY>
+     <KEY>P_DEM190</KEY>
      <ENTRY>Execution of Demo 19</ENTRY>
      <LENGTH>28</LENGTH>
     </item>

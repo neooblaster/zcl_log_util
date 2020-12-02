@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_05
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_050
 *&----------------------------------------------------------------------*
 
 
@@ -24,7 +24,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty5_my_log_table         ,
+TYPES: BEGIN OF ty50_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -37,7 +37,7 @@ TYPES: BEGIN OF ty5_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty5_my_log_table         .
+       END   OF ty50_my_log_table         .
 
 
 
@@ -45,20 +45,20 @@ TYPES: BEGIN OF ty5_my_log_table         ,
 *& • 2.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt5_log_table TYPE TABLE OF ty5_my_log_table.
+DATA: lt50_log_table TYPE TABLE OF ty50_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr5_log_util TYPE REF TO zcl_log_util.
+DATA: lr50_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr5_log_util
+    e_log_util  = lr50_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt5_log_table
+    c_log_table = lt50_log_table
 ).
 
 
@@ -69,7 +69,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr5_log_util->define( )->set(
+lr50_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -85,19 +85,19 @@ lr5_log_util->define( )->set(
 *&----------------------------------------------------------------------*
 *& • 4.) Call BAPI generating error
 *&----------------------------------------------------------------------*
-DATA: lt5_bapi_ret_tab TYPE TABLE OF bapiret2 .
-DATA: ls5_poheader     TYPE bapimepoheader    .
-DATA: ls5_poheaderx    TYPE bapimepoheaderx   .
+DATA: lt50_bapi_ret_tab TYPE TABLE OF bapiret2 .
+DATA: ls50_poheader     TYPE bapimepoheader    .
+DATA: ls50_poheaderx    TYPE bapimepoheaderx   .
 
-ls5_poheader-doc_type  = 'ZTYP'.
-ls5_poheaderx-doc_type = 'X'.
+ls50_poheader-doc_type  = 'ZTYP'.
+ls50_poheaderx-doc_type = 'X'.
 
 
 CALL FUNCTION 'BAPI_PO_CHANGE'
   EXPORTING
     purchaseorder                = '4500001189'
-    poheader                     = ls5_poheader
-    POHEADERX                    = ls5_poheaderx
+    poheader                     = ls50_poheader
+    POHEADERX                    = ls50_poheaderx
 *   POADDRVENDOR                 =
     testrun                      = 'X'
 *   MEMORY_UNCOMPLETE            =
@@ -115,7 +115,7 @@ CALL FUNCTION 'BAPI_PO_CHANGE'
 *   EXPHEADER                    =
 *   EXPPOEXPIMPHEADER            =
  TABLES
-    return                       = lt5_bapi_ret_tab
+    return                       = lt50_bapi_ret_tab
 *   POITEM                       =
 *   POITEMX                      =
 *   POADDRDELIVERY               =
@@ -173,16 +173,16 @@ CALL FUNCTION 'BAPI_PO_CHANGE'
 "    List available here :
 "
 "
-lr5_log_util->log( lt5_bapi_ret_tab ).
+lr50_log_util->log( lt50_bapi_ret_tab ).
 
 " In log we want to display the PO Number
-DATA: ls5_log_table TYPE ty5_my_log_table.
-ls5_log_table-vbeln    = '4500001189'.
+DATA: ls50_log_table TYPE ty50_my_log_table.
+ls50_log_table-vbeln    = '4500001189'.
 
 " I log MANY entries and I want to merge my data
 " I provided ONE structure (1 line)
 " All entries will be updated by merging my structure
-lr5_log_util->merging( ls5_log_table ).
+lr50_log_util->merging( ls50_log_table ).
 
 
 
@@ -191,4 +191,4 @@ lr5_log_util->merging( ls5_log_table ).
 *&----------------------------------------------------------------------*
 " ZCL_LOG_UTIL offer a display feature using ALV
 " It prevent use to make your own routine using ALV on your table
-lr5_log_util->display( ).
+lr50_log_util->display( ).

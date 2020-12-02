@@ -17,20 +17,24 @@
 *&----------------------------[   DEMO LIST   ]-------------------------------&*
 *&----------------------------------------------------------------------------&*
 *&                                                                            &*
-*&  #01 : ZCL_LOG_UTIL - Get started                                          &*
-*&  #02 : Logging using own table                                             &*
-*&  #03 : Adding extra data on log entry                                      &*
-*&  #04 : Logging BAPI return tables                                          &*
-*&  #05 : Logging BAPI return tables filled with extra data                   &*
-*&  #06 : Logging many entries with extra data                                &*
-*&  #07 : Logging in Application Log                                          &*
-*&  #08 : Enabling / Disabling Application Log                                &*
-*&  #09 : Logging specifying type                                             &*
-*&  #10 : Overloading Log Messages                                            &*
-*&  #11 : Overloading Log Messages using my own Setting Table                 &*
-*&  #12 : Overloading "Spot ID"                                               &*
-*&  #13 : Logging for Batch Job                                               &*
-*&  #14 : Managing outpus for Batch Job                                       &*
+*&  #010 : ZCL_LOG_UTIL - Get started                                         &*
+*&  #020 : Logging using own table                                            &*
+*&  #030 : Adding extra data on log entry                                     &*
+*&  #040 : Logging BAPI return tables                                         &*
+*&  #050 : Logging BAPI return tables filled with extra data                  &*
+*&  #060 : Logging many entries with extra data                               &*
+*&  #065 : Changing Logging table during execution                            &*
+*&  #070 : Logging in Application Log                                         &*
+*&  #080 : Enabling / Disabling Application Log                               &*
+*&  #090 : Logging specifying type                                            &*
+*&  #100 : Overloading Log Messages                                           &*
+*&  #110 : Overloading Log Messages using my own Setting Table                &* <<<
+*&  #120 : Overloading "Spot ID"                                              &*
+*&  #130 : Logging for Batch Job                                              &*
+*&  #140 : Managing outpus for Batch Job                                      &*
+*&                                                                            &*
+*&                                                                            &*
+*&   xx : Change Log Table                                                    &*
 *&                                                                            &*
 *&  #R1 : List of object that can be logged (text, std, str, tab)             &*
 *&                                                                            &*
@@ -79,81 +83,88 @@ INITIALIZATION.
 "&   Start of processing                                                   &"
 "&-------------------------------------------------------------------------&"
 START-OF-SELECTION.
-  "&-------------------------------------&"
-  "&---[  Demo Number 01  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem01 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_01.
+  "&--------------------------------------&"
+  "&---[  Demo Number 010  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem010 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_010.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 02  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem02 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_02.
+  "&--------------------------------------&"
+  "&---[  Demo Number 020  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem020 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_020.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 03  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem03 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_03.
+  "&--------------------------------------&"
+  "&---[  Demo Number 030  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem030 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_030.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 04  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem04 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_04.
+  "&--------------------------------------&"
+  "&---[  Demo Number 040  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem040 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_040.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 05  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem05 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_05.
+  "&--------------------------------------&"
+  "&---[  Demo Number 050  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem050 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_050.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 06  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem06 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_06.
+  "&--------------------------------------&"
+  "&---[  Demo Number 060  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem060 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_060.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 07  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem07 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_07.
+  "&--------------------------------------&"
+  "&---[  Demo Number 065  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem065 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_065.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 08  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem08 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_08.
+  "&--------------------------------------&"
+  "&---[  Demo Number 070  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem070 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_070.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 09  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem09 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_09.
+  "&--------------------------------------&"
+  "&---[  Demo Number 080  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem080 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_080.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 10  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem10 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_10.
+  "&--------------------------------------&"
+  "&---[  Demo Number 090  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem090 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_090.
   ENDIF.
 
-  "&-------------------------------------&"
-  "&---[  Demo Number 11  ]--------------&"
-  "&-------------------------------------&"
-  IF p_dem11 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_11.
+  "&--------------------------------------&"
+  "&---[  Demo Number 100  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem100 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_100.
+  ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 110  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem110 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_110.
   ENDIF.
 
   " ZCL_LOG_UTIL - Example #11

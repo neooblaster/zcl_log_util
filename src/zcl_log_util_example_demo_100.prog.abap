@@ -161,7 +161,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty10_my_log_table         ,
+TYPES: BEGIN OF ty100_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -174,7 +174,7 @@ TYPES: BEGIN OF ty10_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty10_my_log_table         .
+       END   OF ty100_my_log_table         .
 
 
 
@@ -182,20 +182,20 @@ TYPES: BEGIN OF ty10_my_log_table         ,
 *& • 2.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt10_log_table TYPE TABLE OF ty10_my_log_table.
+DATA: lt100_log_table TYPE TABLE OF ty100_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr10_log_util TYPE REF TO zcl_log_util.
+DATA: lr100_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr10_log_util
+    e_log_util  = lr100_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt10_log_table
+    c_log_table = lt100_log_table
 ).
 
 
@@ -206,7 +206,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr10_log_util->define( )->set(
+lr100_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -222,7 +222,7 @@ lr10_log_util->define( )->set(
 *&----------------------------------------------------------------------*
 *& •  4.) Enabling Overloading
 *&----------------------------------------------------------------------*
-lr10_log_util->overload( )->enable( ).
+lr100_log_util->overload( )->enable( ).
 
 
 
@@ -230,7 +230,7 @@ lr10_log_util->overload( )->enable( ).
 *& •  5.) Logging a Message 1 which will overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr10_log_util->e(
+lr100_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
   i_log_msgno = '100'
 ).
@@ -242,7 +242,7 @@ lr10_log_util->e(
 *& •  5.) Logging a Message 2 which will overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr10_log_util->e(
+lr100_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
   i_log_msgno = '104'
   i_log_msgv1 = 'a'
@@ -257,7 +257,7 @@ lr10_log_util->e(
 *&----------------------------------------------------------------------*
 *& •  7.) Disabling Overloading
 *&----------------------------------------------------------------------*
-lr10_log_util->overload( )->disable( ).
+lr100_log_util->overload( )->disable( ).
 
 
 
@@ -265,7 +265,7 @@ lr10_log_util->overload( )->disable( ).
 *& •  5.) Relogging Message 2 which will not overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr10_log_util->e(
+lr100_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
   i_log_msgno = '104'
   i_log_msgv1 = 'a'
@@ -279,4 +279,4 @@ lr10_log_util->e(
 *&----------------------------------------------------------------------*
 *& •  8.) Displaying Log
 *&----------------------------------------------------------------------*
-lr10_log_util->display( ).
+lr100_log_util->display( ).

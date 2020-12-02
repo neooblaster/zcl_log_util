@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <PROGDIR>
-    <NAME>ZCL_LOG_UTIL_EXAMPLE_DEMO_03</NAME>
+    <NAME>ZCL_LOG_UTIL_EXAMPLE_DEMO_010</NAME>
     <SUBC>I</SUBC>
     <RLOAD>F</RLOAD>
     <UCCHECK>X</UCCHECK>
@@ -11,7 +11,7 @@
    <TPOOL>
     <item>
      <ID>R</ID>
-     <ENTRY>ZCL_LOG_UTIL - Example #03</ENTRY>
+     <ENTRY>ZCL_LOG_UTIL - Get started</ENTRY>
      <LENGTH>26</LENGTH>
     </item>
    </TPOOL>

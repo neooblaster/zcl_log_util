@@ -35,25 +35,26 @@
 *&---------------#---------------------------------------------------------&*
 *&-------------------------------------------------------------------------&*
 SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
-  PARAMETERS: p_dem01 RADIOBUTTON GROUP seld MODIF ID rad USER-COMMAND fm ,
-              p_dem02 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem03 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem04 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem05 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem06 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem07 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem08 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem09 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem10 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem11 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem12 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem13 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem14 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem15 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem16 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem17 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem18 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem19 RADIOBUTTON GROUP seld MODIF ID rad                 .
+  PARAMETERS: p_dem010 RADIOBUTTON GROUP seld MODIF ID rad USER-COMMAND fm ,
+              p_dem020 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem030 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem040 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem050 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem060 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem065 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem070 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem080 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem090 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem100 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem110 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem120 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem130 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem140 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem150 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem160 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem170 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem180 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem190 RADIOBUTTON GROUP seld MODIF ID rad                 .
 SELECTION-SCREEN END   OF BLOCK blkdemo.
 
 SELECTION-SCREEN BEGIN OF BLOCK blkdeta WITH FRAME TITLE text-t02.
