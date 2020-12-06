@@ -54,7 +54,8 @@ SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
               p_dem160 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem170 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem180 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem190 RADIOBUTTON GROUP seld MODIF ID rad                 .
+              p_dem190 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem999 RADIOBUTTON GROUP seld MODIF ID rad                 .
 SELECTION-SCREEN END   OF BLOCK blkdemo.
 
 SELECTION-SCREEN BEGIN OF BLOCK blkdeta WITH FRAME TITLE text-t02.

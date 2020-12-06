@@ -42,6 +42,9 @@ public section.
       !I_PARAM_2 type STRING optional
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SETTING_TABLE .
+  methods IS_ENABLED
+    returning
+      value(ENABLED) type CHAR1 .
 protected section.
 private section.
 
@@ -88,12 +91,19 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
   endmethod.
 
 
+  method IS_ENABLED.
+
+    enabled = me->_enabled.
+
+  endmethod.
+
+
   method OVERLOAD.
 
     DATA:
         lr_setting_tab       TYPE REF TO data                                      ,
 
-        lt_log_field_def     TYPE zcl_log_util_define=>ty_field_map                ,
+        ls_log_field_def     TYPE zcl_log_util_define=>ty_field_map                ,
         ls_setting_field_map TYPE zcl_log_util_setting_table=>TY_SETTING_FIELD_MAP ,
 
         lv_log_tab_name      TYPE string                                           ,
@@ -164,6 +174,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     IF me->spot( )->is_enabled( ) EQ zcl_log_util_spot=>true.
       lv_spot_id = me->spot( )->get_spot_id( ).
     ENDIF.
+
 
     "
     " Load data if it has not been done yet

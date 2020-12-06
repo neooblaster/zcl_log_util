@@ -30,8 +30,9 @@
 *&  #100 : Overloading Log Messages                                           &*
 *&  #110 : Overloading Log Messages using my own Setting Table                &* <<<
 *&  #120 : Overloading "Spot ID"                                              &*
-*&  #130 : Logging for Batch Job                                              &*
-*&  #140 : Managing outpus for Batch Job                                      &*
+*&  #130 : Overloading an existing log table                                  &*
+*&  #140 : Logging for Batch Job                                              &*
+*&  #150 : Managing outpus for Batch Job                                      &*
 *&                                                                            &*
 *&                                                                            &*
 *&   xx : Change Log Table                                                    &*
@@ -169,6 +170,9 @@ START-OF-SELECTION.
 
   " ZCL_LOG_UTIL - Example #11
 
+  IF p_dem999 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_999.
+  ENDIF.
 
 
 

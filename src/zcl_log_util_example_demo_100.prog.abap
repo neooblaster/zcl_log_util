@@ -11,13 +11,13 @@
 *&  •  1.) Explanation about Overloading
 *&  •  2.) Declaring own specific log table type
 *&  •  3.) Initialization of ZCL_LOG_UTIL with our table
-*&  •  3.) Define role of our field
-*&  •  4.) Enabling Overloading
-*&  •  5.) Logging a Message 1 which will overload
-*&  •  6.) Logging a Message 2 which will overload
-*&  •  7.) Disabling Overloading
-*&  •  5.) Relogging Message 2 which will not overload
-*&  •  9.) Displaying Log
+*&  •  4.) Define role of our field
+*&  •  5.) Enabling Overloading
+*&  •  6.) Logging a Message 1 which will overload
+*&  •  7.) Logging a Message 2 which will overload
+*&  •  8.) Disabling Overloading
+*&  •  9.) Relogging Message 2 which will not overload
+*&  • 10.) Displaying Log
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -179,7 +179,7 @@ TYPES: BEGIN OF ty100_my_log_table         ,
 
 
 *&----------------------------------------------------------------------*
-*& • 2.) Initialization of ZCL_LOG_UTIL with our table
+*& • 3.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
 DATA: lt100_log_table TYPE TABLE OF ty100_my_log_table.
@@ -201,7 +201,7 @@ zcl_log_util=>factory(
 
 
 *&----------------------------------------------------------------------*
-*& • 3.) Define role of our field
+*& • 4.) Define role of our field
 *&----------------------------------------------------------------------*
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
@@ -220,14 +220,14 @@ lr100_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& •  4.) Enabling Overloading
+*& •  5.) Enabling Overloading
 *&----------------------------------------------------------------------*
 lr100_log_util->overload( )->enable( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Logging a Message 1 which will overload
+*& •  6.) Logging a Message 1 which will overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
 lr100_log_util->e(
@@ -239,7 +239,7 @@ lr100_log_util->e(
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Logging a Message 2 which will overload
+*& •  7.) Logging a Message 2 which will overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
 lr100_log_util->e(
@@ -255,14 +255,14 @@ lr100_log_util->e(
 
 
 *&----------------------------------------------------------------------*
-*& •  7.) Disabling Overloading
+*& •  8.) Disabling Overloading
 *&----------------------------------------------------------------------*
 lr100_log_util->overload( )->disable( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Relogging Message 2 which will not overload
+*& •  9.) Relogging Message 2 which will not overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
 lr100_log_util->e(
@@ -276,7 +276,8 @@ lr100_log_util->e(
 ">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : a, b, c n d"
 
 
+
 *&----------------------------------------------------------------------*
-*& •  8.) Displaying Log
+*& • 10.) Displaying Log
 *&----------------------------------------------------------------------*
 lr100_log_util->display( ).

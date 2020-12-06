@@ -35,6 +35,8 @@ public section.
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_DEFINE .
   methods OVERLOAD
+    changing
+      !C_LOG_TABLE type STANDARD TABLE optional
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_OVERLOAD .
   methods BATCH
@@ -249,7 +251,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " Set handler to specified structure (lv_i_struc_type prevent dump due to it position)
     IF lv_i_struc_type EQ 'C' AND i_structure EQ 'INITIAL'.
       ASSIGN me->_log_table->* TO <fs_structure>.
-      IF <fs_structure> IS NOT ASSIGNED.
+      IF <fs_structure> IS ASSIGNED.
         me->_define->handling( <fs_structure> ).
       ELSE.
         " 011 :: &, No internal log table is defined
@@ -600,6 +602,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     DATA lt_bapiret1 TYPE bapiret1.
     lr_define = e_log_util->define( lt_bapiret1 ).
     lr_define->set(
+      msgtx_field = 'MESSAGE'
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
       msgty_field = 'TYPE'
@@ -612,6 +615,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     DATA lt_bapiret2 TYPE bapiret2.
     lr_define = e_log_util->define( lt_bapiret2 ).
     lr_define->set(
+      msgtx_field = 'MESSAGE'
       msgid_field = 'ID'
       msgno_field = 'NUMBER'
       msgty_field = 'TYPE'
@@ -671,12 +675,27 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 *      msgv3_field = 'MSGV3'
 *      msgv4_field = 'MSGV4'
 *    ).
-    " ──┐ RCOMP Log Tablessage.
+    " ──┐ RCOMP Message Log Table.
 *
 * @TODO : Include structure not managed by strucdescr (currently)
 *
 *    DATA lt_rcomp TYPE rcomp.
 *    lr_define = e_log_util->define( lt_rcomp ).
+*    lr_define->set(
+*      msgid_field = 'MSGID'
+*      msgno_field = 'MSGNO'
+*      msgty_field = 'MSGTY'
+*      msgv1_field = 'MSGV1'
+*      msgv2_field = 'MSGV2'
+*      msgv3_field = 'MSGV3'
+*      msgv4_field = 'MSGV4'
+*    ).
+    " ──┐ BAPIRETURN Log Tablessage.
+*
+* @TODO : one field standing for ID and Number ? (solution ?)
+*
+*    DATA lt_bapireturn TYPE bapireturn.
+*    lr_define = e_log_util->define( lt_bapireturn ).
 *    lr_define->set(
 *      msgid_field = 'MSGID'
 *      msgno_field = 'MSGNO'
@@ -714,6 +733,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       i_overload_msgv2_field  = 'OUTPUT5'
       i_overload_msgv3_field  = 'OUTPUT6'
       i_overload_msgv4_field  = 'OUTPUT7'
+      i_overload_ignore_field = 'OUTPUT8'
     ).
 
 
@@ -1428,6 +1448,89 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
   method OVERLOAD.
+    DATA:
+        ls_field_definition   TYPE          zcl_log_util_define=>ty_field_map ,
+        lr_data               TYPE REF TO   data                              ,
+        lt_log_table          TYPE REF TO   data                              ,
+        lv_local_enabled      TYPE          c LENGTH 1                        ,
+        lv_msgv1              TYPE          sy-msgv1                          ,
+        lv_msgv2              TYPE          sy-msgv2                          ,
+        lv_msgv3              TYPE          sy-msgv3                          ,
+        lv_msgv4              TYPE          sy-msgv4                          .
+
+    FIELD-SYMBOLS:
+                 <fs_log_table_s> TYPE ANY            ,
+                 <fs_log_table_t> TYPE ANY TABLE      ,
+                 <fs_msgtx>       TYPE ANY            ,
+                 <fs_msgid>       TYPE ANY            ,
+                 <fs_msgno>       TYPE ANY            ,
+                 <fs_msgty>       TYPE ANY            ,
+                 <fs_msgv1>       TYPE ANY            ,
+                 <fs_msgv2>       TYPE ANY            ,
+                 <fs_msgv3>       TYPE ANY            ,
+                 <fs_msgv4>       TYPE ANY            .
+
+
+    " Call at that level with c_log_table, is to overload provided table
+    IF c_log_table IS SUPPLIED.
+      " Identify the true type
+      CREATE DATA lr_data LIKE LINE OF c_log_table.
+      ASSIGN lr_data->* TO <fs_log_table_s>.
+
+      " ──┐ Get table definition
+      ls_field_definition = me->_define->get_definition(
+        i_structure = <fs_log_table_s>
+      ).
+
+      GET REFERENCE OF c_log_table INTO lt_log_table .
+
+      " ──┐ Perform Overloading
+      " If not enabled, enable on demande
+      IF me->_overload->is_enabled( ) NE 'X'.
+        lv_local_enabled = 'X'.
+        me->_overload->enable( ).
+      ENDIF.
+
+      me->_overload->overload(
+        EXPORTING
+          i_log_field_def = ls_field_definition
+        CHANGING
+          c_log_table     = lt_log_table
+      ).
+
+      " When locally enabled, revert state
+      IF lv_local_enabled EQ 'X'.
+        me->_overload->disable( ).
+      ENDIF.
+
+      " Overload not manage msgtx, we have to update msgtx field if defined
+      IF ls_field_definition-field_message IS NOT INITIAL.
+        LOOP AT c_log_table ASSIGNING <fs_log_table_s>.
+          " Get messages field
+          ASSIGN COMPONENT ls_field_definition-field_message OF STRUCTURE <fs_log_table_s> TO <fs_msgtx>.
+          ASSIGN COMPONENT ls_field_definition-field_id      OF STRUCTURE <fs_log_table_s> TO <fs_msgid>.
+          ASSIGN COMPONENT ls_field_definition-field_number  OF STRUCTURE <fs_log_table_s> TO <fs_msgno>.
+          ASSIGN COMPONENT ls_field_definition-field_type    OF STRUCTURE <fs_log_table_s> TO <fs_msgty>.
+          ASSIGN COMPONENT ls_field_definition-field_msgv1   OF STRUCTURE <fs_log_table_s> TO <fs_msgv1>.
+          ASSIGN COMPONENT ls_field_definition-field_msgv2   OF STRUCTURE <fs_log_table_s> TO <fs_msgv2>.
+          ASSIGN COMPONENT ls_field_definition-field_msgv3   OF STRUCTURE <fs_log_table_s> TO <fs_msgv3>.
+          ASSIGN COMPONENT ls_field_definition-field_msgv4   OF STRUCTURE <fs_log_table_s> TO <fs_msgv4>.
+
+          IF <fs_msgv1> IS ASSIGNED. lv_msgv1 = <fs_msgv1>. ENDIF.
+          IF <fs_msgv2> IS ASSIGNED. lv_msgv2 = <fs_msgv2>. ENDIF.
+          IF <fs_msgv3> IS ASSIGNED. lv_msgv3 = <fs_msgv3>. ENDIF.
+          IF <fs_msgv4> IS ASSIGNED. lv_msgv4 = <fs_msgv4>. ENDIF.
+
+          IF <fs_msgid> IS ASSIGNED AND <fs_msgno> IS ASSIGNED AND <fs_msgty> IS ASSIGNED.
+            MESSAGE ID <fs_msgid> TYPE <fs_msgty> NUMBER <fs_msgno>
+            WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4
+            INTO <fs_msgtx>.
+          ENDIF.
+
+        ENDLOOP.
+      ENDIF.
+
+    ENDIF.
 
     " Return Instance of define
     self = me->_overload.
