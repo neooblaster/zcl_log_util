@@ -29,7 +29,7 @@
 *&  #090 : Logging specifying type                                            &*
 *&  #100 : Overloading Log Messages                                           &*
 *&  #110 : Overloading Log Messages using my own Setting Table                &* <<<
-*&  #120 : Overloading "Spot ID"                                              &*
+*&  #120 : Overloading using "Spot ID"                                        &*
 *&  #130 : Overloading an existing log table                                  &*
 *&  #140 : Logging for Batch Job                                              &*
 *&  #150 : Managing outpus for Batch Job                                      &*
@@ -166,6 +166,13 @@ START-OF-SELECTION.
   "&--------------------------------------&"
   IF p_dem110 EQ 'X'.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_110.
+  ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 120  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem120 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_120.
   ENDIF.
 
   " ZCL_LOG_UTIL - Example #11

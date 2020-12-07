@@ -884,11 +884,23 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     DESCRIBE FIELD i_log_content TYPE lv_i_log_content_type.
 
     IF lv_i_log_content_type EQ 'C'.
-      IF i_log_content EQ 'INITIAL'.
+
+      " No parameter provided (->log( ))
+      IF i_log_content EQ 'INITIAL'
+        AND i_log_msgid IS NOT SUPPLIED
+        AND i_log_msgty IS NOT SUPPLIED
+        AND i_log_msgno IS NOT SUPPLIED
+        AND i_log_msgv1 IS NOT SUPPLIED
+        AND i_log_msgv2 IS NOT SUPPLIED
+        AND i_log_msgv3 IS NOT SUPPLIED
+        AND i_log_msgv4 IS NOT SUPPLIED.
+
         lv_flg_use_symsg = zcl_log_util=>true.
         " Free Message entered (for SLG)
         lv_msgxx_flg = 'X'.
-      ELSE.
+
+      " Not initial means free text
+      ELSEIF i_log_content NE 'INITIAL'.
         CLEAR: lv_msgv1, lv_msgv2,
                lv_msgv3, lv_msgv4.
 
@@ -908,6 +920,19 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         lv_flg_use_symsg = zcl_log_util=>true.
         " Free Message entered (for SLG)
         lv_msgtx_flg = 'X'.
+
+      " No text provided (INITIAL) but some of MSGXX are provided
+      ELSE.
+        CLEAR : sy-msgid ,
+                sy-msgno ,
+                sy-msgty ,
+                sy-msgv1 ,
+                sy-msgv2 ,
+                sy-msgv3 ,
+                sy-msgv4 .
+
+        lv_flg_use_symsg = zcl_log_util=>true.
+
       ENDIF.
 
     ELSEIF lv_i_log_content_type EQ 'h'.

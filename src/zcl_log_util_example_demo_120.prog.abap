@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_110
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_120
 *&----------------------------------------------------------------------*
 
 
@@ -8,17 +8,21 @@
 *&-------------------[  PURPOSE OF THE EXAMPLE  ]-----------------------*
 *&----------------------------------------------------------------------*
 *&
-*&  •  1.) Explanation about Overloading
+*&  •  1.) Explanation about Overloading and Spot ID
 *&  •  2.) Declaring own specific log table type
 *&  •  3.) Initialization of ZCL_LOG_UTIL with our table
 *&  •  4.) Define role of our field
-*&  •  5.) Define your setting table
-*&  •  6.) Enabling Overloading
-*&  •  7.) Logging a Message 1 which will overload
-*&  •  8.) Logging a Message 2 which will overload
-*&  •  9.) Disabling Overloading
-*&  • 10.) Relogging Message 2 which will not overload
-*&  • 11.) Displaying Log
+*&  •  5.) Enabling Overloading
+*&  •  6.) Logging a Message 1 which will overload
+*&  •  7.) Turn On Spot ID.
+*&  •  8.) Logging the same message which will overload in another way
+*&  •  9.) Turn Off Spot ID.
+*&  • 10.) Logging the same message which not longer overload
+*&  • 11.) Re-Turn On Spot ID.
+*&  • 12.) Logging the same message which will overload in the same way as step 8.
+*&  • 13.) Changing Spot ID
+*&  • 14.) Logging the same message which will overload in a third way
+*&  • 15.) Displaying Log
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -162,7 +166,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty110_my_log_table         ,
+TYPES: BEGIN OF ty120_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -175,7 +179,7 @@ TYPES: BEGIN OF ty110_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty110_my_log_table         .
+       END   OF ty120_my_log_table         .
 
 
 
@@ -183,17 +187,17 @@ TYPES: BEGIN OF ty110_my_log_table         ,
 *& • 3.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt110_log_table TYPE TABLE OF ty110_my_log_table.
+DATA: lt120_log_table TYPE TABLE OF ty120_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr110_log_util TYPE REF TO zcl_log_util.
+DATA: lr120_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr110_log_util
+    e_log_util  = lr120_log_util
   " Passing our log table
   CHANGING
     c_log_table = lt110_log_table
@@ -207,7 +211,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr110_log_util->define( )->set(
+lr120_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -221,46 +225,17 @@ lr110_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Define your setting table
+*& •  5.) Enabling Overloading
 *&----------------------------------------------------------------------*
-" You can define you SAP Custom Settings table
-" Note : here we will set same fields as default ones. It's just for
-"        the demonstration
-lr110_log_util->overload( )->setting_tab( )->set(
-  I_TABLE_NAME            = 'ZLOG_UTIL_OVERLO' "          " DDIC Table Name
-  I_FILTER_DEVCODE_FIELD  = 'CODE'             " OPTIONAL " Pre-filter field standing for WRICEF
-  I_FILTER_DOMAIN_FIELD	  = 'DOMAINE'          " OPTIONAL " Pre-filter field standing for dev domain
-  I_FILTER_DATA_FIELD    	= 'DATA'             " OPTIONAL " Pre-filter field standing for kind of data
-  I_SOURCE_ID_FIELD	      = 'INPUT1'           "          " Field read for checking Source Message ID
-  I_SOURCE_NUMBER_FIELD	  = 'INPUT2'           "          " Field read for checking Source Message Number
-  I_SOURCE_TYPE_FIELD	    = 'INPUT3'           "          " Field read for checking Source Message Type
-  I_SOURCE_SPOT_FIELD     = 'INPUT4'           "          " Field read for checking Spot ID (when enabled)
-  I_SOURCE_PARAM1_FIELD	  = 'INPUT5'           " OPTIONAL " Field read for checking extra parameter (when set) (eg to handle SPRAS)
-*  I_SOURCE_PARAM2_FIELD    = ''                 " OPTIONAL " Field read for checking extra parameter (when set)
-  I_OVERLOAD_ID_FIELD     = 'OUTPUT1'          "          " Field read to replace Message ID (when not initial)
-  I_OVERLOAD_NUMBER_FIELD	= 'OUTPUT2'          "          " Field read to replace Message Number (when not initial)
-  I_OVERLOAD_TYPE_FIELD	  = 'OUTPUT3'          "          " Field read to replace Message Type (when not initial)
-  I_OVERLOAD_MSGV1_FIELD  = 'OUTPUT4'          " OPTIONAL " Field read to replace Message Variable 1 (when not initial)
-  I_OVERLOAD_MSGV2_FIELD  = 'OUTPUT5'          " OPTIONAL " Field read to replace Message Variable 2 (when not initial)
-  I_OVERLOAD_MSGV3_FIELD  = 'OUTPUT6'          " OPTIONAL " Field read to replace Message Variable 3 (when not initial)
-  I_OVERLOAD_MSGV4_FIELD  = 'OUTPUT7'          " OPTIONAL " Field read to replace Message Variable 4 (when not initial)
-  I_OVERLOAD_IGNORE_FIELD	= 'OUTPUT8'          " OPTIONAL " Field read to check if message must be completely ignored (Not ignored in SLG)
-).
+lr120_log_util->overload( )->enable( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  6.) Enabling Overloading
-*&----------------------------------------------------------------------*
-lr110_log_util->overload( )->enable( ).
-
-
-
-*&----------------------------------------------------------------------*
-*& •  7.) Logging a Message 1 which will overload
+*& •  6.) Logging a Message 1 which will overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr120_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
   i_log_msgno = '100'
 ).
@@ -269,44 +244,82 @@ lr110_log_util->e(
 
 
 *&----------------------------------------------------------------------*
-*& •  8.) Logging a Message 2 which will overload
+*& •  7.) Turn On Spot ID.
+*&----------------------------------------------------------------------*
+lr120_log_util->spot( 'MYSPOT' )->start( ).
+
+
+
+*&----------------------------------------------------------------------*
+*& •  8.) Logging the same message which will overload in another way
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr120_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '104'
-  i_log_msgv1 = 'a'
-  i_log_msgv2 = 'b'
-  i_log_msgv3 = 'c'
-  i_log_msgv4 = 'd'
+  i_log_msgno = '100'
 ).
-">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : NOT, AN, ERROR n d" with type S
+">>> Expected : "Message overload using spot "MYSPOT" " with type W
 
 
 
 *&----------------------------------------------------------------------*
-*& •  9.) Disabling Overloading
+*& •  9.) Turn Off Spot ID.
 *&----------------------------------------------------------------------*
-lr110_log_util->overload( )->disable( ).
+lr120_log_util->spot( )->stop( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& • 10.) Relogging Message 2 which will not overload
+*& • 10.) Logging the same message which not longer overload
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr120_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '104'
-  i_log_msgv1 = 'a'
-  i_log_msgv2 = 'b'
-  i_log_msgv3 = 'c'
-  i_log_msgv4 = 'd'
+  i_log_msgno = '100'
 ).
-">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : a, b, c n d"
+">>> Expected : "ALPHABETA" with type W
+
 
 
 *&----------------------------------------------------------------------*
-*& • 11.) Displaying Log
+*& • 11.) Re-Turn On Spot ID.
 *&----------------------------------------------------------------------*
-lr110_log_util->display( ).
+lr120_log_util->spot( )->start( ).
+
+
+
+*&----------------------------------------------------------------------*
+*& • 12.) Logging the same message which will overload in the same way as step 8.
+*&----------------------------------------------------------------------*
+" Logging directly to change using MESSAGE ID ... INTO dummy variable.
+lr120_log_util->e(
+  i_log_msgid = 'ZLOG_UTIL'
+  i_log_msgno = '100'
+).
+">>> Expected : "Message overload using spot "MYSPOT" " with type W
+
+
+
+*&----------------------------------------------------------------------*
+*& • 13.) Changing Spot ID
+*&----------------------------------------------------------------------*
+lr120_log_util->spot( 'NEXTSPOT' ).
+
+
+
+*&----------------------------------------------------------------------*
+*& • 14.) Logging the same message which will overload in a third way
+*&----------------------------------------------------------------------*
+" Logging directly to change using MESSAGE ID ... INTO dummy variable.
+lr120_log_util->e(
+  i_log_msgid = 'ZLOG_UTIL'
+  i_log_msgno = '100'
+).
+">>> Expected : "Message overload using spot "NEXTSPOT" " with type W
+
+
+
+*&----------------------------------------------------------------------*
+*& • 15.) Displaying Log
+*&----------------------------------------------------------------------*
+lr120_log_util->display( ).
