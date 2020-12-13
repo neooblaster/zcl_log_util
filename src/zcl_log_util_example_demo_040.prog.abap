@@ -95,7 +95,7 @@ ls40_poheaderx-doc_type = 'X'.
 
 CALL FUNCTION 'BAPI_PO_CHANGE'
   EXPORTING
-    purchaseorder                = '4500001189'
+    purchaseorder                = p_ebeln1
     poheader                     = ls40_poheader
     POHEADERX                    = ls40_poheaderx
 *   POADDRVENDOR                 =

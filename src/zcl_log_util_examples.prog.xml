@@ -13,6 +13,108 @@
    <TPOOL>
     <item>
      <ID>I</ID>
+     <KEY>010</KEY>
+     <ENTRY>ZCL_LOG_UTIL - Get started</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>020</KEY>
+     <ENTRY>Logging using own internal table</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>030</KEY>
+     <ENTRY>Adding extra data on log entry</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>040</KEY>
+     <ENTRY>Logging BAPI return tables</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>050</KEY>
+     <ENTRY>Logging BAPI return tables filled with extra data</ENTRY>
+     <LENGTH>98</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>060</KEY>
+     <ENTRY>Logging many entries with extra data</ENTRY>
+     <LENGTH>72</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>065</KEY>
+     <ENTRY>Changing Logging table during execution</ENTRY>
+     <LENGTH>78</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>070</KEY>
+     <ENTRY>Logging in Application Log</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>080</KEY>
+     <ENTRY>Enabling / Disabling Application Log</ENTRY>
+     <LENGTH>72</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>090</KEY>
+     <ENTRY>Logging specifying type</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>100</KEY>
+     <ENTRY>Overloading Log Messages</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>110</KEY>
+     <ENTRY>Overloading Log Messages using your own Setting Table</ENTRY>
+     <LENGTH>106</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>120</KEY>
+     <ENTRY>Overloading using &quot;Spot ID&quot;</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>130</KEY>
+     <ENTRY>Overloading an existing log table</ENTRY>
+     <LENGTH>66</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>140</KEY>
+     <ENTRY>Overloading using pre-filter and params</ENTRY>
+     <LENGTH>78</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>150</KEY>
+     <ENTRY>Logging for Batch Job</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>160</KEY>
+     <ENTRY>Managing outpus for Batch Job</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>T01</KEY>
      <ENTRY>Select a demo to run</ENTRY>
      <LENGTH>40</LENGTH>
@@ -24,9 +126,525 @@
      <LENGTH>58</LENGTH>
     </item>
     <item>
+     <ID>I</ID>
+     <KEY>V01</KEY>
+     <ENTRY>Please find below the steps of demo and main methods :</ENTRY>
+     <LENGTH>104</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V02</KEY>
+     <ENTRY> 1.) Initialization of ZCL_LOG_UTIL</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V03</KEY>
+     <ENTRY> 2.) How to log an error</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V04</KEY>
+     <ENTRY> 3.) How to display logs</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V05</KEY>
+     <ENTRY> 1.) Declaring own specific log table type</ENTRY>
+     <LENGTH>82</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V06</KEY>
+     <ENTRY> 2.) Initialization of ZCL_LOG_UTIL with our table</ENTRY>
+     <LENGTH>98</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V07</KEY>
+     <ENTRY> 3.) Define role of our field</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V08</KEY>
+     <ENTRY> 4.) How to log an error</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V09</KEY>
+     <ENTRY> 5.) How to display logs</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V10</KEY>
+     <ENTRY> 4.) Login entry with extra data</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V11</KEY>
+     <ENTRY> 5.) Displaying logs</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V12</KEY>
+     <ENTRY> 4.) Call BAPI generating error</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V13</KEY>
+     <ENTRY> 5.) Log BAPI messages</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V14</KEY>
+     <ENTRY> 6.) Displaying logs</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V15</KEY>
+     <ENTRY> 5.) Log BAPI messages with extra data</ENTRY>
+     <LENGTH>72</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V16</KEY>
+     <ENTRY> 4.) Simulating Log Table</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V17</KEY>
+     <ENTRY> 5.) Log Simulated table with extra data</ENTRY>
+     <LENGTH>78</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V18</KEY>
+     <ENTRY> 4.) Simulating Return log tables</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V19</KEY>
+     <ENTRY> 5.) Set log table &amp; log return table 1</ENTRY>
+     <LENGTH>76</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V20</KEY>
+     <ENTRY> 6.) Set log table &amp; log return table 2</ENTRY>
+     <LENGTH>76</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V21</KEY>
+     <ENTRY> 7.) Set log table &amp; log return table All</ENTRY>
+     <LENGTH>80</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V22</KEY>
+     <ENTRY> 8.) Displaying logs table 1</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V23</KEY>
+     <ENTRY> 9.) Displaying logs table 2</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V24</KEY>
+     <ENTRY> 4.) Configuration Application Log</ENTRY>
+     <LENGTH>66</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V25</KEY>
+     <ENTRY> 5.) Call BAPI generating error</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V26</KEY>
+     <ENTRY> 6.) Log BAPI messages</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V27</KEY>
+     <ENTRY> 7.) Displaying logs</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V28</KEY>
+     <ENTRY> 4.) Configuration Application Log</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V29</KEY>
+     <ENTRY> 5.) Logging an error message</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V30</KEY>
+     <ENTRY> 6.) Disabling Application Log</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V31</KEY>
+     <ENTRY> 7.) Logging an another error message</ENTRY>
+     <LENGTH>74</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V32</KEY>
+     <ENTRY> 8.) Re-enabling Application Log</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V33</KEY>
+     <ENTRY> 9.) Logging an last another error message</ENTRY>
+     <LENGTH>84</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V34</KEY>
+     <ENTRY>10.) Displaying Application Logs</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V35</KEY>
+     <ENTRY> 4.) Default logging Type</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V36</KEY>
+     <ENTRY> 5.) Logging Abort Message</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V37</KEY>
+     <ENTRY> 6.) Logging Error Message</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V38</KEY>
+     <ENTRY> 7.) Logging Warning Message</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V39</KEY>
+     <ENTRY> 8.) Logging Info Message</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V40</KEY>
+     <ENTRY> 9.) Logging Success Message</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V41</KEY>
+     <ENTRY>10.) Logging passing all messages components</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V42</KEY>
+     <ENTRY>11.) Displaying Log</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V43</KEY>
+     <ENTRY> 1.) Explanation about Overloading</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V44</KEY>
+     <ENTRY> 2.) Declaring own specific log table type</ENTRY>
+     <LENGTH>84</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V45</KEY>
+     <ENTRY> 3.) Initialization of ZCL_LOG_UTIL with our table</ENTRY>
+     <LENGTH>100</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V46</KEY>
+     <ENTRY> 4.) Define role of our field</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V47</KEY>
+     <ENTRY> 5.) Enabling Overloading</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V48</KEY>
+     <ENTRY> 6.) Logging a Message 1 which will overload</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V49</KEY>
+     <ENTRY> 7.) Logging a Message 2 which will overload</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V50</KEY>
+     <ENTRY> 8.) Disabling Overloading</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V51</KEY>
+     <ENTRY> 9.) Relogging Message 2 which will not overload</ENTRY>
+     <LENGTH>96</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V52</KEY>
+     <ENTRY>10.) Displaying Log</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V53</KEY>
+     <ENTRY> 5.) Define your setting table</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V54</KEY>
+     <ENTRY> 6.) Enabling Overloading</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V55</KEY>
+     <ENTRY> 7.) Logging a Message 1 which will overload</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V56</KEY>
+     <ENTRY> 8.) Logging a Message 2 which will overload</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V57</KEY>
+     <ENTRY> 9.) Disabling Overloading</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V58</KEY>
+     <ENTRY>10.) Relogging Message 2 which will not overload</ENTRY>
+     <LENGTH>96</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V59</KEY>
+     <ENTRY>11.) Displaying Log</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V60</KEY>
+     <ENTRY> 1.) Explanation about Overloading and Spot ID</ENTRY>
+     <LENGTH>90</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V61</KEY>
+     <ENTRY> 5.) Enabling Overloading</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V62</KEY>
+     <ENTRY> 6.) Logging a Message 1 which will overload</ENTRY>
+     <LENGTH>86</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V63</KEY>
+     <ENTRY> 7.) Turn On Spot ID</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V64</KEY>
+     <ENTRY> 8.) Logging the same message which will overload in another way</ENTRY>
+     <LENGTH>126</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V65</KEY>
+     <ENTRY> 9.) Turn Off Spot ID.</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V66</KEY>
+     <ENTRY>10.) Logging the same message which not longer overload</ENTRY>
+     <LENGTH>110</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V67</KEY>
+     <ENTRY>11.) Re-Turn On Spot ID</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V68</KEY>
+     <ENTRY>12.) Logging the same message which will overload in the same way as step 8</ENTRY>
+     <LENGTH>132</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V69</KEY>
+     <ENTRY> 5.) Fill a log table to show overloading on existing table</ENTRY>
+     <LENGTH>118</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V70</KEY>
+     <ENTRY> 6.) Overloading provided table</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V71</KEY>
+     <ENTRY>13.) Changing Spot ID</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V72</KEY>
+     <ENTRY>14.) Logging the same message which will overload in a third way</ENTRY>
+     <LENGTH>128</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V73</KEY>
+     <ENTRY>15.) Displaying Log</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V74</KEY>
+     <ENTRY> 1.) Explanation about Overloading and Params</ENTRY>
+     <LENGTH>90</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V75</KEY>
+     <ENTRY> 5.) Enabling Overloading (with pre-filter)</ENTRY>
+     <LENGTH>86</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V76</KEY>
+     <ENTRY> 6.) Set Param standing for Language (SPRAS)</ENTRY>
+     <LENGTH>88</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V77</KEY>
+     <ENTRY> 7.) Log message to overload and display</ENTRY>
+     <LENGTH>80</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V78</KEY>
+     <ENTRY> 8.) Change Param</ENTRY>
+     <LENGTH>27</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V79</KEY>
+     <ENTRY> 9.) Log message to overload and display</ENTRY>
+     <LENGTH>80</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V80</KEY>
+     <ENTRY> 1.) Explanation about Log with Batch Job</ENTRY>
+     <LENGTH>82</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V81</KEY>
+     <ENTRY> 5.) Logging Message</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V82</KEY>
+     <ENTRY> 6.) Making output using display</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V83</KEY>
+     <ENTRY> 6.) Managing Batch Outputs</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V84</KEY>
+     <ENTRY> 7.) Logging Message</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V85</KEY>
+     <ENTRY> 8.) Making output using display</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
      <ID>R</ID>
      <ENTRY>Class ZCL_LOG_UTIL usage case examples</ENTRY>
      <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM000</KEY>
+     <ENTRY>Please select a demo :</ENTRY>
+     <LENGTH>30</LENGTH>
     </item>
     <item>
      <ID>S</ID>
@@ -109,44 +727,40 @@
     <item>
      <ID>S</ID>
      <KEY>P_DEM130</KEY>
-     <ENTRY>Execution of Demo 13</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 130 - Over. exist log tab</ENTRY>
+     <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM140</KEY>
-     <ENTRY>Execution of Demo 14</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 140 - Over.Prefilt.&amp;Param</ENTRY>
+     <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM150</KEY>
-     <ENTRY>Execution of Demo 15</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 150 - Log. for Batch Job</ENTRY>
+     <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM160</KEY>
-     <ENTRY>Execution of Demo 16</ENTRY>
-     <LENGTH>28</LENGTH>
+     <ENTRY>Demo 160 - Manag.Batch Output</ENTRY>
+     <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM170</KEY>
-     <ENTRY>Execution of Demo 17</ENTRY>
-     <LENGTH>28</LENGTH>
+     <KEY>P_EBELN1</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>24</LENGTH>
+     <SPLIT>D</SPLIT>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>P_DEM180</KEY>
-     <ENTRY>Execution of Demo 18</ENTRY>
-     <LENGTH>28</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_DEM190</KEY>
-     <ENTRY>Execution of Demo 19</ENTRY>
-     <LENGTH>28</LENGTH>
+     <KEY>P_EBELN2</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>24</LENGTH>
+     <SPLIT>D</SPLIT>
     </item>
     <item>
      <ID>S</ID>
@@ -155,6 +769,770 @@
      <LENGTH>21</LENGTH>
     </item>
    </TPOOL>
+   <I18N_TPOOL>
+    <item>
+     <LANGUAGE>E</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>010</KEY>
+       <ENTRY>ZCL_LOG_UTIL - Get started</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>020</KEY>
+       <ENTRY>Logging using own internal table</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>030</KEY>
+       <ENTRY>Adding extra data on log entry</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>040</KEY>
+       <ENTRY>Logging BAPI return tables</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>050</KEY>
+       <ENTRY>Logging BAPI return tables filled with extra data</ENTRY>
+       <LENGTH>98</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>060</KEY>
+       <ENTRY>Logging many entries with extra data</ENTRY>
+       <LENGTH>72</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>065</KEY>
+       <ENTRY>Changing Logging table during execution</ENTRY>
+       <LENGTH>78</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>070</KEY>
+       <ENTRY>Logging in Application Log</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>080</KEY>
+       <ENTRY>Enabling / Disabling Application Log</ENTRY>
+       <LENGTH>72</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>090</KEY>
+       <ENTRY>Logging specifying type</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>100</KEY>
+       <ENTRY>Overloading Log Messages</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>110</KEY>
+       <ENTRY>Overloading Log Messages using your own Setting Table</ENTRY>
+       <LENGTH>106</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>120</KEY>
+       <ENTRY>Overloading using &quot;Spot ID&quot;</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>130</KEY>
+       <ENTRY>Overloading an existing log table</ENTRY>
+       <LENGTH>66</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>140</KEY>
+       <ENTRY>Overloading using pre-filter and params</ENTRY>
+       <LENGTH>78</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>150</KEY>
+       <ENTRY>Logging for Batch Job</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>160</KEY>
+       <ENTRY>Managing outpus for Batch Job</ENTRY>
+       <LENGTH>58</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>T01</KEY>
+       <ENTRY>Select a demo to run</ENTRY>
+       <LENGTH>40</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>T02</KEY>
+       <ENTRY>Details of the demo execution</ENTRY>
+       <LENGTH>58</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V01</KEY>
+       <ENTRY>Please find below the steps of demo and main methods :</ENTRY>
+       <LENGTH>104</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V02</KEY>
+       <ENTRY> 1.) Initialization of ZCL_LOG_UTIL</ENTRY>
+       <LENGTH>68</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V03</KEY>
+       <ENTRY> 2.) How to log an error</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V04</KEY>
+       <ENTRY> 3.) How to display logs</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V05</KEY>
+       <ENTRY> 1.) Declaring own specific log table type</ENTRY>
+       <LENGTH>82</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V06</KEY>
+       <ENTRY> 2.) Initialization of ZCL_LOG_UTIL with our table</ENTRY>
+       <LENGTH>98</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V07</KEY>
+       <ENTRY> 3.) Define role of our field</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V08</KEY>
+       <ENTRY> 4.) How to log an error</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V09</KEY>
+       <ENTRY> 5.) How to display logs</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V10</KEY>
+       <ENTRY> 4.) Login entry with extra data</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V11</KEY>
+       <ENTRY> 5.) Displaying logs</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V12</KEY>
+       <ENTRY> 4.) Call BAPI generating error</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V13</KEY>
+       <ENTRY> 5.) Log BAPI messages</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V14</KEY>
+       <ENTRY> 6.) Displaying logs</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V15</KEY>
+       <ENTRY> 5.) Log BAPI messages with extra data</ENTRY>
+       <LENGTH>72</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V16</KEY>
+       <ENTRY> 4.) Simulating Log Table</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V17</KEY>
+       <ENTRY> 5.) Log Simulated table with extra data</ENTRY>
+       <LENGTH>78</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V18</KEY>
+       <ENTRY> 4.) Simulating Return log tables</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V19</KEY>
+       <ENTRY> 5.) Set log table &amp; log return table 1</ENTRY>
+       <LENGTH>76</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V20</KEY>
+       <ENTRY> 6.) Set log table &amp; log return table 2</ENTRY>
+       <LENGTH>76</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V21</KEY>
+       <ENTRY> 7.) Set log table &amp; log return table All</ENTRY>
+       <LENGTH>80</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V22</KEY>
+       <ENTRY> 8.) Displaying logs table 1</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V23</KEY>
+       <ENTRY> 9.) Displaying logs table 2</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V24</KEY>
+       <ENTRY> 4.) Configuration Application Log</ENTRY>
+       <LENGTH>66</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V25</KEY>
+       <ENTRY> 5.) Call BAPI generating error</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V26</KEY>
+       <ENTRY> 6.) Log BAPI messages</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V27</KEY>
+       <ENTRY> 7.) Displaying logs</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V28</KEY>
+       <ENTRY> 4.) Configuration Application Log</ENTRY>
+       <LENGTH>68</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V29</KEY>
+       <ENTRY> 5.) Logging an error message</ENTRY>
+       <LENGTH>58</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V30</KEY>
+       <ENTRY> 6.) Disabling Application Log</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V31</KEY>
+       <ENTRY> 7.) Logging an another error message</ENTRY>
+       <LENGTH>74</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V32</KEY>
+       <ENTRY> 8.) Re-enabling Application Log</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V33</KEY>
+       <ENTRY> 9.) Logging an last another error message</ENTRY>
+       <LENGTH>84</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V34</KEY>
+       <ENTRY>10.) Displaying Application Logs</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V35</KEY>
+       <ENTRY> 4.) Default logging Type</ENTRY>
+       <LENGTH>50</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V36</KEY>
+       <ENTRY> 5.) Logging Abort Message</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V37</KEY>
+       <ENTRY> 6.) Logging Error Message</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V38</KEY>
+       <ENTRY> 7.) Logging Warning Message</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V39</KEY>
+       <ENTRY> 8.) Logging Info Message</ENTRY>
+       <LENGTH>50</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V40</KEY>
+       <ENTRY> 9.) Logging Success Message</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V41</KEY>
+       <ENTRY>10.) Logging passing all messages components</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V42</KEY>
+       <ENTRY>11.) Displaying Log</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V43</KEY>
+       <ENTRY> 1.) Explanation about Overloading</ENTRY>
+       <LENGTH>68</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V44</KEY>
+       <ENTRY> 2.) Declaring own specific log table type</ENTRY>
+       <LENGTH>84</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V45</KEY>
+       <ENTRY> 3.) Initialization of ZCL_LOG_UTIL with our table</ENTRY>
+       <LENGTH>100</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V46</KEY>
+       <ENTRY> 4.) Define role of our field</ENTRY>
+       <LENGTH>58</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V47</KEY>
+       <ENTRY> 5.) Enabling Overloading</ENTRY>
+       <LENGTH>50</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V48</KEY>
+       <ENTRY> 6.) Logging a Message 1 which will overload</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V49</KEY>
+       <ENTRY> 7.) Logging a Message 2 which will overload</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V50</KEY>
+       <ENTRY> 8.) Disabling Overloading</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V51</KEY>
+       <ENTRY> 9.) Relogging Message 2 which will not overload</ENTRY>
+       <LENGTH>96</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V52</KEY>
+       <ENTRY>10.) Displaying Log</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V53</KEY>
+       <ENTRY> 5.) Define your setting table</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V54</KEY>
+       <ENTRY> 6.) Enabling Overloading</ENTRY>
+       <LENGTH>50</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V55</KEY>
+       <ENTRY> 7.) Logging a Message 1 which will overload</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V56</KEY>
+       <ENTRY> 8.) Logging a Message 2 which will overload</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V57</KEY>
+       <ENTRY> 9.) Disabling Overloading</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V58</KEY>
+       <ENTRY>10.) Relogging Message 2 which will not overload</ENTRY>
+       <LENGTH>96</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V59</KEY>
+       <ENTRY>11.) Displaying Log</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V60</KEY>
+       <ENTRY> 1.) Explanation about Overloading and Spot ID</ENTRY>
+       <LENGTH>90</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V61</KEY>
+       <ENTRY> 5.) Enabling Overloading</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V62</KEY>
+       <ENTRY> 6.) Logging a Message 1 which will overload</ENTRY>
+       <LENGTH>86</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V63</KEY>
+       <ENTRY> 7.) Turn On Spot ID</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V64</KEY>
+       <ENTRY> 8.) Logging the same message which will overload in another way</ENTRY>
+       <LENGTH>126</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V65</KEY>
+       <ENTRY> 9.) Turn Off Spot ID.</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V66</KEY>
+       <ENTRY>10.) Logging the same message which not longer overload</ENTRY>
+       <LENGTH>110</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V67</KEY>
+       <ENTRY>11.) Re-Turn On Spot ID</ENTRY>
+       <LENGTH>46</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V68</KEY>
+       <ENTRY>12.) Logging the same message which will overload in the same way as step 8</ENTRY>
+       <LENGTH>132</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V69</KEY>
+       <ENTRY> 5.) Fill a log table to show overloading on existing table</ENTRY>
+       <LENGTH>118</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V70</KEY>
+       <ENTRY> 6.) Overloading provided table</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V71</KEY>
+       <ENTRY>13.) Changing Spot ID</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V72</KEY>
+       <ENTRY>14.) Logging the same message which will overload in a third way</ENTRY>
+       <LENGTH>128</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V73</KEY>
+       <ENTRY>15.) Displaying Log</ENTRY>
+       <LENGTH>29</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V74</KEY>
+       <ENTRY> 1.) Explanation about Overloading and Params</ENTRY>
+       <LENGTH>90</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V75</KEY>
+       <ENTRY> 5.) Enabling Overloading (with pre-filter)</ENTRY>
+       <LENGTH>86</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V76</KEY>
+       <ENTRY> 6.) Set Param standing for Language (SPRAS)</ENTRY>
+       <LENGTH>88</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V77</KEY>
+       <ENTRY> 7.) Log message to overload and display</ENTRY>
+       <LENGTH>80</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V78</KEY>
+       <ENTRY> 8.) Change Param</ENTRY>
+       <LENGTH>27</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V79</KEY>
+       <ENTRY> 9.) Log message to overload and display</ENTRY>
+       <LENGTH>80</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V80</KEY>
+       <ENTRY> 1.) Explanation about Log with Batch Job</ENTRY>
+       <LENGTH>82</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V81</KEY>
+       <ENTRY> 5.) Logging Message</ENTRY>
+       <LENGTH>40</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V82</KEY>
+       <ENTRY> 6.) Making output using display</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V83</KEY>
+       <ENTRY> 6.) Managing Batch Outputs</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V84</KEY>
+       <ENTRY> 7.) Logging Message</ENTRY>
+       <LENGTH>40</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>V85</KEY>
+       <ENTRY> 8.) Making output using display</ENTRY>
+       <LENGTH>64</LENGTH>
+      </item>
+      <item>
+       <ID>R</ID>
+       <ENTRY>Class ZCL_LOG_UTIL usage case examples</ENTRY>
+       <LENGTH>70</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM000</KEY>
+       <ENTRY>Please select a demo :</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM010</KEY>
+       <ENTRY>Demo 010 - Get started</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM020</KEY>
+       <ENTRY>Demo 020 - Log. using own tab</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM030</KEY>
+       <ENTRY>Demo 030 - Adding extra data</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM040</KEY>
+       <ENTRY>Demo 040 - Log.BAPI return tab</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM050</KEY>
+       <ENTRY>Demo 050 - Log.BAPI tab w/data</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM060</KEY>
+       <ENTRY>Demo 060 - Many entries w/data</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM065</KEY>
+       <ENTRY>Demo 065 - Many Log Tables</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM070</KEY>
+       <ENTRY>Demo 070 - Application Log SLG</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM080</KEY>
+       <ENTRY>Demo 080 - Enable/Disable SLG</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM090</KEY>
+       <ENTRY>Demo 090 - Log. specifying typ</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM100</KEY>
+       <ENTRY>Demo 100 - Overloading messges</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM110</KEY>
+       <ENTRY>Demo 110 - Over.using own tabl</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM120</KEY>
+       <ENTRY>Demo 120 - Over. using Spot ID</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM130</KEY>
+       <ENTRY>Demo 130 - Over. exist log tab</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM140</KEY>
+       <ENTRY>Demo 140 - Over.Prefilt.&amp;Param</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM150</KEY>
+       <ENTRY>Demo 150 - Log. for Batch Job</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM160</KEY>
+       <ENTRY>Demo 160 - Manag.Batch Output</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_SELDEM</KEY>
+       <ENTRY>Selected demo</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_EBELN1</KEY>
+       <ENTRY>.</ENTRY>
+       <LENGTH>24</LENGTH>
+       <SPLIT>D</SPLIT>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_EBELN2</KEY>
+       <ENTRY>.</ENTRY>
+       <LENGTH>24</LENGTH>
+       <SPLIT>D</SPLIT>
+      </item>
+     </TEXTPOOL>
+    </item>
+   </I18N_TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>

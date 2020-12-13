@@ -114,7 +114,7 @@
 *&
 *&    ZLOG_UTIL :
 *&      000 :: &1&2&3&4
-*&      110 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders
+*&      100 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders
 *&      101 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 2 with 1 placeholders : &
 *&      102 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 3 with 2 placeholders : & and &
 *&      103 :: ZCL_LOG_UTIL_EXAMPLE - Message Number 4 with 3 placeholders : &, & ADN &
@@ -132,7 +132,7 @@
 *&  ---------
 *&    Logging the followging message :
 *&
-*&       e110(zlog_util) which displays without overloading : "ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders" with type (E)
+*&       e100(zlog_util) which displays without overloading : "ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders" with type (E)
 *&
 *&    After overloading using entry 1 becomes :
 *&

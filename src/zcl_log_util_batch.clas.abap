@@ -117,11 +117,18 @@ CLASS ZCL_LOG_UTIL_BATCH IMPLEMENTATION.
 
     " Set Defaults
     " ──┐ All to Spool
-    me->_spool-a = 'X'.
-    me->_spool-e = 'X'.
-    me->_spool-w = 'X'.
-    me->_spool-i = 'X'.
-    me->_spool-s = 'X'.
+    me->_spool-a = ' '.
+    me->_spool-e = ' '.
+    me->_spool-w = ' '.
+    me->_spool-i = ' '.
+    me->_spool-s = ' '.
+
+    " ──┐ All to Protocol
+    me->_protocol-a = 'X'.
+    me->_protocol-e = 'X'.
+    me->_protocol-w = 'X'.
+    me->_protocol-i = 'X'.
+    me->_protocol-s = 'X'.
 
   endmethod.
 

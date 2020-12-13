@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_120
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_140
 *&----------------------------------------------------------------------*
 
 
@@ -8,21 +8,15 @@
 *&-------------------[  PURPOSE OF THE EXAMPLE  ]-----------------------*
 *&----------------------------------------------------------------------*
 *&
-*&  •  1.) Explanation about Overloading and Spot ID
+*&  •  1.) Explanation about Overloading and Params
 *&  •  2.) Declaring own specific log table type
 *&  •  3.) Initialization of ZCL_LOG_UTIL with our table
 *&  •  4.) Define role of our field
-*&  •  5.) Enabling Overloading
-*&  •  6.) Logging a Message 1 which will overload
-*&  •  7.) Turn On Spot ID.
-*&  •  8.) Logging the same message which will overload in another way
-*&  •  9.) Turn Off Spot ID.
-*&  • 10.) Logging the same message which not longer overload
-*&  • 11.) Re-Turn On Spot ID.
-*&  • 12.) Logging the same message which will overload in the same way as step 8.
-*&  • 13.) Changing Spot ID
-*&  • 14.) Logging the same message which will overload in a third way
-*&  • 15.) Displaying Log
+*&  •  5.) Enabling Overloading (with pre-filter)
+*&  •  6.) Set Param standing for Language (SPRAS)
+*&  •  7.) Log message to overload and display
+*&  •  8.) Change Param
+*&  •  9.) Log message to overload and display
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -30,7 +24,7 @@
 
 
 *&----------------------------------------------------------------------*
-*& • 1.) Explanation about Overloading and Spot ID
+*& • 1.) Explanation about Overloading and Params
 *&----------------------------------------------------------------------*
 *&
 *&  In custom programs, you have to manage your own messages
@@ -160,20 +154,27 @@
 *&
 *&
 *&
-*&  How Spot Point ID works :
-*&  --------------------------
+*&  How Params Work :
+*&  ------------------
 *&
-*&    Spot ID is an extra specific parameter to identify entries in custom table
-*&    to perform overloading.
-*&    I introduce "Spot Point ID" to create something like enhancement point.
-*&    You can have the same BAPI called in different location of your program which
-*&    may return same error message.
-*&    However, you want to overload only one of them because the management rule is different.
-*&    Using Spot functionnality allow you to activate//switch on more precise overload rule.
+*&    In all for all, there is 6 extra parameter a part from Message ID, TYPE and NUMBER :
 *&
-*&    With Spot ID, you can distinguish each routines with specific Spot ID (for instance)
-*&    and manage overloading rule.
-*&    You can enable // disabled functionnality at anytime
+*&    The first three parameters are "Pre-filter" :
+*&      - Dev Code
+*&      - Domain
+*&      - Data (Kind Of)
+*&
+*&    Before performing overloading, data load from custom table are retrieved
+*&    using this three parameters. Once data are loaded, the ZCL_LOG_UTIL will
+*&    not reload them (until you change one of the pre-filter)
+*&
+*&    When you log an entry, overloading read loaded table using
+*&    Message ID, TYPE and NUMBER (eventually Spot ID if enabled)
+*&
+*&    If you want to add a extra level of filtering to perform overloading, you
+*&    can use two extra parameter (1 & 2).
+*&
+*&    With all these parameter you can create overloading rule on 5 level.
 *&
 *&
 *&----------------------------------------------------------------------*
@@ -186,7 +187,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty120_my_log_table         ,
+TYPES: BEGIN OF ty140_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -199,7 +200,7 @@ TYPES: BEGIN OF ty120_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty120_my_log_table         .
+       END   OF ty140_my_log_table         .
 
 
 
@@ -207,20 +208,20 @@ TYPES: BEGIN OF ty120_my_log_table         ,
 *& • 3.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt120_log_table TYPE TABLE OF ty120_my_log_table.
+DATA: lt140_log_table TYPE TABLE OF ty140_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr120_log_util TYPE REF TO zcl_log_util.
+DATA: lr140_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr120_log_util
+    e_log_util  = lr140_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt120_log_table
+    c_log_table = lt140_log_table
 ).
 
 
@@ -231,7 +232,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr120_log_util->define( )->set(
+lr140_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -245,101 +246,56 @@ lr120_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Enabling Overloading
+*& •  5.) Enabling Overloading (with pre-filter)
 *&----------------------------------------------------------------------*
-lr120_log_util->overload( )->enable( ).
+" Setting up pre-filter
+lr140_log_util->overload( )->set_filter_devcode_value( 'ZCLLOGUTIL' ).
+lr140_log_util->overload( )->set_filter_domain_value( 'BC' ).
+lr140_log_util->overload( )->set_filter_data_value( 'OVER_LOG' ).
+
+" Enabling Overloading Functionnality
+lr140_log_util->overload( )->enable( ).
+
+" Set Spot ID
+lr140_log_util->overload( )->spot( 'MYSPOT' )->start( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  6.) Logging a Message 1 which will overload
+*&  •  6.) Set Param standing for Language (SPRAS)
 *&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr120_log_util->e(
-  i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
+lr140_log_util->overload( )->set_params(
+  i_param_1 = 'F'
 ).
-">>> Expected : "ALPHABETA" with type W
 
 
 
 *&----------------------------------------------------------------------*
-*& •  7.) Turn On Spot ID.
+*& •  7.) Log message to overload and display
 *&----------------------------------------------------------------------*
-lr120_log_util->spot( 'MYSPOT' )->start( ).
+DATA lv140_msgtx_1 TYPE string.
+MESSAGE i105 INTO lv140_msgtx_1.
+lr140_log_util->log( ).
+MESSAGE i000 WITH 'Expected : French version' ' Once ALV is displayed, press F3 to continue'.
+lr140_log_util->display( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  8.) Logging the same message which will overload in another way
+*&  •  8.) Change Param
 *&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr120_log_util->e(
-  i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
+lr140_log_util->overload( )->set_params(
+  i_param_1 = 'E'
 ).
-">>> Expected : "Message overload using spot "MYSPOT" " with type W
 
 
 
 *&----------------------------------------------------------------------*
-*& •  9.) Turn Off Spot ID.
+*& •  7.) Log message to overload and display
 *&----------------------------------------------------------------------*
-lr120_log_util->spot( )->stop( ).
-
-
-
-*&----------------------------------------------------------------------*
-*& • 10.) Logging the same message which not longer overload
-*&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr120_log_util->e(
-  i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
-).
-">>> Expected : "ALPHABETA" with type W
-
-
-
-*&----------------------------------------------------------------------*
-*& • 11.) Re-Turn On Spot ID.
-*&----------------------------------------------------------------------*
-lr120_log_util->spot( )->start( ).
-
-
-
-*&----------------------------------------------------------------------*
-*& • 12.) Logging the same message which will overload in the same way as step 8.
-*&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr120_log_util->e(
-  i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
-).
-">>> Expected : "Message overload using spot "MYSPOT" " with type W
-
-
-
-*&----------------------------------------------------------------------*
-*& • 13.) Changing Spot ID
-*&----------------------------------------------------------------------*
-lr120_log_util->spot( 'NEXTSPOT' ).
-
-
-
-*&----------------------------------------------------------------------*
-*& • 14.) Logging the same message which will overload in a third way
-*&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr120_log_util->e(
-  i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
-).
-">>> Expected : "Message overload using spot "NEXTSPOT" " with type W
-
-
-
-*&----------------------------------------------------------------------*
-*& • 15.) Displaying Log
-*&----------------------------------------------------------------------*
-lr120_log_util->display( ).
+DATA lv140_msgtx_2 TYPE string.
+MESSAGE i105 INTO lv140_msgtx_2.
+REFRESH lt140_log_table.
+lr140_log_util->log( ).
+MESSAGE i000 WITH 'Expected : English Version'.
+lr140_log_util->display( ).

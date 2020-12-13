@@ -11,7 +11,8 @@
 *&  Author      : Nicolas DUPRE                                               &*
 *&  Release     : xx.xx.2020                                                  &*
 *&  Last Change : xx.xx.2020                                                  &*
-*&                                                                            &*
+*&  Version     : 1.0.0                                                       &*
+*&  Source      : https://github.com/neooblaster/zcl_log_util                 &*
 *&                                                                            &*
 *&----------------------------------------------------------------------------&*
 *&----------------------------[   DEMO LIST   ]-------------------------------&*
@@ -28,20 +29,14 @@
 *&  #080 : Enabling / Disabling Application Log                               &*
 *&  #090 : Logging specifying type                                            &*
 *&  #100 : Overloading Log Messages                                           &*
-*&  #110 : Overloading Log Messages using my own Setting Table                &* <<<
+*&  #110 : Overloading Log Messages using my own Setting Table                &*
 *&  #120 : Overloading using "Spot ID"                                        &*
 *&  #130 : Overloading an existing log table                                  &*
-*&  #140 : Logging for Batch Job                                              &*
-*&  #150 : Managing outpus for Batch Job                                      &*
+*&  #140 : Overloading using Préfilter & Params                               &*
+*&  #150 : Logging for Batch Job                                              &*
+*&  #160 : Managing outpus for Batch Job                                      &*
 *&                                                                            &*
 *&                                                                            &*
-*&   xx : Change Log Table                                                    &*
-*&                                                                            &*
-*&  #R1 : List of object that can be logged (text, std, str, tab)             &*
-*&                                                                            &*
-*&                                                                            &*
-*&   add parameter vbeln pour demo 4 & demo 5                                 &*
-*&   add parameter to choose display in demo 7                                &*
 *&                                                                            &*
 *&----------------------------------------------------------------------------&*
 *&--------------------------[   PROJECT TODO   ]------------------------------&*
@@ -175,11 +170,39 @@ START-OF-SELECTION.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_120.
   ENDIF.
 
-  " ZCL_LOG_UTIL - Example #11
-
-  IF p_dem999 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_999.
+  "&--------------------------------------&"
+  "&---[  Demo Number 130  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem130 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_130.
   ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 140  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem140 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_140.
+  ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 150  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem150 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_150.
+  ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 160  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem160 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_160.
+  ENDIF.
+
+
+
+*  IF p_dem999 EQ 'X'.
+*    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_999.
+*  ENDIF.
 
 
 

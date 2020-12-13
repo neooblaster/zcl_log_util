@@ -95,7 +95,7 @@ ls50_poheaderx-doc_type = 'X'.
 
 CALL FUNCTION 'BAPI_PO_CHANGE'
   EXPORTING
-    purchaseorder                = '4500001189'
+    purchaseorder                = p_ebeln2
     poheader                     = ls50_poheader
     POHEADERX                    = ls50_poheaderx
 *   POADDRVENDOR                 =
@@ -177,7 +177,7 @@ lr50_log_util->log( lt50_bapi_ret_tab ).
 
 " In log we want to display the PO Number
 DATA: ls50_log_table TYPE ty50_my_log_table.
-ls50_log_table-vbeln    = '4500001189'.
+ls50_log_table-vbeln    = p_ebeln2.
 
 " I log MANY entries and I want to merge my data
 " I provided ONE structure (1 line)

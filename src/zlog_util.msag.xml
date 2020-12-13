@@ -176,6 +176,12 @@
      <MSGNR>113</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Overload using Spot ID &amp;</TEXT>
     </T100>
+    <T100>
+     <SPRSL>F</SPRSL>
+     <ARBGB>ZLOG_UTIL</ARBGB>
+     <MSGNR>999</MSGNR>
+     <TEXT>UPDATED</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

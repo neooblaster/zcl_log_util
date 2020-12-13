@@ -120,7 +120,9 @@ public section.
       !I_STRUCTURE type ANY optional
     returning
       value(SELF) type ref to ZCL_LOG_UTIL .
-  methods DISPLAY .
+  methods DISPLAY
+    changing
+      !C_LOG_TABLE type STANDARD TABLE optional .
   methods SPOT
     importing
       !SPOT type ZDT_LOG_UTIL_SPOT optional
@@ -317,8 +319,13 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
                  <fs_comp_msgty>             TYPE ANY            .
 
 
-    " Convert Reference Data to table
-    ASSIGN me->_log_table->* TO <fs_log_table_t>.
+    " Display referenced table is table is not specified
+    IF c_log_table IS SUPPLIED.
+      ASSIGN c_log_table TO <fs_log_table_t>.
+    ELSE.
+      " Convert Reference Data to table
+      ASSIGN me->_log_table->* TO <fs_log_table_t>.
+    ENDIF.
 
     IF <fs_log_table_t> IS NOT ASSIGNED.
       " 011 :: &, No internal log table is defined
