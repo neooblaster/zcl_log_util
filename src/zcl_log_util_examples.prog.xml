@@ -13,6 +13,18 @@
    <TPOOL>
     <item>
      <ID>I</ID>
+     <KEY>001</KEY>
+     <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>002</KEY>
+     <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>010</KEY>
      <ENTRY>ZCL_LOG_UTIL - Get started</ENTRY>
      <LENGTH>52</LENGTH>
@@ -112,6 +124,258 @@
      <KEY>160</KEY>
      <ENTRY>Managing outpus for Batch Job</ENTRY>
      <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S01</KEY>
+     <ENTRY>zcl_log_util=&gt;factory( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S02</KEY>
+     <ENTRY>zcl_log_util-&gt;log( )</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S03</KEY>
+     <ENTRY>zcl_log_util-&gt;display( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S04</KEY>
+     <ENTRY>zcl_log_util-&gt;define( )-&gt;set( )</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S05</KEY>
+     <ENTRY>zcl_log_util-&gt;merging( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S06</KEY>
+     <ENTRY>zcl_log_util-&gt;set_log_table( )</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S07</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )-&gt;setting_tab( )-&gt;set( )</ENTRY>
+     <LENGTH>98</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S08</KEY>
+     <ENTRY>zcl_log_utll-&gt;overload( )-&gt;enable( )</ENTRY>
+     <LENGTH>72</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S09</KEY>
+     <ENTRY>zcl_log_util-&gt;a( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S10</KEY>
+     <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S11</KEY>
+     <ENTRY>zcl_log_util-&gt;w( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S12</KEY>
+     <ENTRY>zcl_log_util-&gt;i( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S13</KEY>
+     <ENTRY>zcl_log_util-&gt;s( )</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S14</KEY>
+     <ENTRY>zcl_log_utll-&gt;overload( )-&gt;disable( )</ENTRY>
+     <LENGTH>74</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S15</KEY>
+     <ENTRY>zcl_log_util-&gt;slg ()</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S16</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;set_object( )</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S17</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;set_sub_object( )</ENTRY>
+     <LENGTH>70</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S18</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;set_external_number( )</ENTRY>
+     <LENGTH>80</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S19</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;set_retention( )</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S20</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;enable( )</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S21</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;display( )</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S22</KEY>
+     <ENTRY>zcl_log_util_slg-&gt;disable( )</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S23</KEY>
+     <ENTRY>zcl_log_util-&gt;spot( )-&gt;start( )</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S24</KEY>
+     <ENTRY>zcl_log_util_spot-&gt;start( )</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S25</KEY>
+     <ENTRY>zcl_log_util_spot-&gt;stop( )</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S27</KEY>
+     <ENTRY>zcl_log_util-&gt;spot( )</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S28</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S29</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_devcode_value( )</ENTRY>
+     <LENGTH>108</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S30</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_domain_value( )</ENTRY>
+     <LENGTH>106</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S31</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_data_value( )</ENTRY>
+     <LENGTH>102</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S32</KEY>
+     <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_params( )</ENTRY>
+     <LENGTH>80</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S33</KEY>
+     <ENTRY>zcl_log_util-&gt;batch( )</ENTRY>
+     <LENGTH>44</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S34</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;protocol( )-&gt;all( )</ENTRY>
+     <LENGTH>78</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S35</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;spool( )-&gt;all( )</ENTRY>
+     <LENGTH>72</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S36</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;protocol( )</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S37</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;spool( )</ENTRY>
+     <LENGTH>56</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S38</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;a( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S39</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;e( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S40</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;w( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S41</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;i( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S42</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;s( )</ENTRY>
+     <LENGTH>48</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S43</KEY>
+     <ENTRY>zcl_log_util_batch-&gt;all( )</ENTRY>
+     <LENGTH>52</LENGTH>
     </item>
     <item>
      <ID>I</ID>
@@ -714,6 +978,12 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_DEM105</KEY>
+     <ENTRY>Demo 105 - Ovr. Adding &amp; Ignor</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_DEM110</KEY>
      <ENTRY>Demo 110 - Over.using own tabl</ENTRY>
      <LENGTH>38</LENGTH>
@@ -773,6 +1043,18 @@
     <item>
      <LANGUAGE>E</LANGUAGE>
      <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>001</KEY>
+       <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>002</KEY>
+       <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
       <item>
        <ID>I</ID>
        <KEY>010</KEY>
@@ -874,6 +1156,258 @@
        <KEY>160</KEY>
        <ENTRY>Managing outpus for Batch Job</ENTRY>
        <LENGTH>58</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S01</KEY>
+       <ENTRY>zcl_log_util=&gt;factory( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S02</KEY>
+       <ENTRY>zcl_log_util-&gt;log( )</ENTRY>
+       <LENGTH>40</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S03</KEY>
+       <ENTRY>zcl_log_util-&gt;display( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S04</KEY>
+       <ENTRY>zcl_log_util-&gt;define( )-&gt;set( )</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S05</KEY>
+       <ENTRY>zcl_log_util-&gt;merging( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S06</KEY>
+       <ENTRY>zcl_log_util-&gt;set_log_table( )</ENTRY>
+       <LENGTH>60</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S07</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )-&gt;setting_tab( )-&gt;set( )</ENTRY>
+       <LENGTH>98</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S08</KEY>
+       <ENTRY>zcl_log_utll-&gt;overload( )-&gt;enable( )</ENTRY>
+       <LENGTH>72</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S09</KEY>
+       <ENTRY>zcl_log_util-&gt;a( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S10</KEY>
+       <ENTRY>zcl_log_util-&gt;e( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S11</KEY>
+       <ENTRY>zcl_log_util-&gt;w( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S12</KEY>
+       <ENTRY>zcl_log_util-&gt;i( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S13</KEY>
+       <ENTRY>zcl_log_util-&gt;s( )</ENTRY>
+       <LENGTH>28</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S14</KEY>
+       <ENTRY>zcl_log_utll-&gt;overload( )-&gt;disable( )</ENTRY>
+       <LENGTH>74</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S15</KEY>
+       <ENTRY>zcl_log_util-&gt;slg ()</ENTRY>
+       <LENGTH>40</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S16</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;set_object( )</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S17</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;set_sub_object( )</ENTRY>
+       <LENGTH>70</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S18</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;set_external_number( )</ENTRY>
+       <LENGTH>80</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S19</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;set_retention( )</ENTRY>
+       <LENGTH>68</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S20</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;enable( )</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S21</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;display( )</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S22</KEY>
+       <ENTRY>zcl_log_util_slg-&gt;disable( )</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S23</KEY>
+       <ENTRY>zcl_log_util-&gt;spot( )-&gt;start( )</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S24</KEY>
+       <ENTRY>zcl_log_util_spot-&gt;start( )</ENTRY>
+       <LENGTH>54</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S25</KEY>
+       <ENTRY>zcl_log_util_spot-&gt;stop( )</ENTRY>
+       <LENGTH>52</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S27</KEY>
+       <ENTRY>zcl_log_util-&gt;spot( )</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S28</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )</ENTRY>
+       <LENGTH>50</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S29</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_devcode_value( )</ENTRY>
+       <LENGTH>108</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S30</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_domain_value( )</ENTRY>
+       <LENGTH>106</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S31</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_filter_data_value( )</ENTRY>
+       <LENGTH>102</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S32</KEY>
+       <ENTRY>zcl_log_util-&gt;overload( )-&gt;set_params( )</ENTRY>
+       <LENGTH>80</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S33</KEY>
+       <ENTRY>zcl_log_util-&gt;batch( )</ENTRY>
+       <LENGTH>44</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S34</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;protocol( )-&gt;all( )</ENTRY>
+       <LENGTH>78</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S35</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;spool( )-&gt;all( )</ENTRY>
+       <LENGTH>72</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S36</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;protocol( )</ENTRY>
+       <LENGTH>62</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S37</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;spool( )</ENTRY>
+       <LENGTH>56</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S38</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;a( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S39</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;e( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S40</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;w( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S41</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;i( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S42</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;s( )</ENTRY>
+       <LENGTH>48</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>S43</KEY>
+       <ENTRY>zcl_log_util_batch-&gt;all( )</ENTRY>
+       <LENGTH>52</LENGTH>
       </item>
       <item>
        <ID>I</ID>
@@ -1472,6 +2006,12 @@
        <ID>S</ID>
        <KEY>P_DEM100</KEY>
        <ENTRY>Demo 100 - Overloading messges</ENTRY>
+       <LENGTH>38</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEM105</KEY>
+       <ENTRY>Demo 105 - Ovr. Adding &amp; Ignor</ENTRY>
        <LENGTH>38</LENGTH>
       </item>
       <item>

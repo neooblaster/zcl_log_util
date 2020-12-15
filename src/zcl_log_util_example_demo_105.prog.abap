@@ -1,5 +1,5 @@
 *&----------------------------------------------------------------------*
-*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_110
+*& Include          ZCL_LOG_UTIL_EXAMPLE_DEMO_10
 *&----------------------------------------------------------------------*
 
 
@@ -12,13 +12,11 @@
 *&  •  2.) Declaring own specific log table type
 *&  •  3.) Initialization of ZCL_LOG_UTIL with our table
 *&  •  4.) Define role of our field
-*&  •  5.) Define your setting table
-*&  •  6.) Enabling Overloading
-*&  •  7.) Logging a Message 1 which will overload
-*&  •  8.) Logging a Message 2 which will overload
-*&  •  9.) Disabling Overloading
-*&  • 10.) Relogging Message 2 which will not overload
-*&  • 11.) Displaying Log
+*&  •  5.) Enabling Overloading
+*&  •  6.) Logging a Message 1 which will not modified
+*&  •  7.) Logging a Message 2 which will ignored (deleted)
+*&  •  8.) Logging a Message 3 which will not modified and another one will be added
+*&  •  9.) Displaying Log
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -124,7 +122,7 @@
 *&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
 *&  | CODE | DOMAINE | DATA | INPUT1     | INPUT2  | INPUT3  | INPUT4   | INPUT5 | OUTPUT1   | OUTPUT2 | OUTPUT3 | OUTPUT4 | OUTPUT5 | OUTPUT6 | OUTPUT7 | OUTPUT8 |
 *&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
-*&  |      |         |      | ZLOG_UTIL  | 110     | E       |          |        | ZLOG_UTIL | 000     | W       | AL      | PHA     | BE      | TA      |         | << ENTRY 1
+*&  |      |         |      | ZLOG_UTIL  | 100     | E       |          |        | ZLOG_UTIL | 000     | W       | AL      | PHA     | BE      | TA      |         | << ENTRY 1
 *&  |      |         |      | ZLOG_UTIL  | 104     | E       |          |        |           |         | S       | NOT     | AN      | ERROR   |         |         | << ENTRY 2
 *&  #------#---------#------#------------#---------#---------#----------#--------#-----------#---------#---------#---------#---------#---------#---------#---------#
 *&
@@ -162,7 +160,7 @@
 *&----------------------------------------------------------------------*
 " Depending of our need, we probably need to display some other data
 " with our log message like "Document Number", "Source File", "Source Line" etc
-TYPES: BEGIN OF ty110_my_log_table         ,
+TYPES: BEGIN OF ty105_my_log_table         ,
          icon     TYPE alv_icon          ,
          vbeln    TYPE vbeln             ,
          vbelp    TYPE vbelp             ,
@@ -175,7 +173,7 @@ TYPES: BEGIN OF ty110_my_log_table         ,
          val2     TYPE sy-msgv1          ,
          val3     TYPE sy-msgv1          ,
          val4     TYPE sy-msgv1          ,
-       END   OF ty110_my_log_table         .
+       END   OF ty105_my_log_table         .
 
 
 
@@ -183,20 +181,20 @@ TYPES: BEGIN OF ty110_my_log_table         ,
 *& • 3.) Initialization of ZCL_LOG_UTIL with our table
 *&----------------------------------------------------------------------*
 " Now we will declare Internal Table using our type
-DATA: lt110_log_table TYPE TABLE OF ty110_my_log_table.
+DATA: lt105_log_table TYPE TABLE OF ty105_my_log_table.
 
 " Declaring reference to ZCL_LOG_UTIL
-DATA: lr110_log_util TYPE REF TO zcl_log_util.
+DATA: lr105_log_util TYPE REF TO zcl_log_util.
 
 
 " Instanciation need to use "Factory"
 zcl_log_util=>factory(
   " Receiving Instance of ZCL_LOG_UTIL
   IMPORTING
-    e_log_util  = lr110_log_util
+    e_log_util  = lr105_log_util
   " Passing our log table
   CHANGING
-    c_log_table = lt110_log_table
+    c_log_table = lt105_log_table
 ).
 
 
@@ -207,7 +205,7 @@ zcl_log_util=>factory(
 " The ZCL_UTIL_LOG need to know wich field of your table stands for standard message one
 "
 " !! Value stand for field name of your structure, so name must be in UPPERCASE
-lr110_log_util->define( )->set(
+lr105_log_util->define( )->set(
   msgtx_field  = 'MESSAGE' " << Field which will received generated message
   msgid_field  = 'ID'      " << Message Class ID
   msgno_field  = 'NUMBER'  " << Message Number from message class
@@ -221,92 +219,50 @@ lr110_log_util->define( )->set(
 
 
 *&----------------------------------------------------------------------*
-*& •  5.) Define your setting table
+*& •  5.) Enabling Overloading
 *&----------------------------------------------------------------------*
-" You can define you SAP Custom Settings table
-" Note : here we will set same fields as default ones. It's just for
-"        the demonstration
-lr110_log_util->overload( )->setting_tab( )->set(
-  I_TABLE_NAME            = 'ZLOG_UTIL_OVERLO' "          " DDIC Table Name
-  I_FILTER_DEVCODE_FIELD  = 'CODE'             " OPTIONAL " Pre-filter field standing for WRICEF
-  I_FILTER_DOMAIN_FIELD	  = 'DOMAINE'          " OPTIONAL " Pre-filter field standing for dev domain
-  I_FILTER_DATA_FIELD    	= 'DATA'             " OPTIONAL " Pre-filter field standing for kind of data
-  I_SOURCE_ID_FIELD	      = 'INPUT1'           "          " Field read for checking Source Message ID
-  I_SOURCE_NUMBER_FIELD	  = 'INPUT2'           "          " Field read for checking Source Message Number
-  I_SOURCE_TYPE_FIELD	    = 'INPUT3'           "          " Field read for checking Source Message Type
-  I_SOURCE_SPOT_FIELD     = 'INPUT4'           "          " Field read for checking Spot ID (when enabled)
-  I_SOURCE_PARAM1_FIELD	  = 'INPUT5'           " OPTIONAL " Field read for checking extra parameter (when set) (eg to handle SPRAS)
-*  I_SOURCE_PARAM2_FIELD    = ''                 " OPTIONAL " Field read for checking extra parameter (when set)
-  I_OVERLOAD_ID_FIELD     = 'OUTPUT1'          "          " Field read to replace Message ID (when not initial)
-  I_OVERLOAD_NUMBER_FIELD	= 'OUTPUT2'          "          " Field read to replace Message Number (when not initial)
-  I_OVERLOAD_TYPE_FIELD	  = 'OUTPUT3'          "          " Field read to replace Message Type (when not initial)
-  I_OVERLOAD_MSGV1_FIELD  = 'OUTPUT4'          " OPTIONAL " Field read to replace Message Variable 1 (when not initial)
-  I_OVERLOAD_MSGV2_FIELD  = 'OUTPUT5'          " OPTIONAL " Field read to replace Message Variable 2 (when not initial)
-  I_OVERLOAD_MSGV3_FIELD  = 'OUTPUT6'          " OPTIONAL " Field read to replace Message Variable 3 (when not initial)
-  I_OVERLOAD_MSGV4_FIELD  = 'OUTPUT7'          " OPTIONAL " Field read to replace Message Variable 4 (when not initial)
-  I_OVERLOAD_MODE_FIELD   = 'OUTPUT8'          " OPTIONAL " Field read to check if message must be completely ignored (Not ignored in SLG)
-).
+lr105_log_util->overload( )->enable( ).
 
 
 
 *&----------------------------------------------------------------------*
-*& •  6.) Enabling Overloading
-*&----------------------------------------------------------------------*
-lr110_log_util->overload( )->enable( ).
-
-
-
-*&----------------------------------------------------------------------*
-*& •  7.) Logging a Message 1 which will overload
+*& •  6.) Logging a Message 1 which will not modified
 *&----------------------------------------------------------------------*
 " Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr105_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '100'
+  i_log_msgno = '000'
+  i_log_msgv1 = 'I logging a message which will not modified'
 ).
-">>> Expected : "ALPHABETA" with type W
+">>> Expected : "I logging a message which will not modified" with type E
 
 
 
 *&----------------------------------------------------------------------*
-*& •  8.) Logging a Message 2 which will overload
+*& •  7.) Logging a Message 2 which will ignored (deleted)
 *&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr105_log_util->overload( )->spot( 'IGNORE' )->start( ).
+lr105_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '104'
-  i_log_msgv1 = 'a'
-  i_log_msgv2 = 'b'
-  i_log_msgv3 = 'c'
-  i_log_msgv4 = 'd'
+  i_log_msgno = '000'
+  i_log_msgv1 = 'You will not find this message in log table'
 ).
-">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : NOT, AN, ERROR n d" with type S
 
 
 
 *&----------------------------------------------------------------------*
-*& •  9.) Disabling Overloading
+*& •  8.) Logging a Message 3 which will not modified and another one will be added
 *&----------------------------------------------------------------------*
-lr110_log_util->overload( )->disable( ).
-
-
-
-*&----------------------------------------------------------------------*
-*& • 10.) Relogging Message 2 which will not overload
-*&----------------------------------------------------------------------*
-" Logging directly to change using MESSAGE ID ... INTO dummy variable.
-lr110_log_util->e(
+lr105_log_util->overload( )->spot( 'APPEND' ).
+lr105_log_util->e(
   i_log_msgid = 'ZLOG_UTIL'
-  i_log_msgno = '104'
-  i_log_msgv1 = 'a'
-  i_log_msgv2 = 'b'
-  i_log_msgv3 = 'c'
-  i_log_msgv4 = 'd'
+  i_log_msgno = '000'
+  i_log_msgv1 = 'Behind this message you must find a new one'
 ).
-">>> Expected : "ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : a, b, c n d"
+
 
 
 *&----------------------------------------------------------------------*
-*& • 11.) Displaying Log
+*& • 9.) Displaying Log
 *&----------------------------------------------------------------------*
-lr110_log_util->display( ).
+lr105_log_util->display( ).

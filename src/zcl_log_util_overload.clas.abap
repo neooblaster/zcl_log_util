@@ -102,6 +102,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
     DATA:
         lr_setting_tab       TYPE REF TO data                                      ,
+        lr_overload_tab      TYPE REF TO data                                      ,
 
         ls_log_field_def     TYPE zcl_log_util_define=>ty_field_map                ,
         ls_setting_field_map TYPE zcl_log_util_setting_table=>TY_SETTING_FIELD_MAP ,
@@ -125,7 +126,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         lv_fov2              TYPE name_feld                                        , " Setting Table Overload Message V2 Field
         lv_fov3              TYPE name_feld                                        , " Setting Table Overload Message V3 Field
         lv_fov4              TYPE name_feld                                        , " Setting Table Overload Message V4 Field
-        lv_foig              TYPE name_feld                                        , " Setting Table Overload Ignore flag
+        lv_fomd              TYPE name_feld                                        , " Setting Table Overload Ignore flag
         " ──┐ Definition Table
         lv_fmms              TYPE name_feld                                        , " Definition Table Message Text
         lv_fmid              TYPE name_feld                                        , " Definition Table Message ID
@@ -141,6 +142,8 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     FIELD-SYMBOLS:
                  <fs_buff_table_t>  TYPE STANDARD TABLE ,
                  <fs_buff_table_s>  TYPE ANY            ,
+                 <fs_over_table_t>  TYPE STANDARD TABLE ,
+                 <fs_over_table_s>  TYPE ANY            ,
                  <fs_setting_tab_t> TYPE STANDARD TABLE ,
                  <fs_setting_tab_s> TYPE ANY            ,
 
@@ -155,7 +158,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
                  <fs_ovr_comp_ov2>  TYPE ANY            ,
                  <fs_ovr_comp_ov3>  TYPE ANY            ,
                  <fs_ovr_comp_ov4>  TYPE ANY            ,
-                 <fs_ovr_comp_oig>  TYPE ANY            ,
+                 <fs_ovr_comp_omd>  TYPE ANY            ,
 
                  " ──┐ Buffer Log Table (To Overload)
                  <fs_log_comp_id>   TYPE ANY            ,
@@ -205,7 +208,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
     lv_fov2  = ls_setting_field_map-field_omsgv2 .
     lv_fov3  = ls_setting_field_map-field_omsgv3 .
     lv_fov4  = ls_setting_field_map-field_omsgv4 .
-    lv_foig  = ls_setting_field_map-field_oignore .
+    lv_fomd  = ls_setting_field_map-field_omode .
     " ──┐ Definition Table
     lv_fmid  = i_log_field_def-field_id .
     lv_fmno  = i_log_field_def-field_number .
@@ -228,6 +231,12 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
 
     LOOP AT <fs_buff_table_t> ASSIGNING <fs_buff_table_s>.
+      IF <fs_over_table_t> IS NOT ASSIGNED.
+        " Create internal temporary table for overloading (ignoring & appending)
+        CREATE DATA lr_overload_tab LIKE TABLE OF <fs_buff_table_s>.
+        ASSIGN lr_overload_tab->* TO <fs_over_table_t>.
+      ENDIF.
+
 
       " Retrieve current component to find overloading rule
       " ──┐ Initial Message ID
@@ -280,16 +289,37 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
       " Overloading Entry
       " ──┐ Check if message request as IGNORED (Special Case)
-      IF lv_foig IS NOT INITIAL.
-        ASSIGN COMPONENT lv_foig OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_oig>.
+      IF lv_fomd IS NOT INITIAL.
+        ASSIGN COMPONENT lv_fomd OF STRUCTURE <fs_setting_tab_s> TO <fs_ovr_comp_omd>.
 
-        " When Ignore is defined and has a value, we want to set ZLOG_UTIL 999 meaning IGNORE
-        IF <fs_ovr_comp_oig> IS ASSIGNED AND <fs_ovr_comp_oig> IS NOT INITIAL AND lv_fmv4 IS NOT INITIAL.
-          ASSIGN COMPONENT lv_fmv4 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v4>.
-          <fs_log_comp_v4> = 'ZCL_LOG_UTIL_IGNORED'.
+        " Perform processing as expected :
+        "   Mode O - Overloading (overwrite message component)
+        "   Mode I - Ignore (Do not append this message )
+        "   Mode A - Add new message
+        IF <fs_ovr_comp_omd> IS ASSIGNED AND <fs_ovr_comp_omd> IS NOT INITIAL.
+          CASE <fs_ovr_comp_omd> .
+            WHEN 'I'.
+              " No longer process overloading
+              CONTINUE.
+              " When Ignore is defined and has a value, we want to set ZLOG_UTIL 999 meaning IGNORE
+*              IF <fs_ovr_comp_omd> IS ASSIGNED AND <fs_ovr_comp_omd> IS NOT INITIAL AND lv_fmv4 IS NOT INITIAL.
+*                ASSIGN COMPONENT lv_fmv4 OF STRUCTURE <fs_buff_table_s> TO <fs_log_comp_v4>.
+*                <fs_log_comp_v4> = 'ZCL_LOG_UTIL_IGNORED'.
+*
+*                " No longer process overloading
+*                CONTINUE.
+*              ENDIF.
 
-          " No longer process overloading
-          CONTINUE.
+
+            WHEN 'A'.
+              " Append original message
+               APPEND <fs_buff_table_s> TO <fs_over_table_t>.
+
+              " Let processing performing "overloading" to add new message
+
+            WHEN OTHERS.
+              " Do nothing, standing for overloading
+          ENDCASE.
         ENDIF.
       ENDIF.
 
@@ -363,6 +393,15 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
         ENDIF.
       ENDIF.
 
+      APPEND <fs_buff_table_s> TO <fs_over_table_t>.
+
+    ENDLOOP.
+
+    " Update table
+    REFRESH <fs_buff_table_t>.
+
+    LOOP AT <fs_over_table_t> ASSIGNING <fs_over_table_s>.
+      APPEND <fs_over_table_s> TO <fs_buff_table_t>.
     ENDLOOP.
 
   endmethod.

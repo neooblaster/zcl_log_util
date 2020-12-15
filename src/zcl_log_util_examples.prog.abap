@@ -29,6 +29,7 @@
 *&  #080 : Enabling / Disabling Application Log                               &*
 *&  #090 : Logging specifying type                                            &*
 *&  #100 : Overloading Log Messages                                           &*
+*&  #105 : Overloading - Adding & Ignoring                                    &*
 *&  #110 : Overloading Log Messages using my own Setting Table                &*
 *&  #120 : Overloading using "Spot ID"                                        &*
 *&  #130 : Overloading an existing log table                                  &*
@@ -154,6 +155,13 @@ START-OF-SELECTION.
   "&--------------------------------------&"
   IF p_dem100 EQ 'X'.
     INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_100.
+  ENDIF.
+
+  "&--------------------------------------&"
+  "&---[  Demo Number 105  ]--------------&"
+  "&--------------------------------------&"
+  IF p_dem105 EQ 'X'.
+    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_105.
   ENDIF.
 
   "&--------------------------------------&"

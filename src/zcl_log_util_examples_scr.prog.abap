@@ -47,6 +47,7 @@ SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
               p_dem080 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem090 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem100 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+              p_dem105 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem110 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem120 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem130 RADIOBUTTON GROUP seld MODIF ID rad                 ,
@@ -63,8 +64,11 @@ SELECTION-SCREEN BEGIN OF BLOCK blkdeta WITH FRAME TITLE text-t02.
 
   SELECTION-SCREEN BEGIN OF BLOCK blk010 WITH FRAME TITLE text-010.
     SELECTION-SCREEN COMMENT /1(75) text-v02 MODIF ID 010.
+    SELECTION-SCREEN COMMENT /4(72) text-s01 MODIF ID 010.
     SELECTION-SCREEN COMMENT /1(75) text-v03 MODIF ID 010.
+    SELECTION-SCREEN COMMENT /4(72) text-s02 MODIF ID 010.
     SELECTION-SCREEN COMMENT /1(75) text-v04 MODIF ID 010.
+    SELECTION-SCREEN COMMENT /4(72) text-s03 MODIF ID 010.
   SELECTION-SCREEN END   OF BLOCK blk010.
 
   SELECTION-SCREEN BEGIN OF BLOCK blk020 WITH FRAME TITLE text-020.
@@ -286,7 +290,7 @@ AT SELECTION-SCREEN OUTPUT.
       IF p_dem040 EQ 'X'. p_seldem = 'Demo 040'.ENDIF.
       IF p_dem050 EQ 'X'. p_seldem = 'Demo 050'.ENDIF.
       IF p_dem060 EQ 'X'. p_seldem = 'Demo 060'.ENDIF.
-      IF p_dem065 EQ 'X'. p_seldem = 'Demo 06'.ENDIF.
+      IF p_dem065 EQ 'X'. p_seldem = 'Demo 065'.ENDIF.
       IF p_dem070 EQ 'X'. p_seldem = 'Demo 070'.ENDIF.
       IF p_dem080 EQ 'X'. p_seldem = 'Demo 080'.ENDIF.
       IF p_dem090 EQ 'X'. p_seldem = 'Demo 090'.ENDIF.

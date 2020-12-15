@@ -740,7 +740,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       i_overload_msgv2_field  = 'OUTPUT5'
       i_overload_msgv3_field  = 'OUTPUT6'
       i_overload_msgv4_field  = 'OUTPUT7'
-      i_overload_ignore_field = 'OUTPUT8'
+      i_overload_mode_field   = 'OUTPUT8'
     ).
 
 
@@ -1033,6 +1033,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " --------------------------------------------------------------
     ASSIGN me->_log_table_buffer->* TO <fs_buff_table>.
 
+    IF <fs_buff_table> IS ASSIGNED AND <fs_buff_table> IS NOT INITIAL.
+      IF 1 = 2. ENDIF.
+    ENDIF.
+
     LOOP AT <fs_buff_table> ASSIGNING <fs_buff_structure>.
       " Set to initial value
       CLEAR : lv_msgid   ,
@@ -1200,29 +1204,29 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ENDIF.
 
 
-      " ──┐ Append entry only if not INGORE (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
-      IF lv_msgv4 EQ 'ZCL_LOG_UTIL_IGNORED'.
-        " If message is IGNORE (Add it to APP LOG with warning)
-        lv_ignored = 'X'.
-
-      ELSE.
+*      " ──┐ Append entry only if not INGORE (IMPORTANT : <fs_log_table_t> must be type STANDARD TABLE)
+*      IF lv_msgv4 EQ 'ZCL_LOG_UTIL_IGNORED'.
+*        " If message is IGNORE (Add it to APP LOG with warning)
+*        lv_ignored = 'X'.
+*
+*      ELSE.
         APPEND <fs_log_table_s> TO <fs_log_table_t>.
-
-      ENDIF.
+*
+*      ENDIF.
 
       " ──┐ Registring in Application Log
       IF me->slg( )->is_enabled( ) EQ 'X'.
         " Is the message is ignored ?
-        IF lv_ignored EQ 'X'.
-          me->slg( )->log(
-            EXPORTING
-              " ──┐ Standard Message
-              i_msgid     = 'ZLOG_UTIL'
-              i_msgno     = '013'
-              i_msgty     = 'W'
-              i_msgxx_flg = 'X'
-          ).
-        ENDIF.
+*        IF lv_ignored EQ 'X'.
+*          me->slg( )->log(
+*            EXPORTING
+*              " ──┐ Standard Message
+*              i_msgid     = 'ZLOG_UTIL'
+*              i_msgno     = '013'
+*              i_msgty     = 'W'
+*              i_msgxx_flg = 'X'
+*          ).
+*        ENDIF.
 
         " Regular loging (to prevent message loosing)
         me->slg( )->log(
