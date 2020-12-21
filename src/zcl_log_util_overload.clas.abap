@@ -284,6 +284,7 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
       " If rule not found, process next entry
       IF sy-subrc NE 0.
+        APPEND <fs_buff_table_s> TO <fs_over_table_t>.
         CONTINUE.
       ENDIF.
 
