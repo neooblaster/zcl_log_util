@@ -408,7 +408,8 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
         lr_typedesc  TYPE REF TO cl_abap_typedescr   ,
         lr_struct    TYPE REF TO cl_abap_structdescr ,
         lv_strnam    TYPE        string              ,
-        lv_obtain(1) TYPE        c                   .
+        lv_obtain(1) TYPE        c                   ,
+        lv_type      TYPE        c                   .
 
     FIELD-SYMBOLS:
                  <fs_itab>   TYPE ANY TABLE ,
@@ -416,7 +417,7 @@ CLASS ZCL_LOG_UTIL_DEFINE IMPLEMENTATION.
                  <fs_comp>   TYPE ANY       .
 
 
-    DESCRIBE FIELD i_element TYPE DATA(lv_type).
+    DESCRIBE FIELD i_element TYPE lv_type.
 
     CASE lv_type.
       WHEN 'h'. " Internal Table
