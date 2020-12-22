@@ -134,45 +134,41 @@ lr65_log_util->define( lt65_log_table_all )->set(
 **& • 4.) Simulating Return log tables
 **&----------------------------------------------------------------------*
 DATA: lt65_bapiret2 TYPE TABLE OF bapiret2 .
+DATA: ls65_bapiret2 TYPE          bapiret2 .
 DATA: lt65_prott    TYPE TABLE OF prott    .
+DATA: ls65_prott    TYPE          prott    .
 
 " Simulating Return Table BAPIRET2
-APPEND VALUE #(
-  type   = 'S'
-  id     = '00'
-  number = '31'
-) TO lt65_bapiret2.
+ls65_bapiret2-type     = 'S'.
+ls65_bapiret2-id       = '00'.
+ls65_bapiret2-number   = '31'.
+APPEND ls65_bapiret2 TO lt65_bapiret2.
 
-APPEND VALUE #(
-  type   = 'E'
-  id     = '00'
-  number = '32'
-) TO lt65_bapiret2.
+ls65_bapiret2-type     = 'E'.
+ls65_bapiret2-id       = '00'.
+ls65_bapiret2-number   = '32'.
+APPEND ls65_bapiret2 TO lt65_bapiret2.
 
-APPEND VALUE #(
-  type   = 'W'
-  id     = '00'
-  number = '33'
-) TO lt65_bapiret2.
+ls65_bapiret2-type     = 'W'.
+ls65_bapiret2-id       = '00'.
+ls65_bapiret2-number   = '33'.
+APPEND ls65_bapiret2 TO lt65_bapiret2.
 
-" Simulating Return Table PROTT
-APPEND VALUE #(
-  msgid = 'VL'
-  msgno = '23'
-  msgty = 'E'
-) TO lt65_prott.
+" Simulating Return Table PROTT*
+ls65_prott-msgid = 'VL'.
+ls65_prott-msgno = '23'.
+ls65_prott-msgty = 'E'.
+APPEND ls65_prott TO lt65_prott.
 
-APPEND VALUE #(
-  msgid = 'VL'
-  msgno = '24'
-  msgty = 'W'
-) TO lt65_prott.
+ls65_prott-msgid = 'VL'.
+ls65_prott-msgno = '24'.
+ls65_prott-msgty = 'W'.
+APPEND ls65_prott TO lt65_prott.
 
-APPEND VALUE #(
-  msgid = 'VL'
-  msgno = '25'
-  msgty = 'S'
-) TO lt65_prott.
+ls65_prott-msgid = 'VL'.
+ls65_prott-msgno = '25'.
+ls65_prott-msgty = 'S'.
+APPEND ls65_prott TO lt65_prott.
 
 
 *&----------------------------------------------------------------------*
