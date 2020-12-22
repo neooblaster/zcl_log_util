@@ -383,10 +383,15 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
       " ──┐ Read to WRITE output for Protocol.
       " Get Structure Definition
-      ls_log_def = me->define( )->get_definition(
+      DATA lr_define TYPE REF TO ZCL_LOG_UTIL_DEFINE.
+      CALL METHOD me->define
+        RECEIVING
+          self = lr_define.
+      CALL METHOD lr_define->get_definition
         EXPORTING
-          i_structure = <fs_str_for_typing>
-      ).
+          i_structure  = <fs_str_for_typing>
+        RECEIVING
+          r_definition = ls_log_def.
       "lv_type_field = ls_src_tab_def-field_type.
 
       lv_msgtx_field  = ls_log_def-field_message .
