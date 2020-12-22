@@ -1893,10 +1893,16 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     CREATE DATA lr_data LIKE LINE OF i_src_table.
     ASSIGN lr_data->* TO <fs_i_src_table_s>. " << To have appropriate type
 
-    ls_src_tab_def = me->define( )->get_definition(
+    DATA lr_define TYPE REF TO ZCL_LOG_UTIL_DEFINE.
+    CALL METHOD me->define
+      RECEIVING
+        self = lr_define.
+    CALL METHOD lr_define->get_definition
       EXPORTING
-        i_structure = <fs_i_src_table_s>
-    ).
+        i_structure  = <fs_i_src_table_s>
+      RECEIVING
+        r_definition = ls_src_tab_def.
+    
     lv_type_field = ls_src_tab_def-field_type.
 
 
