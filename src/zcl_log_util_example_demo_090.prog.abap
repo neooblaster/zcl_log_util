@@ -141,39 +141,37 @@ lr90_log_util->s( ls90_bapiret2 ).
 *& •  8.) Logging Info Message
 *&----------------------------------------------------------------------*
 DATA: lt90_prott TYPE TABLE OF prott.
+DATA: ls90_prott TYPE          prott.
 
 " ──┐ BAPI Prott return table Message 1
-APPEND VALUE #(
-  msgid = '01'
-  msgno = '234'
-  msgty = 'W'
-  msgv1 = 'PH_PROTT_MSGV1#1'
-  msgv2 = 'PH_PROTT_MSGV2#1'
-  msgv3 = 'PH_PROTT_MSGV3#1'
-  msgv4 = 'PH_PROTT_MSGV4#1'
-) TO lt90_prott.
+ls90_prott-msgid = '01'               .
+ls90_prott-msgno = '234'              .
+ls90_prott-msgty = 'W'                .
+ls90_prott-msgv1 = 'PH_PROTT_MSGV1#1' .
+ls90_prott-msgv2 = 'PH_PROTT_MSGV2#1' .
+ls90_prott-msgv3 = 'PH_PROTT_MSGV3#1' .
+ls90_prott-msgv4 = 'PH_PROTT_MSGV4#1' .
+APPEND ls90_prott TO lt90_prott .
 
 " ──┐ BAPI Prott return table Message 2
-APPEND VALUE #(
-  msgid = '01'
-  msgno = '234'
-  msgty = 'W'
-  msgv1 = 'PH_PROTT_MSGV1#2'
-  msgv2 = 'PH_PROTT_MSGV2#2'
-  msgv3 = 'PH_PROTT_MSGV3#2'
-  msgv4 = 'PH_PROTT_MSGV4#2'
-) TO lt90_prott.
+ls90_prott-msgid = '01'               .
+ls90_prott-msgno = '234'              .
+ls90_prott-msgty = 'W'                .
+ls90_prott-msgv1 = 'PH_PROTT_MSGV1#2' .
+ls90_prott-msgv2 = 'PH_PROTT_MSGV2#2' .
+ls90_prott-msgv3 = 'PH_PROTT_MSGV3#2' .
+ls90_prott-msgv4 = 'PH_PROTT_MSGV4#2' .
+APPEND ls90_prott TO lt90_prott .
 
 " ──┐ BAPI Prott return table Message 2
-APPEND VALUE #(
-  msgid = '01'
-  msgno = '234'
-  msgty = 'W'
-  msgv1 = 'PH_PROTT_MSGV1#3'
-  msgv2 = 'PH_PROTT_MSGV2#3'
-  msgv3 = 'PH_PROTT_MSGV3#3'
-  msgv4 = 'PH_PROTT_MSGV4#3'
-) TO lt90_prott.
+ls90_prott-msgid = '01'               .
+ls90_prott-msgno = '234'              .
+ls90_prott-msgty = 'W'                .
+ls90_prott-msgv1 = 'PH_PROTT_MSGV1#3' .
+ls90_prott-msgv2 = 'PH_PROTT_MSGV2#3' .
+ls90_prott-msgv3 = 'PH_PROTT_MSGV3#3' .
+ls90_prott-msgv4 = 'PH_PROTT_MSGV4#3' .
+APPEND ls90_prott TO lt90_prott .
 
 " ──┐ Log all Prott message as Info
 lr90_log_util->i( lt90_prott ).
