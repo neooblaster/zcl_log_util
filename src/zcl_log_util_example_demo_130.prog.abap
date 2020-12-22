@@ -181,6 +181,7 @@ TYPES: BEGIN OF ty130_my_log_table         ,
 " Now we will declare Internal Table using our type
 DATA: lt130_log_table TYPE TABLE OF ty130_my_log_table.
 DATA: lt130_ret_table TYPE TABLE OF bapiret2.
+DATA: ls130_ret_table TYPE          bapiret2.
 
 " Declaring reference to ZCL_LOG_UTIL
 DATA: lr130_log_util TYPE REF TO zcl_log_util.
@@ -224,39 +225,35 @@ DATA: lv130_msgtx TYPE string.
 
 " Get message texte
 MESSAGE e100 INTO lv130_msgtx.
-APPEND VALUE #(
-  TYPE       = 'E'
-  ID         = 'ZLOG_UTIL'
-  NUMBER     = '100'
-  MESSAGE    = lv130_msgtx
-) TO lt130_ret_table.
+ls130_ret_table-type       = 'E'          .
+ls130_ret_table-id         = 'ZLOG_UTIL'  .
+ls130_ret_table-number     = '100'        .
+ls130_ret_table-message    = lv130_msgtx  .
+APPEND ls130_ret_table TO lt130_ret_table .
 
 " Get message texte
 MESSAGE e104 WITH 'val1' 'val2' 'val3' 'val4' INTO lv130_msgtx.
-APPEND VALUE #(
-  TYPE       = 'E'
-  ID         = 'ZLOG_UTIL'
-  NUMBER     = '104'
-  MESSAGE    = lv130_msgtx
-) TO lt130_ret_table.
+ls130_ret_table-type       = 'E'          .
+ls130_ret_table-id         = 'ZLOG_UTIL'  .
+ls130_ret_table-number     = '104'        .
+ls130_ret_table-message    = lv130_msgtx  .
+APPEND ls130_ret_table TO lt130_ret_table .
 
 " Get message texte
 MESSAGE e504(vl) INTO lv130_msgtx.
-APPEND VALUE #(
-  TYPE       = 'E'
-  ID         = 'VL'
-  NUMBER     = '504'
-  MESSAGE    = lv130_msgtx
-) TO lt130_ret_table.
+ls130_ret_table-type       = 'E'          .
+ls130_ret_table-id         = 'VL'  .
+ls130_ret_table-number     = '504'        .
+ls130_ret_table-message    = lv130_msgtx  .
+APPEND ls130_ret_table TO lt130_ret_table .
 
 " Get message texte
 MESSAGE e000 WITH 'val1' 'val2' 'val3' 'val4' INTO lv130_msgtx.
-APPEND VALUE #(
-  TYPE       = 'E'
-  ID         = 'ZLOG_UTIL'
-  NUMBER     = '000'
-  MESSAGE    = lv130_msgtx
-) TO lt130_ret_table.
+ls130_ret_table-type       = 'E'          .
+ls130_ret_table-id         = 'ZLOG_UTIL'  .
+ls130_ret_table-number     = '000'        .
+ls130_ret_table-message    = lv130_msgtx  .
+APPEND ls130_ret_table TO lt130_ret_table .
 
 MESSAGE i000 WITH 'Table before overloading' ' When on ALV, press F3 to continue'.
 lr130_log_util->display(
@@ -270,10 +267,10 @@ lr130_log_util->display(
 *& •  6.) Overloading provided table
 *&----------------------------------------------------------------------*
 " Overloading return table
-lr130_log_util->overload(
-  CHANGING
-    c_log_table = lt130_ret_table
-).
+*lr130_log_util->overload(
+*  CHANGING
+*    c_log_table = lt130_ret_table
+*).
 
 
 
