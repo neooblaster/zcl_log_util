@@ -1,5 +1,9 @@
 # ABAP Class ZCL_LOG_UTIL
 
+* Latest : [v0.1.0 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
+* Latest ABAP 7.30 : [v0.1.0 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
+
+
 As part of the development of ABAP interfaces program executed by batch, 
 we have been confronted several times with subjects around error logs.
 First, we had problems with their display between the area of ​​the job 
