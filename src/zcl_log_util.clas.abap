@@ -35,8 +35,8 @@ public section.
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_DEFINE .
   methods OVERLOAD
-    changing
-      !C_LOG_TABLE type STANDARD TABLE optional
+    "changing
+    "  !C_LOG_TABLE type STANDARD TABLE optional
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_OVERLOAD .
   methods BATCH
@@ -977,11 +977,12 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       APPEND sy TO lt_sy.
 
       " Convert input to buffer
-      me->_log_table_buffer = me->_convert_table(
+      CALL METHOD me->_convert_table
         EXPORTING
           i_table_to_convert  = lt_sy
           i_structure_to_copy = <fs_buff_structure>
-      ).
+        RECEIVING
+          r_table_converted   = me->_log_table_buffer.
     ENDIF.
 
     " ──┐ Used one parameters (Entered texte, structure or table)
@@ -996,20 +997,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       APPEND i_log_content TO <fs_table_to_convert>.
 
       " Convert input to buffer
-      me->_log_table_buffer = me->_convert_table(
+      CALL METHOD me->_convert_table
         EXPORTING
           i_table_to_convert  = <fs_table_to_convert>
           i_structure_to_copy = <fs_buff_structure>
-      ).
+        RECEIVING
+          r_table_converted   = me->_log_table_buffer.
     ENDIF.
     " ─────┐ Log message table with message components
     IF lv_flg_use_table EQ zcl_log_util=>true.
       " Convert input to buffer
-      me->_log_table_buffer = me->_convert_table(
+      CALL METHOD me->_convert_table
         EXPORTING
           i_table_to_convert  = i_log_content
           i_structure_to_copy = <fs_buff_structure>
-      ).
+        RECEIVING
+          r_table_converted   = me->_log_table_buffer.
     ENDIF.
 
 
@@ -1517,65 +1520,65 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
 
     " Call at that level with c_log_table, is to overload provided table
-    IF c_log_table IS SUPPLIED.
-      " Identify the true type
-      CREATE DATA lr_data LIKE LINE OF c_log_table.
-      ASSIGN lr_data->* TO <fs_log_table_s>.
-
-      " ──┐ Get table definition
-      ls_field_definition = me->_define->get_definition(
-        i_structure = <fs_log_table_s>
-      ).
-
-      GET REFERENCE OF c_log_table INTO lt_log_table .
-
-      " ──┐ Perform Overloading
-      " If not enabled, enable on demande
-      IF me->_overload->is_enabled( ) NE 'X'.
-        lv_local_enabled = 'X'.
-        me->_overload->enable( ).
-      ENDIF.
-
-      me->_overload->overload(
-        EXPORTING
-          i_log_field_def = ls_field_definition
-        CHANGING
-          c_log_table     = lt_log_table
-      ).
-
-      " When locally enabled, revert state
-      IF lv_local_enabled EQ 'X'.
-        me->_overload->disable( ).
-      ENDIF.
-
-      " Overload not manage msgtx, we have to update msgtx field if defined
-      IF ls_field_definition-field_message IS NOT INITIAL.
-        LOOP AT c_log_table ASSIGNING <fs_log_table_s>.
-          " Get messages field
-          ASSIGN COMPONENT ls_field_definition-field_message OF STRUCTURE <fs_log_table_s> TO <fs_msgtx>.
-          ASSIGN COMPONENT ls_field_definition-field_id      OF STRUCTURE <fs_log_table_s> TO <fs_msgid>.
-          ASSIGN COMPONENT ls_field_definition-field_number  OF STRUCTURE <fs_log_table_s> TO <fs_msgno>.
-          ASSIGN COMPONENT ls_field_definition-field_type    OF STRUCTURE <fs_log_table_s> TO <fs_msgty>.
-          ASSIGN COMPONENT ls_field_definition-field_msgv1   OF STRUCTURE <fs_log_table_s> TO <fs_msgv1>.
-          ASSIGN COMPONENT ls_field_definition-field_msgv2   OF STRUCTURE <fs_log_table_s> TO <fs_msgv2>.
-          ASSIGN COMPONENT ls_field_definition-field_msgv3   OF STRUCTURE <fs_log_table_s> TO <fs_msgv3>.
-          ASSIGN COMPONENT ls_field_definition-field_msgv4   OF STRUCTURE <fs_log_table_s> TO <fs_msgv4>.
-
-          IF <fs_msgv1> IS ASSIGNED. lv_msgv1 = <fs_msgv1>. ENDIF.
-          IF <fs_msgv2> IS ASSIGNED. lv_msgv2 = <fs_msgv2>. ENDIF.
-          IF <fs_msgv3> IS ASSIGNED. lv_msgv3 = <fs_msgv3>. ENDIF.
-          IF <fs_msgv4> IS ASSIGNED. lv_msgv4 = <fs_msgv4>. ENDIF.
-
-          IF <fs_msgid> IS ASSIGNED AND <fs_msgno> IS ASSIGNED AND <fs_msgty> IS ASSIGNED.
-            MESSAGE ID <fs_msgid> TYPE <fs_msgty> NUMBER <fs_msgno>
-            WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4
-            INTO <fs_msgtx>.
-          ENDIF.
-
-        ENDLOOP.
-      ENDIF.
-
-    ENDIF.
+*    IF c_log_table IS SUPPLIED.
+*      " Identify the true type
+*      CREATE DATA lr_data LIKE LINE OF c_log_table.
+*      ASSIGN lr_data->* TO <fs_log_table_s>.
+*
+*      " ──┐ Get table definition
+*      ls_field_definition = me->_define->get_definition(
+*        i_structure = <fs_log_table_s>
+*      ).
+*
+*      GET REFERENCE OF c_log_table INTO lt_log_table .
+*
+*      " ──┐ Perform Overloading
+*      " If not enabled, enable on demande
+*      IF me->_overload->is_enabled( ) NE 'X'.
+*        lv_local_enabled = 'X'.
+*        me->_overload->enable( ).
+*      ENDIF.
+*
+*      me->_overload->overload(
+*        EXPORTING
+*          i_log_field_def = ls_field_definition
+*        CHANGING
+*          c_log_table     = lt_log_table
+*      ).
+*
+*      " When locally enabled, revert state
+*      IF lv_local_enabled EQ 'X'.
+*        me->_overload->disable( ).
+*      ENDIF.
+*
+*      " Overload not manage msgtx, we have to update msgtx field if defined
+*      IF ls_field_definition-field_message IS NOT INITIAL.
+*        LOOP AT c_log_table ASSIGNING <fs_log_table_s>.
+*          " Get messages field
+*          ASSIGN COMPONENT ls_field_definition-field_message OF STRUCTURE <fs_log_table_s> TO <fs_msgtx>.
+*          ASSIGN COMPONENT ls_field_definition-field_id      OF STRUCTURE <fs_log_table_s> TO <fs_msgid>.
+*          ASSIGN COMPONENT ls_field_definition-field_number  OF STRUCTURE <fs_log_table_s> TO <fs_msgno>.
+*          ASSIGN COMPONENT ls_field_definition-field_type    OF STRUCTURE <fs_log_table_s> TO <fs_msgty>.
+*          ASSIGN COMPONENT ls_field_definition-field_msgv1   OF STRUCTURE <fs_log_table_s> TO <fs_msgv1>.
+*          ASSIGN COMPONENT ls_field_definition-field_msgv2   OF STRUCTURE <fs_log_table_s> TO <fs_msgv2>.
+*          ASSIGN COMPONENT ls_field_definition-field_msgv3   OF STRUCTURE <fs_log_table_s> TO <fs_msgv3>.
+*          ASSIGN COMPONENT ls_field_definition-field_msgv4   OF STRUCTURE <fs_log_table_s> TO <fs_msgv4>.
+*
+*          IF <fs_msgv1> IS ASSIGNED. lv_msgv1 = <fs_msgv1>. ENDIF.
+*          IF <fs_msgv2> IS ASSIGNED. lv_msgv2 = <fs_msgv2>. ENDIF.
+*          IF <fs_msgv3> IS ASSIGNED. lv_msgv3 = <fs_msgv3>. ENDIF.
+*          IF <fs_msgv4> IS ASSIGNED. lv_msgv4 = <fs_msgv4>. ENDIF.
+*
+*          IF <fs_msgid> IS ASSIGNED AND <fs_msgno> IS ASSIGNED AND <fs_msgty> IS ASSIGNED.
+*            MESSAGE ID <fs_msgid> TYPE <fs_msgty> NUMBER <fs_msgno>
+*            WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4
+*            INTO <fs_msgtx>.
+*          ENDIF.
+*
+*        ENDLOOP.
+*      ENDIF.
+*
+*    ENDIF.
 
     " Return Instance of define
     self = me->_overload.
