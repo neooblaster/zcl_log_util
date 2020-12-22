@@ -230,11 +230,11 @@ CLASS ZCL_LOG_UTIL_BATCH IMPLEMENTATION.
 
     " Apply
     IF lv_flg_output_checked EQ 'X' AND lv_flg_type_checked EQ 'X'.
-      APPEND VALUE #( type = 'A' ) TO lt_type_list.
-      APPEND VALUE #( type = 'E' ) TO lt_type_list.
-      APPEND VALUE #( type = 'W' ) TO lt_type_list.
-      APPEND VALUE #( type = 'I' ) TO lt_type_list.
-      APPEND VALUE #( type = 'S' ) TO lt_type_list.
+      ls_type_list-type = 'A'. APPEND ls_type_list TO lt_type_list.
+      ls_type_list-type = 'E'. APPEND ls_type_list TO lt_type_list.
+      ls_type_list-type = 'W'. APPEND ls_type_list TO lt_type_list.
+      ls_type_list-type = 'I'. APPEND ls_type_list TO lt_type_list.
+      ls_type_list-type = 'S'. APPEND ls_type_list TO lt_type_list.
 
      " Updating
       " ──┐ Updating Spool
