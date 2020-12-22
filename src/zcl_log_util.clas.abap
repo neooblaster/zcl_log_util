@@ -1420,7 +1420,8 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
     " From Definition structure components, retrieve
     " fields to exclude on log & provided structures
-    LOOP AT lt_def_comp INTO DATA(ls_def_comp).
+    DATA ls_def_comp TYPE ABAP_COMPONENTDESCR.
+    LOOP AT lt_def_comp INTO ls_def_comp.
       ASSIGN COMPONENT ls_def_comp-name OF STRUCTURE ls_log_def TO <fs_def_comp>.
 
       IF <fs_def_comp> IS ASSIGNED AND <fs_def_comp> IS NOT INITIAL.
