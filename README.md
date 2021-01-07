@@ -1,7 +1,7 @@
 # ABAP Logging Class ZCL_LOG_UTIL
 
-An another ABAP logging class allowing programs to focus on their functionality
-rather than being buried under lines of logging code
+> An another ABAP logging class allowing programs to focus on their functionality
+> rather than being buried under lines of logging code.
 
 **Link to download latest versions** :
 
@@ -23,10 +23,10 @@ rather than being buried under lines of logging code
     * Standard **BAPI** return structure or table (eg `BAPIRET2`).
     * Custom return structure or table.
     * A free message texte.
-    * A message using message class.
+    * A message using a message class.
 * Logging messages in **Application Log** (TCODE : `SLG1`) .
 * Displaying logs in the report :
-    * In ALV grid from your own log table.
+    * In an ALV grid from your own log table.
         * The method can be used to display any kind of internal table.
     * In the same presentation of ``SLG1`` from **Application Log**.
 * Managing logs between **foreground** and **background** execution (**batch**) :
@@ -67,6 +67,15 @@ Due to this complexity,
 please find detailed documentation of the class and its use.
 
 
+## Installation
+
+1. Install this project via [ABAPGit](http://abapgit.org/).
+2. Create **Application Log object** in transaction code ``SLG0`` :
+    * Object : ``ZLOGUTIL`` (`Main default object for entries registred with ZCL_LOG_UTIL`).
+
+Now you're ready to get started.
+
+
 ## Getting Start
 
 The ``ZCL_LOG_UTIL`` project comes with an example program that contains and 
@@ -77,9 +86,7 @@ There is nothing worse than having the method without understanding how to use
 it.
 
 First follow the guide to understand its use in its simplest form before using 
-the ``ZCL_LOG_UTIL_EXAMPLE`` (``SE38`` / ``SE80``) example program.
-
-
+the ``ZCL_LOG_UTIL_EXAMPLES`` (``SE38`` / ``SE80``) example program.
 
 
 ### Initialization & Configuration
