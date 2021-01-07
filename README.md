@@ -1,8 +1,47 @@
-# ABAP Class ZCL_LOG_UTIL
+# ABAP Logging Class ZCL_LOG_UTIL
+
+An another ABAP logging class allowing programs to focus on their functionality
+rather than being buried under lines of logging code
+
+**Link to download latest versions** :
 
 * Latest : [v0.1.0 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
 * Latest ABAP 7.30 : [v0.1.0 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
 
+
+## Summary
+
+[](MakeSummary)
+
+
+
+## Feature Overview
+
+* Logging messages in own internal table type :
+    * Next to statement ``MESSAGES``.
+    * System message stored in global structure ``SY``.
+    * Standard **BAPI** return structure or table (eg `BAPIRET2`).
+    * Custom return structure or table.
+    * A free message texte.
+    * A message using message class.
+* Logging messages in **Application Log** (TCODE : `SLG1`) .
+* Displaying logs in the report :
+    * In ALV grid from your own log table.
+        * The method can be used to display any kind of internal table.
+    * In the same presentation of ``SLG1`` from **Application Log**.
+* Managing logs between **foreground** and **background** execution (**batch**) :
+    * For **batch** mode, you can easily set which message type must be displayed 
+    in the **spool** and in the **protocol** in an independent way.
+* The best for the end, overloading logs messages using provided settings table
+or your own one :
+    * Update messages components on the fly according to the rules in settings table.
+    * Skip messages.
+    * Appending an extra message.
+    * Messages can be uniquely identified by using a Spot ID in your program. 
+
+
+
+## Introduction : Genesis of this class
 
 As part of the development of ABAP interfaces program executed by batch, 
 we have been confronted several times with subjects around error logs.
@@ -26,12 +65,6 @@ while offering a range of functions (requires more configuration,
 but always wants to be as simple as possible). 
 Due to this complexity,
 please find detailed documentation of the class and its use.
-
-
-## Summary
-
-[](MakeSummary)
-
 
 
 ## Getting Start
