@@ -260,6 +260,16 @@ Here are the ways to log messages:
 ### Overloading Log Messages
 
 
+#### Explanations about overloading feature
+
+
+##### Overloading Modes
+
+
+
+
+
+
 #### Configuration
 
 
@@ -277,6 +287,10 @@ Here are the ways to log messages:
 
 
 #### Using your own custom setting table
+
+
+
+#### Overloading an already filled log table
 
 
 
@@ -304,3 +318,13 @@ Here are the ways to log messages:
 
 
 #### Set a custom setting table that storing overloading rules
+
+
+
+
+
+
+### Extra feature
+
+
+#### Display the content of any kind of internal table
