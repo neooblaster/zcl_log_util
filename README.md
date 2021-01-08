@@ -72,6 +72,7 @@ please find detailed documentation of the class and its use.
 1. Install this project via [ABAPGit](http://abapgit.org/).
 2. Create **Application Log object** in transaction code ``SLG0`` :
     * Object : ``ZLOGUTIL`` (`Main default object for entries registred with ZCL_LOG_UTIL`).
+3. Run the report : ``N/A``.
 
 Now you're ready to get started.
 
@@ -89,39 +90,61 @@ First follow the guide to understand its use in its simplest form before using
 the ``ZCL_LOG_UTIL_EXAMPLES`` (``SE38`` / ``SE80``) example program.
 
 
-### Initialization & Configuration
+### Initialization
+
+For the simplest possible use,
+I advise you to use the type of log table provided with the class.
+Instantiation works in the same way as that of an ALV grid of class 
+``CL_SALV_TABLE`` :
 
 ````abap
+" Data declaration :
+DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table ,
+      lr_log_util  TYPE REF TO   zcl_log_util               .
 
+" Instanciation
+zcl_log_util=>factory(
+    IMPORTING
+        e_log_util  = lr_log_util
+    CHANGING
+        c_log_table = lt_log_table
+).
 ````
 
 
 
 ### Logging & Display
 
+To log messages, there are a number of different ways to proceed.
+I advise you to do it in the following way.
+This method offers the advantage of being able to do the where-used on the
+message class and on the message number, 
+a powerful feature of SAP.
+
+````abap
+" Creating a variable to catch generated message
+DATA: lv_dummy TYPE string .
+
+" Raising message :
+"   - 1.) Message texte is available in lv_dummy.
+"   - 2.) Log raised message
+MESSAGE e504(vl) INTO lv_dummy.
+lr_log_util->log( ).
+
+" Display you log table
+lr_log_util->display( ).
+````
+
+**Hints** : When you use statement ``MESSAGE``, SAP automatically feed
+structure ``SY``. Using `lr_log_util->log( )` will log message using the message 
+components available in structure ``SY``.
+When a standard **Function Module** or **BAPI** implicitely
+stored errors in ``SY`` you can log system message using `log( )` method
+without writing statement ``MESSAGE``.
 
 
-### Default Values & Behavior
 
 
 
 
-
-
-## Detailed guide & Features
-
-
-### Handle custom (or unknown standard) log table
-
-
-### Application Log (SLG)
-
-
-### Message Overloading
-
-
-
-
-
-
-
+## Detailed documentation
