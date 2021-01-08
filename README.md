@@ -148,3 +148,159 @@ without writing statement ``MESSAGE``.
 
 
 ## Detailed documentation
+
+
+### Instanciation methods
+
+There are two ways to instantiate the ``ZCL_LOG_UTIL`` class.
+The first method will be the most frequent method.
+The second method makes it possible to defer the association of the internal 
+table to a later moment in the processing of the program.
+It also offers a way to change log tables at any time which allows you to use 
+a single instance to manage different internal tables.
+
+* First method : classic way, same as chapter ``Getting Start``
+
+````abap
+" Data declaration :
+DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table ,
+      lr_log_util  TYPE REF TO   zcl_log_util               .
+
+" Instanciation
+zcl_log_util=>factory(
+    IMPORTING
+        e_log_util  = lr_log_util
+    CHANGING
+        c_log_table = lt_log_table
+).
+````
+
+* Second method : differed way, for multiple log table in on report.
+
+````abap
+# -----[ Instanciation ]---------------------------------------
+" Data declaration :
+DATA: lr_log_util  TYPE REF TO   zcl_log_util .
+
+" Instanciation
+zcl_log_util=>factory(
+    IMPORTING
+        e_log_util  = lr_log_util
+).
+````
+
+````abap
+# -----[ Linking log table ]-----------------------------------
+" Data declaration :
+DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table .
+
+" Linking log table :
+lr_log_util->set_log_table(
+    CHANGING
+        t_log_table = lt_log_table
+).
+````
+
+
+### Logging methods
+
+The main objective of this class is to provide the maximum possibility of
+logging different message sources with different format types using only one method.
+Here are the ways to log messages:
+
+
+#### Logging system message
+
+
+
+#### Logging next to statement ``MESSAGE``
+
+
+
+#### Logging a structure
+
+
+
+#### Logging a table
+
+
+
+#### Logging using message class
+
+
+
+#### Logging a free message texte
+
+
+
+#### Logging from custom structure (or table)
+
+
+
+
+
+### Logging in the Application Log (`SLG1`)
+
+
+#### Configuration
+
+
+
+#### Enabling / Disabling
+
+
+
+#### Display Application Log
+
+
+
+
+
+
+### Overloading Log Messages
+
+
+#### Configuration
+
+
+
+#### Enabling / Disabling
+
+
+
+#### Usin Spot ID
+
+
+
+#### Using Extra parameters
+
+
+
+#### Using your own custom setting table
+
+
+
+
+
+
+### Managing batch mode outputs
+
+
+#### Managing output for the spool
+
+
+
+#### Managing output for the protocol
+
+
+
+
+
+
+### Set your own definitions
+
+
+#### Set a custom log table type or unregistred SAP standard type
+
+
+#### Set a custom setting table that storing overloading rules
