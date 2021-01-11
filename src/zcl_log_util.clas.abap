@@ -518,7 +518,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " |                                                            |
     " |                       ZCL_LOG_UTIL                         |
     " |                                                            |
-    " |                   v0.1.0 -- 2020.12.21                     |
+    " |                   v0.1.1 -- 2021.01.11                     |
     " |                                                            |
     " #------------------------------------------------------------#
     " #------------------------------------------------------------#
@@ -903,7 +903,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " ──┐ Import parameters identification
     DESCRIBE FIELD i_log_content TYPE lv_i_log_content_type.
 
-    IF lv_i_log_content_type EQ 'C'.
+    IF lv_i_log_content_type EQ 'C' OR lv_i_log_content_type EQ 'g'
+                                    OR lv_i_log_content_type EQ 'N'
+                                    OR lv_i_log_content_type EQ 'D'   " Date Time Type
+                                    OR lv_i_log_content_type EQ 'T'.  " Date Time Type
 
       " No parameter provided (->log( ))
       IF i_log_content EQ 'INITIAL'
@@ -952,6 +955,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
                 sy-msgv4 .
 
         lv_flg_use_symsg = zcl_log_util=>true.
+        lv_msgxx_flg = 'X'.
 
       ENDIF.
 

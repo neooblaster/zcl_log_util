@@ -398,12 +398,14 @@ CLASS ZCL_LOG_UTIL_OVERLOAD IMPLEMENTATION.
 
     ENDLOOP.
 
-    " Update table
-    REFRESH <fs_buff_table_t>.
+    " Update table (if required)
+    IF <fs_over_table_t> IS ASSIGNED.
+      REFRESH <fs_buff_table_t>.
 
-    LOOP AT <fs_over_table_t> ASSIGNING <fs_over_table_s>.
-      APPEND <fs_over_table_s> TO <fs_buff_table_t>.
-    ENDLOOP.
+      LOOP AT <fs_over_table_t> ASSIGNING <fs_over_table_s>.
+        APPEND <fs_over_table_s> TO <fs_buff_table_t>.
+      ENDLOOP.
+    ENDIF.
 
   endmethod.
 
