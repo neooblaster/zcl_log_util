@@ -5,8 +5,8 @@
 
 **Link to download latest versions** :
 
-* Latest : [v0.1.0 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
-* Latest ABAP 7.30 : [v0.1.0 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
+* Latest : [v0.1.1 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
+* Latest ABAP 7.30 : [v0.1.1 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
 
 
 ## Summary
