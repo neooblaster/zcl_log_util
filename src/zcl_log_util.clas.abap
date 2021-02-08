@@ -127,9 +127,7 @@ public section.
     importing
       !SPOT type ZDT_LOG_UTIL_SPOT optional
     returning
-      value(SELF) type ref to ZCL_LOG_UTIL_SPOT
-    raising
-      ZCX_LOG_UTIL .
+      value(SELF) type ref to ZCL_LOG_UTIL_SPOT .
   methods SLG
     returning
       value(SELF) type ref to ZCL_LOG_UTIL_SLG .

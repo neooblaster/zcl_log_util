@@ -37,8 +37,8 @@ DATA: " OBJECTS
     lr_log_util        TYPE REF TO zcl_log_util        ,
     lr_log_util_define TYPE REF TO zcl_log_util_define .
 
-DATA: " EXCEPTIONS
-    lx_log_util TYPE REF TO zcx_log_util.
+"DATA: " EXCEPTIONS
+"    lx_log_util TYPE REF TO zcx_log_util.
 
 
 
@@ -138,9 +138,9 @@ lr_log_util->define( ls_log_table ).
 *& Rule SPOT_001 : Test RAISED EXCEPTION 1
 *&-----------------------------------------*
 TRY.
-  lr_log_util->spot( )->start( ).
-  CATCH ZCX_LOG_UTIL INTO lx_log_util.
-    WRITE: / 'TEST SPOT_001 : ', lx_log_util->get_text( ).
+  "lr_log_util->spot( )->start( ).
+  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
+  "  WRITE: / 'TEST SPOT_001 : ', lx_log_util->get_text( ).
 ENDTRY.
 
 
@@ -148,9 +148,9 @@ ENDTRY.
 *& Rule SPOT_002 : Test RAISED EXCEPTION 2
 *&-----------------------------------------*
 TRY.
-  lr_log_util->spot( '' )->start( ).
-  CATCH ZCX_LOG_UTIL INTO lx_log_util.
-    WRITE: / 'TEST SPOT_002 : ', lx_log_util->get_text( ).
+  "lr_log_util->spot( '' )->start( ).
+  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
+  "  WRITE: / 'TEST SPOT_002 : ', lx_log_util->get_text( ).
 ENDTRY.
 
 
