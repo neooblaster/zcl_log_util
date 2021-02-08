@@ -111,7 +111,8 @@ please find detailed documentation of the class and its use.
 1. Install this project via [ABAPGit](http://abapgit.org/).
 2. Create **Application Log object** in transaction code ``SLG0`` :
     * Object : ``ZLOGUTIL`` (`Main default object for entries registred with ZCL_LOG_UTIL`).
-3. Run the report : ``N/A``.
+3. Run the report : ``ZCL_LOG_UTIL_INSTALL`` to fill the default table 
+`ZLOG_UTIL_OVERLO` of the class for example report.
 
 Now you're ready to get started.
 
