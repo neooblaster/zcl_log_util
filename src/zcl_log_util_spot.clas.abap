@@ -8,9 +8,7 @@ public section.
   class-data TRUE type C value 'X' ##NO_TEXT.
   class-data FALSE type C value ' ' ##NO_TEXT.
 
-  methods START
-    raising
-      ZCX_LOG_UTIL .
+  methods START .
   methods STOP .
   methods CONSTRUCTOR
     importing
@@ -69,9 +67,9 @@ CLASS ZCL_LOG_UTIL_SPOT IMPLEMENTATION.
   method START.
 
     IF me->spot IS INITIAL.
-      RAISE EXCEPTION TYPE ZCX_LOG_UTIL
-        EXPORTING
-          textid = ZCX_LOG_UTIL=>ZCX_LOG_UTIL_SPOT_EMPTY.
+*      RAISE EXCEPTION TYPE ZCX_LOG_UTIL
+*        EXPORTING
+*          textid = ZCX_LOG_UTIL=>ZCX_LOG_UTIL_SPOT_EMPTY.
     ENDIF.
 
     me->enabled = zcl_log_util_spot=>true.
@@ -82,9 +80,9 @@ CLASS ZCL_LOG_UTIL_SPOT IMPLEMENTATION.
   method STOP.
 
     IF me->spot IS INITIAL.
-      RAISE EXCEPTION TYPE ZCX_LOG_UTIL
-        EXPORTING
-          textid = ZCX_LOG_UTIL=>ZCX_LOG_UTIL_SPOT_EMPTY.
+*      RAISE EXCEPTION TYPE ZCX_LOG_UTIL
+*        EXPORTING
+*          textid = ZCX_LOG_UTIL=>ZCX_LOG_UTIL_SPOT_EMPTY.
     ENDIF.
 
     me->enabled = zcl_log_util_spot=>false.
