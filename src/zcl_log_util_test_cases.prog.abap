@@ -5,37 +5,37 @@
 *&---------------------------------------------------------------------*
 REPORT ZCL_LOG_UTIL_TEST_CASES.
 
-TYPES: BEGIN OF ty_my_log_table,
-          icon     TYPE alv_icon,
-          vbeln    TYPE vbeln,
-          message  TYPE string,
-          filename TYPE string,
-          id       TYPE sy-msgid,
-          number   TYPE sy-msgno,
-          type     TYPE sy-msgty,
-          spot     TYPE zdt_log_util_spot,
-       END   OF ty_my_log_table.
+*TYPES: BEGIN OF ty_my_log_table,
+*          icon     TYPE alv_icon,
+*          vbeln    TYPE vbeln,
+*          message  TYPE string,
+*          filename TYPE string,
+*          id       TYPE sy-msgid,
+*          number   TYPE sy-msgno,
+*          type     TYPE sy-msgty,
+*          spot     TYPE zdt_log_util_spot,
+*       END   OF ty_my_log_table.
+*
+*TYPES:  BEGIN OF  ty_custom_bapi_log_table.
+*          INCLUDE STRUCTURE bapiret2.
+*TYPES:    fileindex TYPE i,
+*          lineindex TYPE i,
+*        END   OF ty_custom_bapi_log_table.
 
-TYPES:  BEGIN OF  ty_custom_bapi_log_table.
-          INCLUDE STRUCTURE bapiret2.
-TYPES:    fileindex TYPE i,
-          lineindex TYPE i,
-        END   OF ty_custom_bapi_log_table.
 
 
+*DATA: " VARIABLES
+*    lv_string    TYPE string.
 
-DATA: " VARIABLES
-    lv_string    TYPE string.
-
-DATA: " TABLES
-    lt_log_table      TYPE TABLE OF ty_my_log_table         ,
-    ls_log_table      TYPE          ty_my_log_table         ,
-    lt_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table,
-    ls_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table.
-
-DATA: " OBJECTS
-    lr_log_util        TYPE REF TO zcl_log_util        ,
-    lr_log_util_define TYPE REF TO zcl_log_util_define .
+*DATA: " TABLES
+*    lt_log_table      TYPE TABLE OF ty_my_log_table         ,
+*    ls_log_table      TYPE          ty_my_log_table         ,
+*    lt_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table,
+*    ls_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table.
+*
+*DATA: " OBJECTS
+*    lr_log_util        TYPE REF TO zcl_log_util        ,
+*    lr_log_util_define TYPE REF TO zcl_log_util_define .
 
 "DATA: " EXCEPTIONS
 "    lx_log_util TYPE REF TO zcx_log_util.
@@ -44,16 +44,16 @@ DATA: " OBJECTS
 
 
 
-FORM init_log_util.
-  zcl_log_util=>factory(
-    " Retrieving your object to use in your program
-    IMPORTING
-      e_log_util  = lr_log_util
-    " Linking your log table
-    CHANGING
-      c_log_table = lt_log_table
-  ).
-ENDFORM.
+*FORM init_log_util.
+*  zcl_log_util=>factory(
+*    " Retrieving your object to use in your program
+*    IMPORTING
+*      e_log_util  = lr_log_util
+*    " Linking your log table
+*    CHANGING
+*      c_log_table = lt_log_table
+*  ).
+*ENDFORM.
 
 
 
@@ -61,8 +61,8 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *&  Initialization
 *&---------------------------------------------------------------------*
-INITIALIZATION.
-PERFORM init_log_util.
+*INITIALIZATION.
+*PERFORM init_log_util.
 
 
 
@@ -81,21 +81,21 @@ PERFORM init_log_util.
 *   - Super Method
 *   - Field Name
 *   - Empty Field
-lr_log_util->define( lt_log_table )->set(
-  msgid_field = 'ID'
-  msgno_field = 'NUMBER'
-  msgty_field = 'TYPE'
-  msgv1_field = ''
-  msgv2_field = ''
-  msgv3_field = ''
-  msgv4_field = ''
-).
+*lr_log_util->define( lt_log_table )->set(
+*  msgid_field = 'ID'
+*  msgno_field = 'NUMBER'
+*  msgty_field = 'TYPE'
+*  msgv1_field = ''
+*  msgv2_field = ''
+*  msgv3_field = ''
+*  msgv4_field = ''
+*).
 
 
 *&------------------------------------------*
 *& Rule DEFINE_002 : Test Handling STRUCTURE
 *&------------------------------------------*
-lr_log_util->define( ls_log_table ).
+*lr_log_util->define( ls_log_table ).
 
 
 *&---------------------------------------------*
@@ -137,41 +137,41 @@ lr_log_util->define( ls_log_table ).
 *&---------------------------------------------------------------------*
 *& Rule SPOT_001 : Test RAISED EXCEPTION 1
 *&-----------------------------------------*
-TRY.
-  "lr_log_util->spot( )->start( ).
-  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
-  "  WRITE: / 'TEST SPOT_001 : ', lx_log_util->get_text( ).
-ENDTRY.
+*TRY.
+*  "lr_log_util->spot( )->start( ).
+*  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
+*  "  WRITE: / 'TEST SPOT_001 : ', lx_log_util->get_text( ).
+*ENDTRY.
 
 
 *&-----------------------------------------*
 *& Rule SPOT_002 : Test RAISED EXCEPTION 2
 *&-----------------------------------------*
-TRY.
-  "lr_log_util->spot( '' )->start( ).
-  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
-  "  WRITE: / 'TEST SPOT_002 : ', lx_log_util->get_text( ).
-ENDTRY.
+*TRY.
+*  "lr_log_util->spot( '' )->start( ).
+*  "CATCH ZCX_LOG_UTIL INTO lx_log_util.
+*  "  WRITE: / 'TEST SPOT_002 : ', lx_log_util->get_text( ).
+*ENDTRY.
 
 
 
 *&-----------------------------------------*
 *& Rule SPOT_003 : Test Starting Spot
 *&-----------------------------------------*
-CLEAR lr_log_util.
-PERFORM init_log_util.
+*CLEAR lr_log_util.
+*PERFORM init_log_util.
 
 " Starting.
-lr_log_util->spot( 'SPOT_NAME' )->start( ).
-WRITE: / 'TEST SPOT_003_01 : Enabled :', lr_log_util->spot( )->is_enabled( ).
+*lr_log_util->spot( 'SPOT_NAME' )->start( ).
+*WRITE: / 'TEST SPOT_003_01 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 
 " Stoping.
-lr_log_util->spot( )->stop( ).
-WRITE: / 'TEST SPOT_003_02 : Enabled :', lr_log_util->spot( )->is_enabled( ).
+*lr_log_util->spot( )->stop( ).
+*WRITE: / 'TEST SPOT_003_02 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 
 " Restarting (-> no dump)
-lr_log_util->spot( )->start( ).
-WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
+*lr_log_util->spot( )->start( ).
+*WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 
 
 
@@ -237,3 +237,62 @@ WRITE: / 'TEST SPOT_003_03 : Enabled :', lr_log_util->spot( )->is_enabled( ).
 " [X] lr_log_util->overloading( )->disable( )
 "
 "
+
+*CLASS ZCL_LOG_UTIL_TEST DEFINITION FOR TESTING.
+*  PRIVATE SECTION.
+*    METHODS run FOR TESTING.
+*ENDCLASS.
+*
+*CLASS ZCL_LOG_UTIL_TEST IMPLEMENTATION.
+*  METHOD run.
+*
+**TYPES: BEGIN OF ty_my_log_table,
+**          icon     TYPE alv_icon,
+**          vbeln    TYPE vbeln,
+**          message  TYPE string,
+**          filename TYPE string,
+**          id       TYPE sy-msgid,
+**          number   TYPE sy-msgno,
+**          type     TYPE sy-msgty,
+**          spot     TYPE zdt_log_util_spot,
+**       END   OF ty_my_log_table.
+**
+**TYPES:  BEGIN OF  ty_custom_bapi_log_table.
+**          INCLUDE STRUCTURE bapiret2.
+**TYPES:    fileindex TYPE i,
+**          lineindex TYPE i,
+**        END   OF ty_custom_bapi_log_table.
+*
+*
+*
+**DATA: " VARIABLES
+**    lv_string    TYPE string.
+**
+*DATA: " TABLES
+*    lt_log_table      TYPE TABLE OF bapiret2         .
+**    ls_log_table      TYPE          ty_my_log_table         ,
+**    lt_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table,
+**    ls_cust_log_table TYPE TABLE OF ty_custom_bapi_log_table.
+**
+*DATA: " OBJECTS
+*    lr_log_util        TYPE REF TO zcl_log_util        .
+**    lr_log_util_define TYPE REF TO zcl_log_util_define .
+*
+*"DATA: " EXCEPTIONS
+*"    lx_log_util TYPE REF TO zcx_log_util.
+*
+*    zcl_log_util=>factory(
+*      " Retrieving your object to use in your program
+*      IMPORTING
+*        e_log_util  = lr_log_util
+*      " Linking your log table
+*      CHANGING
+*        c_log_table = lt_log_table
+*    ).
+*
+**    cl_abap_unit_assert=>assert_equals(
+**      act = ''
+**      exp = ''
+**    ).
+*  ENDMETHOD.
+*ENDCLASS.
