@@ -20,17 +20,20 @@
     * [Initialization](#initialization)
     * [Logging & Display](#logging-&-display)
 * [Detailed documentation](#detailed-documentation)
-    * [Instanciation methods](#instanciation-methods)
+    * [Instantiation methods](#instantiation-methods)
     * [Logging methods](#logging-methods)
         * [Logging system message](#logging-system-message)
         * [Logging next to statement ``MESSAGE``](#logging-next-to-statement-message)
         * [Logging a structure](#logging-a-structure)
         * [Logging a table](#logging-a-table)
         * [Logging using message class](#logging-using-message-class)
-        * [Logging a free message texte](#logging-a-free-message-texte)
-        * [Logging from custom structure (or table)](#logging-from-custom-structure-or-table)
+        * [Logging a free text message](#logging-a-free-text-message)
     * [Logging in the Application Log (`SLG1`)](#logging-in-the-application-log-slg1)
         * [Configuration](#configuration)
+            * [Set the main object](#set-the-main-object)
+            * [Set the sub-object](#set-the-sub-object)
+            * [Set the external number](#set-the-external-number)
+            * [Set the log retention time](#set-the-log-retention-time)
         * [Enabling / Disabling](#enabling-/-disabling)
         * [Display Application Log](#display-application-log)
     * [Overloading Log Messages](#overloading-log-messages)
@@ -38,7 +41,7 @@
             * [Overloading Modes](#overloading-modes)
         * [Configuration](#configuration)
         * [Enabling / Disabling](#enabling-/-disabling)
-        * [Usin Spot ID](#usin-spot-id)
+        * [Using Spot ID](#using-spot-id)
         * [Using Extra parameters](#using-extra-parameters)
         * [Using your own custom setting table](#using-your-own-custom-setting-table)
         * [Overloading an already filled log table](#overloading-an-already-filled-log-table)
@@ -98,7 +101,7 @@ The reuse of codes is very complex because of its processive implementation.
 The need to develop a class designed to cover all needs, 
 without modifying the way of logging into the program and leaving the core of 
 the program readable has become evident. 
-It is for this reason that I decided to develop the ZCL_LOG_UTIL class. 
+It is for this reason that I decided to develop the ``ZCL_LOG_UTIL`` class. 
 It is intended to be easy to use (minimum configuration) 
 while offering a range of functions (requires more configuration, 
 but always wants to be as simple as possible). 
@@ -128,6 +131,7 @@ it.
 
 First follow the guide to understand its use in its simplest form before using 
 the ``ZCL_LOG_UTIL_EXAMPLES`` (``SE38`` / ``SE80``) example program.
+I will mention which demo contain the appropriate code explain in this guide.
 
 
 ### Initialization
@@ -150,6 +154,8 @@ zcl_log_util=>factory(
         c_log_table = lt_log_table
 ).
 ````
+
+> Available in ``Demo 010``.
 
 
 
@@ -182,6 +188,8 @@ When a standard **Function Module** or **BAPI** implicitely
 stored errors in ``SY`` you can log system message using `log( )` method
 without writing statement ``MESSAGE``.
 
+> Available in ``Demo 010``.
+
 
 
 
@@ -190,7 +198,7 @@ without writing statement ``MESSAGE``.
 ## Detailed documentation
 
 
-### Instanciation methods
+### Instantiation methods
 
 There are two ways to instantiate the ``ZCL_LOG_UTIL`` class.
 The first method will be the most frequent method.
@@ -206,7 +214,7 @@ a single instance to manage different internal tables.
 DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table ,
       lr_log_util  TYPE REF TO   zcl_log_util               .
 
-" Instanciation
+" Instanciation (making link between instance and internal table)
 zcl_log_util=>factory(
     IMPORTING
         e_log_util  = lr_log_util
@@ -215,7 +223,9 @@ zcl_log_util=>factory(
 ).
 ````
 
-* Second method : differed way, for multiple log table in on report.
+> Available in ``Demo 010``.
+
+* Second method : differed way, for multiple log table in one report.
 
 ````abap
 # -----[ Instanciation ]---------------------------------------
@@ -241,39 +251,157 @@ lr_log_util->set_log_table(
 ).
 ````
 
+> Available in ``Demo 065``.
+
+
 
 ### Logging methods
 
 The main objective of this class is to provide the maximum possibility of
 logging different message sources with different format types using only one method.
-Here are the ways to log messages:
+Here are the ways to log messages using the instance reference `lr_log_util`
+of class ``zcl_log_util``.
 
 
 #### Logging system message
+
+By definition, system message are stored in the global system structure ``SY``.
+Calling the method ``log( )``, without import parameter will add the 
+system message to the linked log table :
+
+````abap
+" Log system message
+lr_log_util->log( ).
+````
+
+> Available in ``Demo 010``.
 
 
 
 #### Logging next to statement ``MESSAGE``
 
+As mentioned previously, the statement ``MESSAGE`` will update
+the global system structure.
+So to log the message in the log table simplify do as following :
+
+````abap
+" Done like this, the message will be redirected into lv_dummy as string.
+MESSAGE i123(zmm01) WITH 'message' 'components' INTO DATA(lv_dummy).
+lr_log_util->log( ).
+````
+
+> Available in ``Demo 010``.
+
+From my point of view, this is the best way to register an entry in the log table,
+because the here before statement will respond to the _where-used_ case.
+
 
 
 #### Logging a structure
+
+You can log any kind of **structure** as long as you have defined the field roles.
+The ``zcl_log_util`` class already knows the field roles of the SAP standard
+message structure (and table).
+
+[](#import>zcl_log_util_known_structure.md)
+Please find below structure which are natively handle by ``zcl_log_util`` :
+
+| Name | Msg. Text | Msg. Type | Msg. ID | Msg. Number | Msg. Val. 1 | Msg. Val. 2 | Msg. Val. 3 | Msg. Val. 4 |
+|---|---|---|---|---|---|---|---|---|
+| zcl_log_util=>ty_log_table | MESSAGE | TYPE | ID | NUMBER | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| sy | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| prott | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| bapiret1 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapiret2 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapi_coru_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapi_order_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+
+See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
+[Jump](README.md#)
+
+[](#import<zcl_log_util_known_structure.md)
+
+````abap
+DATA ls_bapiret2 TYPE bapiret2.
+
+" Considering ls_bapiret2 is not initial
+lr_log_util->log( ls_bapiret2 ).
+````
 
 
 
 #### Logging a table
 
+You can log any kind of **table** as long as you have defined the field roles.
+The ``zcl_log_util`` class already knows the field roles of the SAP standard
+message structure (and table).
+
+[](#import>zcl_log_util_known_structure.md)
+Please find below structure which are natively handle by ``zcl_log_util`` :
+
+| Name | Msg. Text | Msg. Type | Msg. ID | Msg. Number | Msg. Val. 1 | Msg. Val. 2 | Msg. Val. 3 | Msg. Val. 4 |
+|---|---|---|---|---|---|---|---|---|
+| zcl_log_util=>ty_log_table | MESSAGE | TYPE | ID | NUMBER | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| sy | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| prott | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| bapiret1 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapiret2 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapi_coru_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bapi_order_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
+| bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+
+See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
+[Jump](README.md#)
+
+[](#import<zcl_log_util_known_structure.md)
+
+````abap
+DATA lt_bapiret2 TYPE TABLE OF bapiret2.
+
+" Considering lt_bapiret2 is not initial
+lr_log_util->log( lt_bapiret2 ).
+````
+
+> Available in ``Demo 040``.
+
 
 
 #### Logging using message class
 
+The class offer the possibility to register a new entry in your log table 
+by passing message components directly in the import parameter of the
+method ``log( )``.
+
+Be aware that "where-used" will not be able to find the message
+
+````abap
+lr_log_util->log(
+    IMPORTING
+        i_log_msgid = 'zmm01'
+        i_log_msgno = '123'
+        i_log_msgty = 'I'
+        i_log_msgv1 = 'Message'
+        i_log_msgv2 = 'Component'
+*        i_log_msgv3 = 'optional'
+*        i_log_msgv4 = 'optional'
+)
+````
 
 
-#### Logging a free message texte
 
+#### Logging a free text message
 
+If you have a simple text or a variable which contains your text message
+you can register it in the log table.
 
-#### Logging from custom structure (or table)
+Note : The class is not able to find back the message components, so in the log
+table you will only find the message in the message column.
+
+````abap
+lr_log_util->log( 'My free text message' ).
+````
+
 
 
 
@@ -281,16 +409,146 @@ Here are the ways to log messages:
 
 ### Logging in the Application Log (`SLG1`)
 
+The ``zcl_log_util`` class can be used as library
+to handle logging throught **Application Log**. 
+Indeed, all registered messages from method ``log( )``,
+can be stored in a **Application Log** ledger.
+
+This is not the maim purpose of this class,
+so some settings steps must be perform to enable
+**Application Log**.
+
 
 #### Configuration
+
+At least, to create a **Application Log** register,
+we have to set the **main object** and eventually one of its
+**sub-object**.
+
+By default, ``zcl_log_util`` use the default **main object**
+``ZLOGUTIL`` which you have created in during `Installation` step
+thanks to ``SLG0``.
+
+So at least, you can simply **enable** the **Application log**,
+but I advise to use your own ``SLG`` objects.
+
+To handle **Application Log** from ``zcl_log_util``,
+you can define a local reference to simplify the code writing 
+or make direct call from your instance.
+
+Here we will use a local reference `lr_slg` to increase code readability :
+
+````abap
+DATA lr_slg TYPE REF TO zcl_log_util_slg.
+
+lr_slg = lr_log_util->slg( ).
+````
+
+> Available in ``Demo 070``.
+
+
+##### Set the main object
+
+To set/change your own **main object**,
+simply use the method ``set_object( )`` :
+
+````abap
+" Main object ZMYPO must be exist in SLG0.
+lr_slg->set_object( 'ZMYPO' ).
+````
+
+> Available in ``Demo 070``.
+
+
+
+##### Set the sub-object
+
+To set/change the **sub-object**,
+simply use the method ``set_sub_object( )`` :
+
+````abap
+" Sub-object 'PO_CHANGE' must be a sub-obecjt of 'ZMYPO'.
+lr_slg->set_sub_object( 'PO_CHANGE' ).
+````
+
+> Available in ``Demo 070``.
+
+
+
+##### Set the external number
+
+The **external number** is optionnal.
+Its helps to reduce result when you search for log in ``SLG1``.
+For instance, you can set the **PO Number** as **external number** :
+
+````abap
+lr_slg->set_external_number( '4500001189' ).
+````
+
+> Available in ``Demo 070``.
+
+
+
+##### Set the log retention time
+
+The retention delay is required for the garbage collector
+to delete old log.
+By default, the retention is set to ``30`` days.
+
+````abap
+lr_slg->set_retention( 60 ).
+````
+
+> Available in ``Demo 070``.
+
+
+
 
 
 
 #### Enabling / Disabling
 
+You can enable / disable at anytime the recording of log message
+in the **Application Log**.
+
+Simply use method ``enable( )`` to activate the functionality and
+``disabled( )`` to turn off recording.
+
+````abap
+" Turn on Application Log
+lr_slg->enable(  ).
+````
+````abap
+" Turn off Application Log
+lr_slg->disable(  ).
+````
+
+> Available in ``Demo 070``.
+
+Enabling / Disabling **Application Log** will not close the register.
+Register is saved at the end of the program.
+
 
 
 #### Display Application Log
+
+If you want to display the **Application Log** in your report
+to avoid using TCODE ``SLG1``, simply call method `display( )`.
+
+````abap
+" Display the Application Log register
+lr_slg->display(  ).
+````
+
+> Available in ``Demo 070``.
+
+Result in your own log table :
+
+![](lib/img/slg_result_in_log_table_01.png)
+
+Result in **Application Log** using ``display( )`` :
+
+![](lib/img/slg_result_in_app_log_01.png)
 
 
 
@@ -318,7 +576,7 @@ Here are the ways to log messages:
 
 
 
-#### Usin Spot ID
+#### Using Spot ID
 
 
 
@@ -368,3 +626,5 @@ Here are the ways to log messages:
 
 
 #### Display the content of any kind of internal table
+
+
