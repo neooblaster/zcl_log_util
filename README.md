@@ -13,13 +13,14 @@
 
 [](BeginSummary)
 * [Summary](#summary)
-* [Feature Overview](#feature-overview)
+* [Features Overview](#features-overview)
 * [Introduction : Genesis of this class](#introduction-:-genesis-of-this-class)
 * [Installation](#installation)
 * [Getting Start](#getting-start)
     * [Initialization](#initialization)
     * [Logging & Display](#logging-&-display)
 * [Detailed documentation](#detailed-documentation)
+    * [Definition of log message](#definition-of-log-message)
     * [Instantiation methods](#instantiation-methods)
     * [Logging methods](#logging-methods)
         * [Logging system message](#logging-system-message)
@@ -28,6 +29,8 @@
         * [Logging a table](#logging-a-table)
         * [Logging using message class](#logging-using-message-class)
         * [Logging a free text message](#logging-a-free-text-message)
+        * [Quick loggers](#quick-loggers)
+        * [Adding non message components to your log entries](#adding-non-message-components-to-your-log-entries)
     * [Logging in the Application Log (`SLG1`)](#logging-in-the-application-log-slg1)
         * [Configuration](#configuration)
             * [Set the main object](#set-the-main-object)
@@ -37,14 +40,18 @@
         * [Enabling / Disabling](#enabling-/-disabling)
         * [Display Application Log](#display-application-log)
     * [Overloading Log Messages](#overloading-log-messages)
-        * [Explanations about overloading feature](#explanations-about-overloading-feature)
-            * [Overloading Modes](#overloading-modes)
-        * [Configuration](#configuration)
-        * [Enabling / Disabling](#enabling-/-disabling)
-        * [Using Spot ID](#using-spot-id)
-        * [Using Extra parameters](#using-extra-parameters)
-        * [Using your own custom setting table](#using-your-own-custom-setting-table)
-        * [Overloading an already filled log table](#overloading-an-already-filled-log-table)
+        * [Explanations about overloading feature (Theoretical Part)](#explanations-about-overloading-feature-theoretical-part)
+            * [Set Overloading Rules with Modes](#set-overloading-rules-with-modes)
+                * [Altering the message component(s) (Mode `O`)](#altering-the-message-components-mode-o)
+                * [Skipping the error message (Mode `I`)](#skipping-the-error-message-mode-i)
+                * [Appending an extra message (Mode `A`)](#appending-an-extra-message-mode-a)
+        * [Configuration (Technical Part)](#configuration-technical-part)
+            * [Enabling / Disabling](#enabling-/-disabling)
+            * [Set pre-filters](#set-pre-filters)
+            * [Using Spot ID](#using-spot-id)
+            * [Using Extra parameters](#using-extra-parameters)
+            * [Using your own custom setting table](#using-your-own-custom-setting-table)
+            * [Overloading an already filled log table](#overloading-an-already-filled-log-table)
     * [Managing batch mode outputs](#managing-batch-mode-outputs)
         * [Managing output for the spool](#managing-output-for-the-spool)
         * [Managing output for the protocol](#managing-output-for-the-protocol)
@@ -57,14 +64,14 @@
 
 
 
-## Feature Overview
+## Features Overview
 
 * Logging messages in own internal table type :
     * Next to statement ``MESSAGES``.
     * System message stored in global structure ``SY``.
     * Standard **BAPI** return structure or table (eg `BAPIRET2`).
     * Custom return structure or table.
-    * A free message texte.
+    * A free message text.
     * A message using a message class.
 * Logging messages in **Application Log** (TCODE : `SLG1`) .
 * Displaying logs in the report :
@@ -198,6 +205,45 @@ without writing statement ``MESSAGE``.
 ## Detailed documentation
 
 
+### Definition of log message
+
+A log message in **SAP** is an integral part of the system which is very
+well designed.
+In the most basic usage case, they are used to handle the program logic errors
+to inform (`I`), warn (`W`) or interrupt (`E` or `A`) the program.
+
+Texts messages are stored in a **class message** (`ID`) which associates them
+to a **number**. The message text can have until four variables placeholders (`&`).
+
+The class message also handle the internationalization.
+
+The best practice is to use class message to manage your own custom messages.
+You can raised the message by specifying the **type** or generate a text message
+for a **log registry** (internal table for final display or any purpose).
+
+Keep in mind the following message components with their roles :
+
+* ``TYPE`` : Defines the kind of the message :
+    * ``A`` (`Abort`) which will interrupt the program.
+    * ``E`` (`Error`) which will interrupt the program.
+    * ``W`` (`Warning`) which will display a warning in status bar.
+    It did not interrupt the rest of the program.
+    * ``I`` (`Information`) which will display a information popup.
+    It did not interrupt the rest of the program.
+* ``ID`` : specifies the class message which contain the text
+* ``NUMBER`` : This is the number of the message to get in the provided class
+message (`ID`)
+* ``MESSAGE VALUE 1`` : The message text variable to put in placeholders
+(first `&` or `&1`).
+* ``MESSAGE VALUE 2`` : The message text variable to put in placeholders
+(second `&` or `&2`).
+* ``MESSAGE VALUE 3`` : The message text variable to put in placeholders
+(third `&` or `&3`).
+* ``MESSAGE VALUE 4`` : The message text variable to put in placeholders
+(fourth `&` or `&4`).
+
+
+
 ### Instantiation methods
 
 There are two ways to instantiate the ``ZCL_LOG_UTIL`` class.
@@ -318,7 +364,7 @@ Please find below structure which are natively handle by ``zcl_log_util`` :
 | bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
-[Jump](README.md#)
+to register a unknown structure. [Jump](README.md#)
 
 [](#import<zcl_log_util_known_structure.md)
 
@@ -352,7 +398,7 @@ Please find below structure which are natively handle by ``zcl_log_util`` :
 | bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
-[Jump](README.md#)
+to register a unknown structure. [Jump](README.md#)
 
 [](#import<zcl_log_util_known_structure.md)
 
@@ -401,6 +447,18 @@ table you will only find the message in the message column.
 ````abap
 lr_log_util->log( 'My free text message' ).
 ````
+
+
+
+#### Quick loggers
+
+> Available in ``Demo 090``.
+
+
+
+#### Adding non message components to your log entries
+
+> Available in ``Demo 030``, `Demo 050`, `Demo 060`.
 
 
 
@@ -523,7 +581,7 @@ lr_slg->enable(  ).
 lr_slg->disable(  ).
 ````
 
-> Available in ``Demo 070``.
+> Available in ``Demo 070`` and `080`.
 
 Enabling / Disabling **Application Log** will not close the register.
 Register is saved at the end of the program.
@@ -557,38 +615,323 @@ Result in **Application Log** using ``display( )`` :
 
 ### Overloading Log Messages
 
+This functionality is the most complex of the class and this is the need which
+lead me to create it.
 
-#### Explanations about overloading feature
+This feature must be used with parsimony, because rewriting messages
+is not harmless. This a very powerful functionality which is configured
+thanks to a customizing table. So, once in production, issues can became
+more complex for analysis.
 
-
-##### Overloading Modes
-
-
-
-
-
-
-#### Configuration
+So the programs which use overloading must be well documented in functional and
+technical documentation (SFD / STD) and as possible in the program using comments.
 
 
 
-#### Enabling / Disabling
+#### Explanations about overloading feature (Theoretical Part)
+
+The overloading consist to alter the log message which is registering
+with method ``log( )`` (also with `message( )`) according to rules set in
+the customization table.
+
+Alteration can be one of the following :
+- **Change** the error message
+- **Skipping** the error message
+- **Append** an extra message
+
+For instance, in our case, an interface program calls a **BAPI**
+which returns an error message.
+However, our processing was successfully done/commit in **SAP**.
+The customer asked us to consider this error message as false positive
+(and some other ones).
+
+For this message we only change the message **type** from ``E`` to `W`.
+
+Another example that can explain overloading functionality is if you want
+to return a more speaking message for end users than those **SAP** which can
+be a little bit too technical. 
+
+All components which compose a log message (Cf `Definition of log message`)
+can be overloaded (one to many at once).
+
+
+##### Set Overloading Rules with Modes
+
+Overloading must be managed using a customizing table.
+The class ``ZCL_LOG_UTIL`` allows you to reuse your own customizing table,
+but if you do not have this kind of table, she is delivered with
+her own table ``ZLOG_UTIL_OVERLO``.
+(See chapter `Using your own custom setting table` to set your own table).
+
+At least, the customizing table must have **four** inputs fields
+and **three** outputs fields - marked as **Obligatory** - to be functional,
+but please find all configurable fields with their role.
+You can find the corresponding field of table ``ZLOG_UTIL_OVERLO``
+between brackets. 
+
+* Input fields :
+    * **Obligatory** :
+        * To set the ``Message ID`` of registering message to overload. [`INPUT1`]
+        * To set the `Message Number` of registering message to overload. [`INPUT2`] 
+        * To set the `Message Type` of registering message to overload. [`INPUT3`]
+        * To set the ``Spot ID``. We will see this feature later. [`INPUT4`]
+    * **Optional** :
+        * For pre-filtering : (identifying you development subject)
+            * One standing for **development code**. [`CODE`]
+            * One standing for **development domain**.  [`DOMAINE`]
+            * One standing for **kind of data**.  [`DATA`]
+        * For extra parameters :
+            * Extra parameter 1.  [`INPUT5`]
+            * Extra parameter 2.  ``No set``
+* Output fields :
+    * **Obligatory** :
+        * To set the new value of the ``Message ID``. [`OUTPUT1`]
+        * To set the new value of the ``Message Number``. [`OUTPUT2`]
+        * To set the new value of the ``Message Type``. [`OUTPUT3`]
+    * **Optional** :
+        * To set the new value of the ``Message value 1``. [`OUTPUT4`]
+        * To set the new value of the ``Message value 2``. [`OUTPUT5`]
+        * To set the new value of the ``Message value 3``. [`OUTPUT6`]
+        * To set the new value of the ``Message value 4``. [`OUTPUT7`]
+        * To set the overloading mode. [`OUTPUT8`]
+
+![Default Customizing Table](lib/img/overload_default_custo_tab.png)
+
+> **Important** : If the field standing for overloading mode is not defined
+> all rules will be processed as mode ``O`` (Overloading).
+
+
+The overloading allows you to restrict rules to a dedicated scope using
+**pre-filters** and **extra-parameters**.
+
+When you instantiate a reference of ``zcl_log_util``,
+rules are loaded on the first call of method ``log( )``.
+It selects rules from customizing table using **pre-filters** and stores them
+in an internal table of the instance.
+Overloading only works with rules internally stored to prevent many queries.
+**Pre-filters** allows you to get overloading rules for you program.
+
+Eventually, if you want to have variants of rule,
+you can use - by settings up at anytime - in your program until two extra parameters
+to fine the rule selection.
+It can be useful to manage rules in different language.
+
+Please find below a chart showing how fields are used
+to fine the selection :
+
+![Rule selection diagram](lib/img/chart3.png)
+
+> Available in ``Demo 105``.
+
+
+###### Altering the message component(s) (Mode `O`)
+
+This mode offer you to edit one to many component of the message.
+
+Considering you are logging the following message ``e508(vl)`` and you have
+this rule in the customizing table :
+
+| INPUT1 | INPUT2 | INPUT3 | INPUT4 | OUTPUT1 | OUTPUT2 | OUTPUT3 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| VL | 508 | E  |  |  |  | W | 
+
+With this rule the message will be logged / displayed as ``w508(vl)``
+
+Note : The overloading mode is not set (available) in the rule, so
+this is this mode which used.
 
 
 
-#### Using Spot ID
+###### Skipping the error message (Mode `I`)
+
+This mode offer the possibility to mute message which respond to 
+a rule set in customization table.
+
+Note : The **mode** field must be defined
+
+Considering you are logging the following message ``w010(02)`` and you have
+this rule in the customizing table :
+
+| INPUT1 | INPUT2 | INPUT3 | INPUT4 | OUTPUT1 | OUTPUT2 | OUTPUT3 | OUTPUT8 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02 | 010 | W  |  |  |  |  | I |
+
+With this rule the message will be ignored (no entry in table / no display)
 
 
 
-#### Using Extra parameters
+###### Appending an extra message (Mode `A`)
+
+This mode offer the possibility to add an extra message to those
+responding to the rule.
+
+Considering you are logging the following message ``e001(vn)`` and you have
+this rule in the customizing table :
+
+| INPUT1 | INPUT2 | INPUT3 | INPUT4 | OUTPUT1 | OUTPUT2 | OUTPUT3 | OUTPUT8 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| VN | 001 | E  |  | 01 | 012 | E | A |
+
+With this rule you will have both error message :
+* ``e001(vn)``
+* ``e012(01)``
+
+Note : This mode is most designed when logs are registered in log table
+instead of raising message even if that works as well.
 
 
 
-#### Using your own custom setting table
 
 
 
-#### Overloading an already filled log table
+#### Configuration (Technical Part)
+
+Even if the overloading functionality seams to be complex
+and powerful, the configuration is very easy.
+
+In the program, the minimal configuration to do is
+to **enable** the feature. The rest is handle in the customization table.
+
+
+##### Enabling / Disabling
+
+By default, overloading functionality is not enabled.
+Use the following statement to activate it.
+
+**Note** : You can enable / disabled the feature at any time in the program
+depending of your need.
+
+````abap
+" Direct method
+lr_log_util->overload( )->enable( ).
+
+" Using intermediate reference
+DATA: lr_log_util_overload TYPE REF TO zcl_log_util_overload
+lr_log_util_overload = lr_log_util->overload( ).
+lr_log_util_overload->enable( ).
+````
+
+To disable :
+
+````abap
+lr_log_util_overload->disable( ).
+````
+
+> Available in ``Demo 100``.
+
+
+
+##### Set pre-filters
+
+The purpose of **pre-filters** is to reduce / restrict rules to a 
+specific scope (mainly a program).
+
+![Rule selection diagram](lib/img/chart3.png)
+
+The idea is to set pre-filter in the ``INITIALIZATION`` event.
+Then overloading through method ``log( )`` will only use
+rule responding to **pre-filters**.
+
+To set filter, please use these methods. You can you them in an independent
+way depending of your need and your customizing table.
+
+````abap
+lr_log_util->overload( )->set_filter_devcode_value( 'ZCLLOGUTIL' ).
+lr_log_util->overload( )->set_filter_domain_value( 'BC' ).
+lr_log_util->overload( )->set_filter_data_value( 'OVER_LOG' ).
+````
+
+> Available in ``Demo 140``.
+
+
+
+##### Using Spot ID
+
+The **Spot ID** is a special and dedicated parameter to use a specific
+rule from your customizing table during overloading.
+
+Imagine you use a BAPI ``W_DELIVERY_UPDATE_2`` more than one time
+lead by specific managements rules.
+In one case the error message is a false positive
+(little modification) and in the other case, the error message is a real issue.
+You may want to have a overloading rule for both case.
+
+**Spot ID** is design to identified a precise moment in your program.
+It's inspired from **Enhancement Point**.
+
+You can set and change the **Spot ID** at any time in the program.
+You can easily enable or disable the **Spot ID**.
+
+Considering the following entries in your customization table :
+
+| INPUT1 | INPUT2 | INPUT3 | INPUT4 | OUTPUT1 | OUTPUT2 | OUTPUT3 | OUTPUT8 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| VN | 001 | E  |  | VN | 001 | W | O |
+| VN | 001 | E  | MGT1 |   |  |   | I |
+| VN | 001 | E  | MGT2 | 01 | 012 | E | O |
+
+Please find below how to use **Spot ID** and
+the resulting behavior.
+
+1. Logging without using **Spot ID** :
+    ````abap
+    lr_log_util->e( 
+        i_log_msgid = 'VN'
+        i_log_msgno = '001'
+    ).
+    " Output message -> w001(vn) (Table Line 1)
+    ````
+2. Setting & enabling **Spot ID**
+    ````abap
+    " Set Spot ID and enable it
+    lr_log_util->spot( 'MGT1' )->start( ).
+    lr_log_util->e( 
+        i_log_msgid = 'VN'
+        i_log_msgno = '001'
+    ).
+    " Result is no message will be raised/display/log
+    " because table line 2 indicating mode I (ignoring the message)
+    ````
+3. Changing **Spot ID**
+    ````abap
+    " Spot is already enabled. Just change the Spot ID
+    lr_log_util->spot( 'MGT2' ).
+    lr_log_util->e( 
+        i_log_msgid = 'VN'
+        i_log_msgno = '001'
+    ).
+    " Result is two message : e001(vn) (Original one)
+                              e012(01) (Appended message from table line 3)
+                                       (Mode A = Append)
+    ````
+4. Stopping **Spot ID**
+    ````abap
+    " Spot is already enabled. Just change the Spot ID
+    lr_log_util->spot( )->stop( ).
+    lr_log_util->e( 
+        i_log_msgid = 'VN'
+        i_log_msgno = '001'
+    ).
+    " Output message -> w001(vn) (Table Line 1)
+    ````
+
+> Available in ``Demo 120`` and `Demo 105`.
+
+
+
+##### Using Extra parameters
+
+
+
+##### Using your own custom setting table
+
+> Available in ``Demo 110``.
+
+
+
+##### Overloading an already filled log table
+
+> Available in ``Demo 130``.
 
 
 
@@ -600,9 +943,13 @@ Result in **Application Log** using ``display( )`` :
 
 #### Managing output for the spool
 
+> Available in ``Demo 150``.
+
 
 
 #### Managing output for the protocol
+
+> Available in ``Demo 160``.
 
 
 
@@ -614,8 +961,12 @@ Result in **Application Log** using ``display( )`` :
 
 #### Set a custom log table type or unregistred SAP standard type
 
+> Available in ``Demo 020``.
+
 
 #### Set a custom setting table that storing overloading rules
+
+> Available in ``Demo 110``.
 
 
 

@@ -12,4 +12,4 @@ Please find below structure which are natively handle by ``zcl_log_util`` :
 | bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
-[Jump](README.md#)
+to register a unknown structure. [Jump](README.md#)
