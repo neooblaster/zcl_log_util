@@ -5,7 +5,7 @@
 
 **Link to download latest versions** :
 
-* Latest : [v0.1.1 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
+* Latest : [v0.1.2 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
 * Latest ABAP 7.30 : [v0.1.1 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
 
 
@@ -123,6 +123,7 @@ please find detailed documentation of the class and its use.
     * Object : ``ZLOGUTIL`` (`Main default object for entries registred with ZCL_LOG_UTIL`).
 3. Run the report : ``ZCL_LOG_UTIL_INSTALL`` to fill the default table 
 `ZLOG_UTIL_OVERLO` of the class for example report.
+4. The table maintenance view must be created manually thanks to transaction `SE11` (See: [Table Maintenance Generator](https://blogs.sap.com/2022/06/17/getting-started-with-abap-table-maintenance-generator/))
 
 Now you're ready to get started.
 
