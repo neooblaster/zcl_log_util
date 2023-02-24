@@ -126,6 +126,11 @@
      <DESCRIPT>Internal logging table (for default)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>VERSION</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Return the ZCL_LOG_UTIL library version</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>W</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Log as Warning</DESCRIPT>
@@ -225,7 +230,20 @@
      <LANGU>E</LANGU>
      <DESCRIPT>Update field of provided structure with component name</DESCRIPT>
     </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>_VERSION</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Current version of whole ZCL_LOG_UTIL</DESCRIPT>
+    </SEOCOMPOTX>
    </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>VERSION</CMPNAME>
+     <SCONAME>RV_VERSION</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Current Library Version</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>
 </abapGit>

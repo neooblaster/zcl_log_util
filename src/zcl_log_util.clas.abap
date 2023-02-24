@@ -22,6 +22,7 @@ public section.
 
   class-data TRUE type C value 'X' ##NO_TEXT.
   class-data FALSE type C value ' ' ##NO_TEXT.
+  class-data _VERSION type ZDT_LOG_UTIL_VERSION value 'v0.1.2' ##NO_TEXT. "V0.1.2" ##NO_TEXT.
 
   methods CONSTRUCTOR .
   class-methods FACTORY
@@ -159,6 +160,9 @@ public section.
       !I_VALUE type ANY
     changing
       !C_STRUCTURE type ANY .
+  class-methods VERSION
+    returning
+      value(RV_VERSION) type ZDT_LOG_UTIL_VERSION .
 protected section.
 private section.
 
@@ -518,7 +522,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " | |                                                        | |
     " | |                     ZCL_LOG_UTIL                       | |
     " | |                                                        | |
-    " | |                 v0.1.1 -- 2021.01.11                   | |
+    " | |                 v0.1.2 -- 2023.02.24                   | |
     " | |                                                        | |
     " | #--------------------------------------------------------# |
     " #------------------------------------------------------------#
@@ -1496,6 +1500,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  method MESSAGE.
+  endmethod.
+
+
   method OVERLOAD.
     DATA:
         ls_field_definition   TYPE          zcl_log_util_define=>ty_field_map ,
@@ -1655,6 +1663,13 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     ELSE.
       self = me->overload( )->spot(   ).
     ENDIF.
+
+  endmethod.
+
+
+  method VERSION.
+
+    rv_version = zcl_log_util=>_version .
 
   endmethod.
 
@@ -1935,9 +1950,5 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ENDTRY.
     ENDIF.
 
-  endmethod.
-
-
-  method MESSAGE.
   endmethod.
 ENDCLASS.
