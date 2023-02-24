@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_LOG_UTIL_SLG</CLSNAME>
-    <LANGU>F</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>Dedicated class to log in Application Log</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
@@ -15,147 +15,147 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>DISABLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Disable logging in Application Log</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>DISPLAY</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Display Logged entries in Application Log</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>ENABLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Enable logging in Application Log</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_EXTERNAL_NUMBER</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current App Log external number set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current App Log object set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_RETENTION</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current App Log retention time set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_SUB_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current App Log sub-object set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>IS_ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Check if Application Log is enabled</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>LOG</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Log entry in Application Log</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_EXTERNAL_NUMBER</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Define Application Log External Number</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Define Application Log Main Object</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_RETENTION</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Define Application Log Retention Time (in day)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_SUB_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Define Application Log Sub Object</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_CREATE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Create Application Log handler</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_DESTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Own destructor</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_HIGH</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Application Log Class High</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_LOW</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Application Log Class Low</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_MEDIUM</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Application Log Class Medium</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_NONE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Application Log Class None</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_VERY_HIGH</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Application Log Class Very High</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SAVE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Save Application Log handler</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Flag indicating if Application Log is enabled</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_EXT_NUMBER</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Protocole d&apos;application : identification externe</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_HANDLER</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Journal des applications : descripteur d&apos;un journal</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Protocole d&apos;applic. : nom de l&apos;objet (code de l&apos;application)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_PROBCLASS</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Selected App Log Probclass</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_RETENTION</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Retention time in days set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SLG_SUB_OBJECT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Journal des applications : sous-objet</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>

@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_LOG_UTIL_BATCH</CLSNAME>
-    <LANGU>F</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>Dedicated class to manage log behavior under batch execution</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
@@ -14,82 +14,82 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CMPNAME>A</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Abort Messages</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>ALL</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Apply all for selected handler (spool or protocol)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>E</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Error Messages</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return defined settings for both Spool &amp; Protocol</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>I</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Info Messages</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>PROTOCOL</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>handling for Protocol</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>S</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Success Messages</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SPOOL</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Spool</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>W</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Handling for Warning Messages</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_HANDLING_OUTPUT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Output to manage</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_HANDLING_TYPES</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Message Type(s) to manage</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROTOCOL</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Message type allowed for Protocol</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SPOOL</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Message type allowed for Spool</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_UPDATE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Update handling depending of bufferized inputs</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_UPDATE_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Switch value for message type of provided output</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>

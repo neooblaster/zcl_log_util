@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_LOG_UTIL_DEFINE</CLSNAME>
-    <LANGU>F</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>Dedicated class to define log table structure &amp; field role</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
@@ -15,117 +15,117 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>FALSE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Boolean False</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_ABSOLUTE_NAME</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the absolute name of the entered parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_DEFINITION</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the field map definition</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_RELATIVE_NAME</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the relative name of the entered parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_TABLE_STRUCTDESCR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the structdescr of table even if it empty</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_TABLE_TYPEDESCR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the typedescr of table even if it empty</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>HANDLING</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Change structure relative name we are manipulating</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>ID</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message ID</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>MESSAGE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name which will handle log message</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>MSGV1</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Value 1</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>MSGV2</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Value 2</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>MSGV3</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Value 3</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>MSGV4</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Value 4</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>NUMBER</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Number</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Super Method to define all fields roles</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>TRUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Boolean True</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>TYPE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for Message Type</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_CHECK_COMPONENT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Check if component exist in structure</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_GET_STRUCT_NAME</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return the requested name of structure</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_HANDLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Name of structure we are manipulating</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_LOG_TABLE_MAP</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Table storing field map defining a log table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SET_FIELD_MAP</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set Field Name for handled structure</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>

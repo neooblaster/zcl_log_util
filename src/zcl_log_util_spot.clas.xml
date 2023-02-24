@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_LOG_UTIL_SPOT</CLSNAME>
-    <LANGU>F</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
@@ -14,52 +14,52 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Working with spot is enabled (X) or not ( )</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>FALSE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Boolean FALSE</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_SPOT_ID</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current Spot ID</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>IS_ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Return current state for specified spot</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_SPOT_ID</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set current Spot ID</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SPOT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>ZCL_LOG_UTIL Spot Point ID</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>START</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Start Working under instanciated spot point</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>STOP</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Stop using instanciated spot point</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>TRUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Boolean TRUE</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>

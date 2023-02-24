@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_LOG_UTIL_OVERLOAD</CLSNAME>
-    <LANGU>F</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>Dedicated class to overload log entry</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
@@ -15,117 +15,117 @@
    <DESCRIPTIONS>
     <SEOCOMPOTX>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>DISABLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Disable overloading feature</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>ENABLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Enable overloading feature</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>IS_ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Check Overloading is enabled</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>OVERLOAD</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Overloading entry</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SETTING_TAB</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Method to define settings table for overloading</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_FILTER_DATA_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set global pre-filter &apos;DATA&apos; for overloading</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_FILTER_DEVCODE_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set global pre-filter &apos;DEVCODE&apos; for overloading</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_FILTER_DOMAIN_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set global pre-filter &apos;DOMAIN&apos; for overloading</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SET_PARAMS</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Add extra parameters to get overload rule</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SPOT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Set handler on specified point in parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_CODE_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>DEVCODE Pre-filter value</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_DATA_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>DATA Pre-filter value</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_DOMAIN_VALUE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>DOMAIN Pre-filter value</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_ENABLED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Indicating if overloading is enabled or not</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_GET_SETTING_MAP</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Retrieve setting map for overloading</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_LOAD_SETTING_TABLE</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Perform data selection from settings table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PARAM_1</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Current Param Value 1</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PARAM_2</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Current Param Value 2</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SETTING_TAB</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Dedicated class to define overloading setting table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SETTING_TAB_DATA</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Collected data from settings table using setting field map</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SETTING_TAB_LOADED</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Indicating if we have collected data from setting table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_SPOT</CMPNAME>
-     <LANGU>F</LANGU>
+     <LANGU>E</LANGU>
      <DESCRIPT>Dedicated class to manipulate Log Util Spot Point</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>

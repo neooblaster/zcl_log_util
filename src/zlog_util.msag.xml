@@ -4,180 +4,180 @@
   <asx:values>
    <T100A>
     <ARBGB>ZLOG_UTIL</ARBGB>
-    <MASTERLANG>F</MASTERLANG>
+    <MASTERLANG>E</MASTERLANG>
     <STEXT>Message Class for ABAP Classe ZCL_LOG_UTIL</STEXT>
    </T100A>
    <T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>000</MSGNR>
      <TEXT>&amp;1&amp;2&amp;3&amp;4</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>001</MSGNR>
      <TEXT>Class ZCL_LOG_UTIL encounter an error</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>002</MSGNR>
      <TEXT>Can not start/stop spot point because it has not already defined</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>003</MSGNR>
      <TEXT>There is no entry in the log table to display</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>004</MSGNR>
      <TEXT>ZCL_LOG_UTIL-&gt;DEFINE expected an internal table or a structure (h,v or u)</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>005</MSGNR>
      <TEXT>Field component &amp; not found in type &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>006</MSGNR>
      <TEXT>ZCL_LOG_UTIL-&gt;GET_DEFINITION expected at least one parameter</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>007</MSGNR>
      <TEXT>ZCL_LOG_UTIL-&gt;GET_DEFINITION, type &amp; undefined</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>008</MSGNR>
      <TEXT>Table &amp; does not exist</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>009</MSGNR>
      <TEXT>Field &amp; does not exist in table &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>010</MSGNR>
      <TEXT>ZCL_LOG_UTIL-&gt;_CONVERT_TABLE expect a table or a structure</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>011</MSGNR>
      <TEXT>&amp;, No internal log table is defined</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>012</MSGNR>
      <TEXT>Appl. Log is enabled but something happens wrong (check SLG Object &amp; Sub)</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>013</MSGNR>
      <TEXT>The following message has been ignored :</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>100</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 1 without placeholders</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>101</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 2 with 1 placeholders : &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>102</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 3 with 2 placeholders : &amp; and &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>103</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 4 with 3 placeholders : &amp;, &amp; ADN &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>104</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Number 5 with 4 placeholders : &amp;, &amp;, &amp; n &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>105</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Original</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>106</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Overloaded (original: id=&amp;;class=&amp;;no=&amp;)</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>107</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - &amp; &amp; &amp; &amp; (x000) was used. Overload done !</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>108</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;a( ).</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>109</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;e( ).</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>110</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;w( ).</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>111</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;i( ).</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>112</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Abort Message -&gt;s( ).</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>113</MSGNR>
      <TEXT>ZCL_LOG_UTIL_EXAMPLE - Message Overload using Spot ID &amp;</TEXT>
     </T100>
     <T100>
-     <SPRSL>F</SPRSL>
+     <SPRSL>E</SPRSL>
      <ARBGB>ZLOG_UTIL</ARBGB>
      <MSGNR>999</MSGNR>
      <TEXT>UPDATED</TEXT>
