@@ -913,109 +913,109 @@
     <item>
      <ID>S</ID>
      <KEY>P_DEM010</KEY>
-     <ENTRY>Demo 010 - Get started</ENTRY>
+     <ENTRY>010 - Get started</ENTRY>
      <LENGTH>30</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM020</KEY>
-     <ENTRY>Demo 020 - Log. using own tab</ENTRY>
+     <ENTRY>020 - Log. using own tab</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM030</KEY>
-     <ENTRY>Demo 030 - Adding extra data</ENTRY>
+     <ENTRY>030 - Adding extra data</ENTRY>
      <LENGTH>36</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM040</KEY>
-     <ENTRY>Demo 040 - Log.BAPI return tab</ENTRY>
+     <ENTRY>040 - Log.BAPI return tab</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM050</KEY>
-     <ENTRY>Demo 050 - Log.BAPI tab w/data</ENTRY>
+     <ENTRY>050 - Log.BAPI tab w/data</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM060</KEY>
-     <ENTRY>Demo 060 - Many entries w/data</ENTRY>
+     <ENTRY>060 - Many entries w/data</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM065</KEY>
-     <ENTRY>Demo 065 - Many Log Tables</ENTRY>
+     <ENTRY>065 - Many Log Tables</ENTRY>
      <LENGTH>34</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM070</KEY>
-     <ENTRY>Demo 070 - Application Log SLG</ENTRY>
+     <ENTRY>070 - Application Log SLG</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM080</KEY>
-     <ENTRY>Demo 080 - Enable/Disable SLG</ENTRY>
+     <ENTRY>080 - Enable/Disable SLG</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM090</KEY>
-     <ENTRY>Demo 090 - Log. specifying typ</ENTRY>
+     <ENTRY>090 - Log. specifying typ</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM100</KEY>
-     <ENTRY>Demo 100 - Overloading messges</ENTRY>
+     <ENTRY>100 - Overloading messges</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM105</KEY>
-     <ENTRY>Demo 105 - Ovr. Adding &amp; Ignor</ENTRY>
+     <ENTRY>105 - Ovr. Adding &amp; Ignor</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM110</KEY>
-     <ENTRY>Demo 110 - Over.using own tabl</ENTRY>
+     <ENTRY>110 - Over.using own tabl</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM120</KEY>
-     <ENTRY>Demo 120 - Over. using Spot ID</ENTRY>
+     <ENTRY>120 - Over. using Spot ID</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM130</KEY>
-     <ENTRY>Demo 130 - Over. exist log tab</ENTRY>
+     <ENTRY>130 - Over. exist log tab</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM140</KEY>
-     <ENTRY>Demo 140 - Over.Prefilt.&amp;Param</ENTRY>
+     <ENTRY>140 - Over.Prefilt.&amp;Param</ENTRY>
      <LENGTH>38</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM150</KEY>
-     <ENTRY>Demo 150 - Log. for Batch Job</ENTRY>
+     <ENTRY>150 - Log. for Batch Job</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>
      <ID>S</ID>
      <KEY>P_DEM160</KEY>
-     <ENTRY>Demo 160 - Manag.Batch Output</ENTRY>
+     <ENTRY>160 - Manag.Batch Output</ENTRY>
      <LENGTH>37</LENGTH>
     </item>
     <item>

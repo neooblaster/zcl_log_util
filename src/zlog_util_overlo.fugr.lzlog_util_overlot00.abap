@@ -1,7 +1,5 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 20.11.2020 at 10:35:25
-*   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZLOG_UTIL_OVERLO................................*
 DATA:  BEGIN OF STATUS_ZLOG_UTIL_OVERLO              .   "state vector

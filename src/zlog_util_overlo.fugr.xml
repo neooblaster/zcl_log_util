@@ -4,9 +4,6 @@
   <asx:values>
    <AREAT>Gestion étendue de tables (générée)</AREAT>
    <INCLUDES>
-    <SOBJ_NAME>LZLOG_UTIL_OVERLOF00</SOBJ_NAME>
-    <SOBJ_NAME>LZLOG_UTIL_OVERLOI00</SOBJ_NAME>
-    <SOBJ_NAME>LZLOG_UTIL_OVERLOTOP</SOBJ_NAME>
     <SOBJ_NAME>LZLOG_UTIL_OVERLOT00</SOBJ_NAME>
     <SOBJ_NAME>SAPLZLOG_UTIL_OVERLO</SOBJ_NAME>
    </INCLUDES>
@@ -348,7 +345,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-CODE</NAME>
-       <TEXT>Dev._Code_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -365,7 +361,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-DOMAINE</NAME>
-       <TEXT>Dev._Dom._______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -382,7 +377,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-DATA</NAME>
-       <TEXT>Data_Kind_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -399,7 +393,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-INPUT1</NAME>
-       <TEXT>Input_Element_1_________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -416,7 +409,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-INPUT2</NAME>
-       <TEXT>Input_Element_2_________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -433,7 +425,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-INPUT3</NAME>
-       <TEXT>Input_Element_3_________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>006</COLUMN>
        <LENGTH>040</LENGTH>
@@ -450,7 +441,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-INPUT4</NAME>
-       <TEXT>Input_Element_4_________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>007</COLUMN>
        <LENGTH>040</LENGTH>
@@ -467,7 +457,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-INPUT5</NAME>
-       <TEXT>Input_Element_5_________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>008</COLUMN>
        <LENGTH>040</LENGTH>
@@ -484,7 +473,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT1</NAME>
-       <TEXT>Output_Element_1________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>009</COLUMN>
        <LENGTH>040</LENGTH>
@@ -501,7 +489,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT2</NAME>
-       <TEXT>Output_Element_2________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>010</COLUMN>
        <LENGTH>040</LENGTH>
@@ -518,7 +505,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT3</NAME>
-       <TEXT>Output_Element_3________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>011</COLUMN>
        <LENGTH>040</LENGTH>
@@ -535,7 +521,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT4</NAME>
-       <TEXT>Output_Element_4________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>012</COLUMN>
        <LENGTH>040</LENGTH>
@@ -552,7 +537,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT5</NAME>
-       <TEXT>Output_Element_5________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>013</COLUMN>
        <LENGTH>040</LENGTH>
@@ -569,7 +553,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT6</NAME>
-       <TEXT>Output_Element_6________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>014</COLUMN>
        <LENGTH>040</LENGTH>
@@ -586,7 +569,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT7</NAME>
-       <TEXT>Output_Element_7________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>015</COLUMN>
        <LENGTH>040</LENGTH>
@@ -603,7 +585,6 @@
        <CONT_NAME>TCTRL_ZLOG_UTIL_OVERLO</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZLOG_UTIL_OVERLO-OUTPUT8</NAME>
-       <TEXT>Output_Element_8________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>016</COLUMN>
        <LENGTH>040</LENGTH>

@@ -55,6 +55,7 @@ public section.
     preferred parameter I_LOG_CONTENT
     returning
       value(SELF) type ref to ZCL_LOG_UTIL .
+  methods MESSAGE .
   methods A
     importing
       !I_LOG_CONTENT type ANY default 'INITIAL'
@@ -1934,5 +1935,9 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       ENDTRY.
     ENDIF.
 
+  endmethod.
+
+
+  method MESSAGE.
   endmethod.
 ENDCLASS.
