@@ -7,6 +7,13 @@ class ZCL_LOG_UTIL definition
 public section.
 
   types:
+    BEGIN OF ty_chunk       ,
+           len TYPE int4         ,
+           str TYPE c LENGTH 255 ,
+         END   OF ty_chunk .
+  types:
+    ty_chunk_table TYPE TABLE OF ty_chunk WITH NON-UNIQUE KEY len .      " WITH NON-UNIQUE KEY len Mandatory to be "fully typed"
+  types:
     BEGIN OF ty_log_table ,
             icon    TYPE alv_icon          , " Icon according to message type
             message TYPE md_message_text   , " Generated message from ID & Number
@@ -20,9 +27,9 @@ public section.
             msgv4   TYPE sy-msgv4          , " Message Value 4
           END   OF ty_log_table .
 
-  class-data TRUE type C value 'X' ##NO_TEXT.
-  class-data FALSE type C value ' ' ##NO_TEXT.
-  class-data _VERSION type ZDT_LOG_UTIL_VERSION value 'v0.1.2' ##NO_TEXT. "V0.1.2" ##NO_TEXT.
+  class-data TRUE type C read-only value 'X' ##NO_TEXT.
+  class-data FALSE type C read-only value ' ' ##NO_TEXT.
+  class-data _VERSION type ZDT_LOG_UTIL_VERSION read-only value 'v0.2.0' ##NO_TEXT. "V0.1.2" ##NO_TEXT.
 
   methods CONSTRUCTOR .
   class-methods FACTORY
@@ -53,6 +60,8 @@ public section.
       !I_LOG_MSGV2 type SY-MSGV2 optional
       !I_LOG_MSGV3 type SY-MSGV3 optional
       !I_LOG_MSGV4 type SY-MSGV4 optional
+      !I_LONG_TEXT type STRING optional
+      !I_CUST_LONG_TEXT type BAL_S_PARM optional
     preferred parameter I_LOG_CONTENT
     returning
       value(SELF) type ref to ZCL_LOG_UTIL .
@@ -163,6 +172,48 @@ public section.
   class-methods VERSION
     returning
       value(RV_VERSION) type ZDT_LOG_UTIL_VERSION .
+  class-methods GET_FUNC_MODULE_EXCEPTION
+    importing
+      !I_FUNC_NAME type RS38L_FNAM
+      value(I_POSITION) type I
+    returning
+      value(R_EXCEPTION) type PARAMETER .
+  class-methods GET_FUNC_MODULE_EXCEPTION_TEXT
+    importing
+      !I_FUNC_NAME type RS38L_FNAM
+      !I_EXCEPTION type PARAMETER optional
+      value(I_POSITION) type I optional
+      !I_LANGUAGE type SYST_LANGU optional
+    returning
+      value(R_SHORTTEXT) type SWC_SHTEXT .
+  class-methods GET_FUNC_MODULE_EXCEPTIONS
+    importing
+      !I_FUNC_NAME type RS38L_FNAM
+    returning
+      value(R_EXCEPTIONS) type SIW_TAB_RSEXC .
+  methods SET_LONG_TEXT
+    importing
+      !I_LONG_TEXT type STRING optional
+      !I_CUST_LONG_TEXT type BAL_S_PARM optional
+      !I_MSG_INDEX type BALMNR optional
+      !I_MSG_HANDLE type BALLOGHNDL optional
+      !I_MSG_FILTERS type BAL_S_MFIL optional
+    preferred parameter I_LONG_TEXT
+    changing
+      !C_NEW_LOGNUMBERS type BAL_T_LGNM optional .
+  class-methods SPLIT_TEXT_TO_CHUNKS
+    importing
+      !I_TEXT_TO_SPLIT type STRING
+      !I_CHUNK_SIZE type I default 50
+      !I_NON_BREAKING_WORDS type ABAP_BOOL optional
+    returning
+      value(R_CHUNKS) type TY_CHUNK_TABLE .
+  class-methods MSGVX_SIMPLIFY
+    importing
+      !I_MESSAGE type ANY
+    preferred parameter I_MESSAGE
+    returning
+      value(R_MESSAGE) type STRING .
 protected section.
 private section.
 
@@ -522,9 +573,11 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     " | |                                                        | |
     " | |                     ZCL_LOG_UTIL                       | |
     " | |                                                        | |
-    " | |                 v0.1.2 -- 2023.02.24                   | |
+    " | |                 v0.2.0 -- 2025.08.20                   | |
     " | |                                                        | |
     " | #--------------------------------------------------------# |
+    " #------------------------------------------------------------#
+    " |   Source: https://github.com/neooblaster/zcl_log_util      |
     " #------------------------------------------------------------#
 
 
@@ -552,6 +605,7 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     "   - BAPI_ORDER_RETURN
     "   - BDCMSGCOLL
     "   - RCOMP
+    "   - BDIDOCSTAT (IDOC_STATUS Table)
     "
     " --------------------------------------------------------------
     " --------------------------------------------------------------
@@ -684,6 +738,18 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
       msgv3_field = 'MSGV3'
       msgv4_field = 'MSGV4'
     ).
+    " ──┐ BDIDOCSTAT Log Table
+    DATA lt_bdidocstat TYPE bdidocstat.
+    lr_define = e_log_util->define( lt_bdidocstat ).
+    lr_define->set(
+      msgid_field = 'MSGID'
+      msgno_field = 'MSGNO'
+      msgty_field = 'MSGTY'
+      msgv1_field = 'MSGV1'
+      msgv2_field = 'MSGV2'
+      msgv3_field = 'MSGV3'
+      msgv4_field = 'MSGV4'
+    ).
     " ──┐ HRPAD_MESSAGE Log Table
 *
 * @TODO : Include structure not managed by strucdescr (currently)
@@ -769,6 +835,90 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
     r_abs_name = zcl_log_util_define=>get_absolute_name( i_element ).
 
   endmethod.
+
+
+  method GET_FUNC_MODULE_EXCEPTION.
+    DATA: lt_exception TYPE STANDARD TABLE OF rsexc ,
+          ls_exception TYPE                   rsexc .
+
+    lt_exception = zcl_log_util=>get_func_module_exceptions( i_func_name = i_func_name ).
+
+    READ TABLE lt_exception INTO ls_exception INDEX i_position .
+
+    IF sy-subrc EQ 0.
+      r_exception = ls_exception-exception .
+    ENDIF.
+
+  endmethod.
+
+
+  method GET_FUNC_MODULE_EXCEPTIONS.
+    DATA: lt_exception TYPE STANDARD TABLE OF rsexc ,
+          ls_exception TYPE                   rsexc ,
+          lt_export    TYPE STANDARD TABLE OF rsexp ,
+          lt_import    TYPE STANDARD TABLE OF rsimp ,
+          lt_tables    TYPE STANDARD TABLE OF rstbl .
+
+    CALL FUNCTION 'FUNCTION_IMPORT_INTERFACE'
+      EXPORTING
+        funcname                      = i_func_name
+*       INACTIVE_VERSION              = ' '
+*       WITH_ENHANCEMENTS             = 'X'
+*       IGNORE_SWITCHES               = ' '
+*     IMPORTING
+*       GLOBAL_FLAG                   =
+*       REMOTE_CALL                   =
+*       UPDATE_TASK                   =
+*       EXCEPTION_CLASSES             =
+*       REMOTE_BASXML_SUPPORTED       =
+      TABLES
+        exception_list                = r_exceptions
+        export_parameter              = lt_export
+        import_parameter              = lt_import
+*       CHANGING_PARAMETER            =
+        tables_parameter              = lt_tables
+*       P_DOCU                        =
+*       ENHA_EXP_PARAMETER            =
+*       ENHA_IMP_PARAMETER            =
+*       ENHA_CHA_PARAMETER            =
+*       ENHA_TBL_PARAMETER            =
+*       ENHA_DOCU                     =
+      EXCEPTIONS
+        error_message                 = 1
+        function_not_found            = 2
+        invalid_name                  = 3
+        OTHERS                        = 4               .
+
+  endmethod.
+
+
+  METHOD get_func_module_exception_text.
+    DATA: lv_language  TYPE sy-langu  ,
+          lv_exception TYPE parameter .
+
+    " Handling Language
+    IF i_language IS SUPPLIED .
+      lv_language = i_language .
+    ELSE.
+      lv_language = sy-langu .
+    ENDIF.
+
+    " Handling Exception
+    IF i_exception IS NOT SUPPLIED .
+      " i_position must be define, else it will return nothing
+      lv_exception = zcl_log_util=>get_func_module_exception( i_func_name = i_func_name i_position = i_position ).
+    ENDIF .
+
+    CALL FUNCTION 'SWO_TEXT_FUNCTION_EXCEPTION'
+      EXPORTING
+        language        = lv_language
+        function        = i_func_name
+        exception       = lv_exception
+      IMPORTING
+        shorttext       = r_shorttext .
+
+
+  ENDMETHOD.
 
 
   method GET_RELATIVE_NAME.
@@ -1124,7 +1274,10 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
 
       " Making Message Texte (Only if ID, Number & Type are provided)
       " lv_msgno is considered as INITIAL for number 000
-      IF lv_msgid IS NOT INITIAL AND lv_msgty IS NOT INITIAL.
+      IF lv_msgid IS NOT INITIAL AND lv_msgty IS NOT INITIAL AND lv_msgno IS NOT INITIAL .
+        " If ID Provided lowercase, it will not produce message text.
+        TRANSLATE lv_msgid TO UPPER CASE .
+
         MESSAGE ID lv_msgid TYPE lv_msgty NUMBER lv_msgno
         INTO lv_msgtx
         WITH lv_msgv1 lv_msgv2 lv_msgv3 lv_msgv4.
@@ -1249,18 +1402,22 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
         me->slg( )->log(
           EXPORTING
             " ──┐ Standard Message
-            i_msgid     = lv_msgid
-            i_msgno     = lv_msgno
-            i_msgty     = lv_msgty
-            i_msgv1     = lv_msgv1
-            i_msgv2     = lv_msgv2
-            i_msgv3     = lv_msgv3
-            i_msgv4     = lv_msgv4
-            i_msgxx_flg = lv_msgxx_flg
+            i_msgid          = lv_msgid
+            i_msgno          = lv_msgno
+            i_msgty          = lv_msgty
+            i_msgv1          = lv_msgv1
+            i_msgv2          = lv_msgv2
+            i_msgv3          = lv_msgv3
+            i_msgv4          = lv_msgv4
+            i_msgxx_flg      = lv_msgxx_flg
 
             " ──┐ Free Text Message
-            i_msgtx     = lv_msgtx
-            i_msgtx_flg = lv_msgtx_flg
+            i_msgtx          = lv_msgtx
+            i_msgtx_flg      = lv_msgtx_flg
+
+            " ──┐ Long Text (Relay)
+            i_long_text      = i_long_text
+            i_cust_long_text = i_cust_long_text
         ).
       ENDIF.
 
@@ -1504,6 +1661,20 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  method MSGVX_SIMPLIFY.
+
+    DATA: lv_message TYPE string .
+
+    lv_message = i_message .
+
+    SHIFT lv_message LEFT DELETING LEADING '0' .
+    CONDENSE lv_message .
+
+    r_message = lv_message .
+
+  endmethod.
+
+
   method OVERLOAD.
     DATA:
         ls_field_definition   TYPE          zcl_log_util_define=>ty_field_map ,
@@ -1622,9 +1793,86 @@ CLASS ZCL_LOG_UTIL IMPLEMENTATION.
   endmethod.
 
 
+  METHOD set_long_text.
+    IF me->slg( )->is_enabled( ) EQ 'X'.
+      me->slg( )->set_long_text(
+        EXPORTING
+          i_long_text      = i_long_text
+          i_cust_long_text = i_cust_long_text
+          i_msg_index      = i_msg_index
+          i_msg_handle     = i_msg_handle
+          i_msg_filters    = i_msg_filters
+        CHANGING
+          c_new_lognumbers = c_new_lognumbers
+      ) .
+    ENDIF.
+  ENDMETHOD.
+
+
   method SLG.
 
     self = me->_slg.
+
+  endmethod.
+
+
+  method SPLIT_TEXT_TO_CHUNKS.
+    "
+    " IMPORTANT : Maximum length of one chunk : 255 char
+    "
+    DATA: lt_chunks     TYPE STANDARD TABLE OF swastrtab ,
+          ls_chunk      TYPE                   swastrtab ,
+          lv_text_len   TYPE                   i         , " Text Length
+          lv_last_pos   TYPE                   i         , " Last Position
+          lv_remain_pos TYPE                   i         , " Remaining Position
+          lv_offset     TYPE                   i         . " Offset when lesser than chunk size
+
+    " SWA_STRING_SPLIT preserve words, so it do not produce
+    " same length of chunk
+    IF i_non_breaking_words EQ abap_true .
+      CALL FUNCTION 'SWA_STRING_SPLIT'
+        EXPORTING
+          input_string                       = i_text_to_split
+          max_component_length               = i_chunk_size
+*         TERMINATING_SEPARATORS             =
+*         OPENING_SEPARATORS                 =
+        TABLES
+          string_components                  = lt_chunks
+        EXCEPTIONS
+          max_component_length_invalid       = 1
+          OTHERS                             = 2 .
+
+*   " Perform split manually
+    ELSE.
+      lv_text_len = strlen( i_text_to_split ) .
+      lv_last_pos = 0                         .
+
+      WHILE lv_last_pos < lv_text_len.
+        " Count Remmaining Char
+        lv_remain_pos = lv_text_len - lv_last_pos .
+
+        " By default, offset is chunk size
+        lv_offset = i_chunk_size .
+
+        " If remaining char is lesser than chunk size
+        " We have to set remaining char as offset
+        " Else we will get out of range error
+        IF lv_remain_pos < i_chunk_size .
+          lv_offset = lv_remain_pos .
+        ENDIF.
+
+        CLEAR ls_chunk .
+        ls_chunk-len = lv_offset .
+        ls_chunk-str = i_text_to_split+lv_last_pos(lv_offset) .
+        APPEND ls_chunk TO lt_chunks .
+
+        " Increment last position for the next chunk
+        lv_last_pos = lv_last_pos + i_chunk_size .
+      ENDWHILE.
+
+    ENDIF.
+
+    r_chunks = lt_chunks .
 
   endmethod.
 

@@ -39,6 +39,16 @@
      <DESCRIPT>Return current App Log external number set</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>GET_HANDLER</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Return the App Log current instance handler</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_NEW_LOGNUMBER</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Return the last App Log Newly-Assigned LOGNUMBER</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>GET_OBJECT</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Return current App Log object set</DESCRIPT>
@@ -69,6 +79,11 @@
      <DESCRIPT>Define Application Log External Number</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Set Long Text or Custom one to the last logged msg or index</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>SET_OBJECT</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Define Application Log Main Object</DESCRIPT>
@@ -84,6 +99,16 @@
      <DESCRIPT>Define Application Log Sub Object</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>_BAL_ALT_TEXT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>SE61 Dialog Text for Long Text</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>_BAL_ALT_TEXT_MAX_PARAM</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Number of params in SE61 Dialog Text</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>_CREATE</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Create Application Log handler</DESCRIPT>
@@ -92,6 +117,16 @@
      <CMPNAME>_DESTRUCTOR</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Own destructor</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>_MAKE_BAL_MESSAGE_PARAMS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Manage App Log Message Param</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>_NEW_LOGNUMBERS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Newly-Assigned LOGNUMBER Table</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>_PROBCLASS_HIGH</CMPNAME>
@@ -159,6 +194,92 @@
      <DESCRIPT>Journal des applications : sous-objet</DESCRIPT>
     </SEOCOMPOTX>
    </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_HANDLER</CMPNAME>
+     <SCONAME>R_HANDLER</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Log Handle</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_NEW_LOGNUMBER</CMPNAME>
+     <SCONAME>R_NEW_LOGNUMBER</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: log number</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>C_NEW_LOGNUMBERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Newly-Assigned LOGNUMBER Table</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_CUST_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Parameters</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Long Text to add</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>C_NEW_LOGNUMBERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Newly-Assigned LOGNUMBER Table</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_CUST_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Parameters</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Long Text to add</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_FILTERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Message Filter Criteria</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_HANDLE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Log Handle</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_INDEX</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Internal message serial number</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>_MAKE_BAL_MESSAGE_PARAMS</CMPNAME>
+     <SCONAME>I_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Make default long text</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>_MAKE_BAL_MESSAGE_PARAMS</CMPNAME>
+     <SCONAME>R_PARAMS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Parameters</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>_SAVE</CMPNAME>
+     <SCONAME>R_NEW_LOGNUMBERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Newly-Assigned LOGNUMBER Table</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>
 </abapGit>

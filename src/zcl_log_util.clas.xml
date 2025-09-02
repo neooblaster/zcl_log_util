@@ -58,12 +58,27 @@
     <SEOCOMPOTX>
      <CMPNAME>GET_ABSOLUTE_NAME</CMPNAME>
      <LANGU>E</LANGU>
-     <DESCRIPT>Return the absolute name of the entered parameter</DESCRIPT>
+     <DESCRIPT>Returns the absolute name of the entered parameter</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Returns the technical exception value of function module</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTIONS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Returns all available exceptions of the function module</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Returns the exception message text of function module</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>GET_RELATIVE_NAME</CMPNAME>
      <LANGU>E</LANGU>
-     <DESCRIPT>Return the relative name of the entered parameter</DESCRIPT>
+     <DESCRIPT>Returns the relative name of the entered parameter</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>I</CMPNAME>
@@ -86,6 +101,11 @@
      <DESCRIPT>Raise message as statement MESSAGE ID ... NUMBER ... TYPE</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>MSGVX_SIMPLIFY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Simplify Message as String for MSVGX</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>OVERLOAD</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Method to configure Overloading Settings table</DESCRIPT>
@@ -101,9 +121,19 @@
      <DESCRIPT>Referencing user log table for further manipulation</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Set Long Text or Custom one to the last logged msg or index</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
      <CMPNAME>SLG</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Method to configure Application Log</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SPLIT_TEXT_TO_CHUNKS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Split Provided text in chunks of provided length (max 255)</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>SPLIT_TEXT_TO_MSGVX</CMPNAME>
@@ -128,7 +158,7 @@
     <SEOCOMPOTX>
      <CMPNAME>VERSION</CMPNAME>
      <LANGU>E</LANGU>
-     <DESCRIPT>Return the ZCL_LOG_UTIL library version</DESCRIPT>
+     <DESCRIPT>Returns the ZCL_LOG_UTIL library version</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CMPNAME>W</CMPNAME>
@@ -237,6 +267,198 @@
     </SEOCOMPOTX>
    </DESCRIPTIONS>
    <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION</CMPNAME>
+     <SCONAME>I_FUNC_NAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Name of Function Module</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION</CMPNAME>
+     <SCONAME>I_POSITION</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Exception Parameter position</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION</CMPNAME>
+     <SCONAME>R_EXCEPTION</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Parameter Name</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTIONS</CMPNAME>
+     <SCONAME>I_FUNC_NAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Name of Function Module</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTIONS</CMPNAME>
+     <SCONAME>R_EXCEPTIONS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Function Builder: Table Parameters - Exception</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <SCONAME>I_EXCEPTION</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Parameter Name</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <SCONAME>I_FUNC_NAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Name of Function Module</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <SCONAME>I_LANGUAGE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Language Key of Text Environment</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <SCONAME>I_POSITION</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Exception Position if name is not provided</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_FUNC_MODULE_EXCEPTION_TEXT</CMPNAME>
+     <SCONAME>R_SHORTTEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Exception description</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_CUST_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>SLG - Custom Long Text with Params &amp; Values</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_CONTENT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Any know table or structure that can be log</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGID</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message ID</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGNO</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Number</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGTY</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Type</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGV1</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Value 1</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGV2</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Value 2</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGV3</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Value 3</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LOG_MSGV4</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Value 4</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>LOG</CMPNAME>
+     <SCONAME>I_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>SLG - Any long text (Truncated at position x)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>MSGVX_SIMPLIFY</CMPNAME>
+     <SCONAME>I_MESSAGE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Variable X</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>MSGVX_SIMPLIFY</CMPNAME>
+     <SCONAME>R_MESSAGE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Simplified Message</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>C_NEW_LOGNUMBERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Newly-Assigned LOGNUMBER Table</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_CUST_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Parameters</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_LONG_TEXT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Long Text to add</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_FILTERS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Message Filter Criteria</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_HANDLE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application Log: Log Handle</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_LONG_TEXT</CMPNAME>
+     <SCONAME>I_MSG_INDEX</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Application log: Internal message serial number</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SPLIT_TEXT_TO_CHUNKS</CMPNAME>
+     <SCONAME>I_CHUNK_SIZE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Chunks size in length of char</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SPLIT_TEXT_TO_CHUNKS</CMPNAME>
+     <SCONAME>I_NON_BREAKING_WORDS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Do not break words</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SPLIT_TEXT_TO_CHUNKS</CMPNAME>
+     <SCONAME>I_TEXT_TO_SPLIT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Text to split in chunks</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SPLIT_TEXT_TO_CHUNKS</CMPNAME>
+     <SCONAME>R_CHUNKS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>WF: Display string in 255-character lines</DESCRIPT>
+    </SEOSUBCOTX>
     <SEOSUBCOTX>
      <CMPNAME>VERSION</CMPNAME>
      <SCONAME>RV_VERSION</SCONAME>

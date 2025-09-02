@@ -1,13 +1,14 @@
-# ABAP Logging Class ZCL_LOG_UTIL
+**# ABAP Logging Class ZCL_LOG_UTIL
 
-> An another ABAP logging class allowing programs to focus on their functionality
+> An ABAP logging class allows programs to focus on their functionality
 > rather than being buried under lines of logging code.
 
 **Link to download latest versions** :
 
-* Latest : [v0.1.2 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
+* Latest : [v0.2.0 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest)
 * Latest ABAP 7.30 : [v0.1.1 for ABAP 7.30 (Latest)](https://github.com/neooblaster/zcl_log_util/releases/tag/latest-7.30)
 
+> New feature from v0.2.0 : ``Application Log - Long Text``
 
 ## Summary
 
@@ -37,8 +38,9 @@
             * [Set the sub-object](#set-the-sub-object)
             * [Set the external number](#set-the-external-number)
             * [Set the log retention time](#set-the-log-retention-time)
-        * [Enabling / Disabling](#enabling-/-disabling)
+        * [Enabling / Disab²ling](#enabling-/-disabling)
         * [Display Application Log](#display-application-log)
+        * [Working with Long Text](#working-with-long-text)
     * [Overloading Log Messages](#overloading-log-messages)
         * [Explanations about overloading feature (Theoretical Part)](#explanations-about-overloading-feature-theoretical-part)
             * [Set Overloading Rules with Modes](#set-overloading-rules-with-modes)
@@ -59,7 +61,11 @@
         * [Set a custom log table type or unregistred SAP standard type](#set-a-custom-log-table-type-or-unregistred-sap-standard-type)
         * [Set a custom setting table that storing overloading rules](#set-a-custom-setting-table-that-storing-overloading-rules)
     * [Extra feature](#extra-feature)
-        * [Display the content of any kind of internal table](#display-the-content-of-any-kind-of-internal-table)
+        * [Side Util ``zcl_log_util=>get_func_module_exception``](#side-util-zcl_log_util=%3Eget_func_module_exception)
+        * [Side Util ``zcl_log_util=>get_func_module_exception_text``](#side-util-zcl_log_util=%3Eget_func_module_exception_text)
+        * [Side Util ``zcl_log_util=>get_func_module_exceptions``](#side-util-zcl_log_util=%3Eget_func_module_exceptions)
+        * [Side Util ``zcl_log_util=>split_text_to_chunks``](#side-util-zcl_log_util=%3Esplit_text_to_chunks)
+        * [Side Util ``zcl_log_util=>msgvx_simplify``](#side-util-zcl_log_util=%3Emsgvx_simplify)
 [](EndSummary)
 
 
@@ -353,16 +359,17 @@ message structure (and table).
 [](#import>zcl_log_util_known_structure.md)
 Please find below structure which are natively handle by ``zcl_log_util`` :
 
-| Name | Msg. Text | Msg. Type | Msg. ID | Msg. Number | Msg. Val. 1 | Msg. Val. 2 | Msg. Val. 3 | Msg. Val. 4 |
-|---|---|---|---|---|---|---|---|---|
-| zcl_log_util=>ty_log_table | MESSAGE | TYPE | ID | NUMBER | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
-| sy | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
-| prott | - | MSGTY | MSGID | MSGNO | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
-| bapiret1 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
-| bapiret2 | MESSAGE | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
-| bapi_coru_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
-| bapi_order_return | - | TYPE | ID | NUMBER | MESSAGE_V1 | MESSAGE_V2 | MESSAGE_V3 | MESSAGE_V4 | 
-| bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
+| Name                       | Msg. Text | Msg. Type | Msg. ID | Msg. Number | Msg. Val. 1 | Msg. Val. 2 | Msg. Val. 3 | Msg. Val. 4 |
+|----------------------------|-----------|-----------|---------|-------------|-------------|-------------|-------------|-------------|
+| zcl_log_util=>ty_log_table | MESSAGE   | TYPE      | ID      | NUMBER      | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
+| sy                         | -         | MSGTY     | MSGID   | MSGNO       | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
+| prott                      | -         | MSGTY     | MSGID   | MSGNO       | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
+| bapiret1                   | MESSAGE   | TYPE      | ID      | NUMBER      | MESSAGE_V1  | MESSAGE_V2  | MESSAGE_V3  | MESSAGE_V4  | 
+| bapiret2                   | MESSAGE   | TYPE      | ID      | NUMBER      | MESSAGE_V1  | MESSAGE_V2  | MESSAGE_V3  | MESSAGE_V4  | 
+| bapi_coru_return           | -         | TYPE      | ID      | NUMBER      | MESSAGE_V1  | MESSAGE_V2  | MESSAGE_V3  | MESSAGE_V4  | 
+| bapi_order_return          | -         | TYPE      | ID      | NUMBER      | MESSAGE_V1  | MESSAGE_V2  | MESSAGE_V3  | MESSAGE_V4  | 
+| bdcmsgcoll                 | -         | MSGTYP    | MSGID   | MSGNR       | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
+| bdidocstat                 | -         | MSGTY     | MSGID   | MSGNO       | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
 to register a unknown structure. [Jump](README.md#)
@@ -608,6 +615,201 @@ Result in your own log table :
 Result in **Application Log** using ``display( )`` :
 
 ![](lib/img/slg_result_in_app_log_01.png)
+
+
+
+#### Working with Long Text
+
+**Application Log** (`SLG`) can display an attached **Long Text**
+for further detail regarding the logged message. It uses the defined long text
+in the Class Message (``SE91``) but for free messages or if you want to change
+it, now in version ``v0.2.0``, you can complete the log message with a **long 
+text** :
+
+![](./lib/img/slg_long_text_1.png)
+
+![img.png](./lib/img/slg_long_text_2.png)
+
+As usual in this library, there are many different ways to set a long text
+to answer to a maximum needs.
+
+Before showing all possibilities to set it, let's talk about
+long text first.
+
+In SAP, long text can stand as detailed documentation about a message.
+When the message is not **self explanatory**, you can create a long text
+in TCODE ``SE91``, button `Long Text`.
+Application Log is able to attach it when it exists
+You can also edit it in ``SE61``, with type `NA`(`Message`) 
+entering the **Class Message ID** and the number.
+But for custom **Long Text**, we are using the type ``DT`` (`Dialog Text`)
+in ``SE61``. `ZCL_LOG_UTIL` comes with it own default **Dialog Text**
+``ZCL_LOG_UTIL_ALTEXT`` which look like as follows.
+
+![img.png](./lib/img/se61_long_text_dialog_text_zcl_log_util_altext.png)
+
+A long text cannot be dynamic. 
+It needs to exist to set it as long text, and so
+the content must be set by giving parameters and values.
+Values lengths are limite to ``75`` char, so that why the log util
+dialog text is filled of ``100`` placeholders named from `P1` to `P100`.
+The engine automatically split your long text in chunks of ``75`` char to
+meet the appropriate placeholders. So it leads to a limitation of text of
+``7500`` chars. You can edit/modify/add new long text according to your purpose
+why the util is shipped with this one and works with to simplify usage and integration.
+
+If you want to set your own **dialog text** with its own parameters,
+you will have to use the **importing** parameter ``i_cust_long_text``
+with type ``BAL_S_PARM``.
+
+So, now it is time to see the different way to set the long text.
+
+Important: Long Text is designed for Application Log.
+If SLG is not enabled, 
+parameters ``i_long_text`` and `i_cust_long_text` will have any effects.
+
+Considering SLG is set & enabled : 
+
+````abap
+" Data Declaration
+DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table .
+      lr_log_util  TYPE REF TO   zcl_log_util               .
+
+" Initialization
+zcl_log_util=>factory(
+    IMPORTING
+        e_log_util  = lr_log_util
+    CHANGING
+        c_log_table = lt_log_table
+).
+
+" SLG Setup
+lr_log_util->slg( )->set_object( 'ZLOGUTIL' ).
+lr_log_util->slg( )->set_sub_object( 'PO_CHANGE' ).
+lr_log_util->slg( )->enable( ).
+````
+
+First approach: Log message with attached long text
+
+````abap
+lr_log_util->log(
+    i_log_msgid = 'ZLOGUTIL'
+    i_log_msgno = '000'
+    i_log_msgty = 'E'
+    i_log_msgv1 = 'Set'
+    i_log_msgv2 = 'Long'
+    i_log_msgv3 = 'Text'
+    i_log_msgv4 = ':'
+    i_long_text = 'This is attached long text to this message'
+).
+````
+
+All kind of usage for ``zcl_log_util->log( )`` will work.
+``i_long_text`` and `i_cust_long_text` can consist as “extensions”
+dedicated for **SLG**. Keep in mind that ``i_cust_long_text`` has the priority
+over parameter ``i_long_text``
+
+The same approach using a custom **dialog text** : 
+
+````abap
+DATA: ls_bal_params TYPE bal_s_parm .
+
+" Set Long Text (Dialog Text)
+ls_bal_params-altext = '<your_se61_dialog_text>' .
+" Set Params & values
+APPEND VALUE #( 
+    parname = 'P1' 
+    parvalue = 'Prod. Order'(t01) 
+) TO ls_bal_params-t_par .
+
+" Log Message with custom Long Text
+lr_log_util->log(
+    i_log_msgid      = 'ZLOGUTIL'
+    i_log_msgno      = '000'
+    i_log_msgty      = 'E'
+    i_log_msgv1      = 'Set'
+    i_log_msgv2      = 'Custom'
+    i_log_msgv3      = 'Long'
+    i_log_msgv4      = 'Text :'
+    i_cust_long_text = ls_bal_params
+).
+````
+
+The second approach is to set in a deferred way the long text
+to one to many log messages in the current BAL Instance
+using the method ``set_long_text``. This method is available
+on ``zcl_log_util`` and `zcl_log_util_slg`.
+The method ``zcl_log_util->set_long_text( )`` simply call the true one
+``zcl_log_util_slg->set_long_text( )``. So both have the same parameters.
+
+So, considering, you logged 3 messages : 
+
+````abap
+DATA: lv_dummy TYPE string .
+MESSAGE e000(ZLOGUTIL) WITH 'A' 'B' 'C' D' INTO lv_dummy. " Message #1
+lr_log_util->log( ).
+MESSAGE e100(ZLOGUTIL) WITH 'A' 'B' 'C' D' INTO lv_dummy. " Message #2
+lr_log_util->log( ).
+MESSAGE e000(ZLOGUTIL) WITH 'E' 'F' 'G' H' INTO lv_dummy. " Message #3
+lr_log_util->log( ).
+````
+
+You can set long text after you called method ``log( )`` doing like that.
+The usage behavior is the same for both parameters ``i_long_text``
+and ``i_cust_long_text``.
+
+````abap
+" The simplies way to set deffered long text is :
+lr_log_util->set_long_text( 'My long text' ).
+
+" Which is same as 
+lr_log_util->set_long_text(
+    i_long_text = 'My Long Text' 
+).
+````
+
+The here before statement will set the **long text** (text or custom)
+to the last logged message.
+
+````abap
+" Set long text to message index 2 (log number 000002)
+lr_log_util->set_long_text(
+    i_long_text = 'My Long Text' 
+    i_msg_index = 2                 " Refering to message #2
+).
+" Will do the same with i_cust_long_text
+````
+
+The previous statement will use index / log number to modify and set
+long text to the expected message.
+
+The last approach is to use **MSGxx** filters to make a precise
+search in BAL. 
+All responding messages will receive the provided long text.
+
+````abap
+DATA: ls_msg_filters TYPE bal_s_mfil .
+" Filtering on message number
+APPEND VALUE #(
+    sign   = 'I'
+    option = 'EQ'
+    low    = '000'
+) TO ls_msg_filters-msgno .
+
+" Set long text to message to message #1 and #3
+lr_log_util->set_long_text(
+    i_long_text   = 'My Long Text' 
+    i_msg_filters = ls_msg_filters
+).
+
+" Possible filter options (non exhaustiv list) :
+" - MSGID
+" - MSGNO
+" - MSGTY
+````
+
+Note: Importing paramters ``i_msg_index`` and `i_msg_filters` are 
+merged to set long text to all found BAL messages.
 
 
 
@@ -977,6 +1179,189 @@ the resulting behavior.
 ### Extra feature
 
 
-#### Display the content of any kind of internal table
+#### Side Util ``zcl_log_util=>get_func_module_exception``
+
+> Returns the exception name of function module using index
+
+Considering the following function module ``COHU_HU_GOODS_ISSUE``
+
+````abap
+CALL FUNCTION 'COHU_HU_GOODS_ISSUE'
+  EXPORTING
+*   POST_ALL                = 'X'
+    i_bldat                 = sy-datum " @TODO NDE : quelle date ?
+    i_budat                 = sy-datum " @TODO NDE : quelle date ?
+*   I_STORNO                =
+  TABLES
+    it_hucons               = lt_vhumi_cons
+    et_scomp                = lt_rcomp
+    it_humi_qty             = lt_vhumi_qty
+*   IT_HUM_KOMMI            =
+  EXCEPTIONS
+    no_valid_hu             = 1
+    invalid_values          = 2
+    incomplete_values       = 3
+    posting_error           = 4
+    temp_error              = 5
+    OTHERS                  = 6             .
+    
+" Call returns SY-SUBRC = 4
+DATA(lv_exceptx) = zcl_log_util=>get_func_module_exception( 
+    i_func_name = 'COHU_HU_GOODS_ISSUE' 
+    i_position = sy-surbc 
+).
+````
+
+The static method will return ``POSTING_ERROR`` in `lv_exceptx` .
+
+
+
+#### Side Util ``zcl_log_util=>get_func_module_exception_text``
+
+> Returns the exception short text of function module using index
+
+Considering the following function module
+with these exceptions with messages : 
+
+![img.png](./lib/img/func_module_excep_short_text.png)
+
+````abap
+CALL FUNCTION 'Z66PMX_HU_COPAWA'
+  EXPORTING
+    i_assign_hu                         = 'X'
+*   I_DEASSIGN_HU                       =
+    i_prod_order                        = iv_prod_order
+    i_reserv_number                     = iv_reserv_number
+    i_reserv_item                       = iv_reserv_item
+    i_material                          = iv_material
+    i_batch_number                      = iv_batch_number
+    i_handling_unit                     = iv_handling_unit
+  TABLES
+    t_afvc                              = lt_afvc
+    t_resb                              = lt_resb
+    t_return                            = lt_bapiret2
+  CHANGING
+    c_error_occured                     = lv_error_occured
+  EXCEPTIONS
+    prod_ord_not_found_afko             = 1
+    prod_ord_rsnum_not_found_resb       = 2
+    no_hu_action_set                    = 3
+    choose_only_one_hu_action           = 4
+    already_assigned                    = 5
+    OTHERS                              = 6 .
+
+" Call returns SY-SUBRC = 5
+DATA(lv_msgtxt) = zcl_log_util=>get_func_module_exception_text( 
+    i_func_name = 'Z66PMX_HU_COPAWA' 
+    i_position = sy-subrc
+) .
+````
+
+The static method will return ``HU Already assign to the order`` in `lv_msgtxt` .
+
+
+
+#### Side Util ``zcl_log_util=>get_func_module_exceptions``
+
+> Returns in a table list of available exception for the function module :
+
+![img.png](./lib/img/func_module_excep_short_text.png)
+
+````abap
+DATA(lt) = zcl_log_util=>get_func_module_exceptions( 'Z66PMX_HU_COPAWA' ).
+````
+
+![img.png](lib/img/exceptions_list.png)
+
+
+
+#### Side Util ``zcl_log_util=>split_text_to_chunks``
+
+> Split any text in chunks
+
+Considering the following text message : 
+
+````plaintext
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+````
+
+Making chunks **without** breaking words :
+
+````abap
+DATA: lv_str TYPE string .
+lv_str = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' .
+lv_str = |{ lv_str }Lorem Ipsum has been the industrys standard dummy text ever since the 1500s| .
+lv_str = |{ lv_str }, when an unknown printer took a galley of type and scrambled it to make a type specimen| .
+lv_str = |{ lv_str }book. It has survived not only five centuries, but also the leap into electronic typesetting,| .
+lv_str = |{ lv_str } remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset| .
+lv_str = |{ lv_str } sheets containing Lorem Ipsum passages, and more recently with| .
+lv_str = |{ lv_str }desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.| .
+
+DATA(lt) = zcl_log_util=>split_text_to_chunks(
+  i_text_to_split = lv_str
+  i_chunk_size    = 75
+).
+````
+
+![img.png](lib/img/make_raw_chunk.png)
+
+Making chunks **with** breaking words :
+
+````abap
+DATA: lv_str TYPE string .
+lv_str = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' .
+lv_str = |{ lv_str }Lorem Ipsum has been the industrys standard dummy text ever since the 1500s| .
+lv_str = |{ lv_str }, when an unknown printer took a galley of type and scrambled it to make a type specimen| .
+lv_str = |{ lv_str }book. It has survived not only five centuries, but also the leap into electronic typesetting,| .
+lv_str = |{ lv_str } remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset| .
+lv_str = |{ lv_str } sheets containing Lorem Ipsum passages, and more recently with| .
+lv_str = |{ lv_str }desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.| .
+
+DATA(lt) = zcl_log_util=>split_text_to_chunks(
+  i_text_to_split      = lv_str
+  i_chunk_size         = 75
+  i_non_breaking_words = 'X'
+).
+````
+
+![img.png](lib/img/make_chunk_no_breaking_words.png)
+
+
+
+#### Side Util ``zcl_log_util=>msgvx_simplify``
+
+To prevent the following output in **SLG1** where 
+``MSGVx`` respect types, you can use the method
+``msgvx_simplify( )`` to remove leading 0 and
+condense the importing parameter value to return
+a string (so var char) 
+
+![img.png](lib/img/invalid_output.png)
+
+Passing parameters like thak will fix the output :
+
+````abap
+(...)
+" -> No existing batch number
+IF ls_resb-charg IS NOT INITIAL .
+   " 013 :: Req. Reservation Item has a batch number (RSNUM &1, RSPOS &2, CHARG &3)
+   lv_msgv1 = zcl_log_util=>msgvx_simplify( iv_reserv_number ) .
+   lv_msgv2 = zcl_log_util=>msgvx_simplify( iv_reserv_item ) .
+   lv_msgv3 = zcl_log_util=>msgvx_simplify( ls_resb-charg ) .
+   MESSAGE e013(z66pmx) WITH iv_reserv_number iv_reserv_item ls_resb-charg INTO ls_bapiret2-message .
+   ls_bapiret2-type       = 'E'              .
+   ls_bapiret2-id         = 'Z66PMX'         .
+   ls_bapiret2-number     = '013'            .
+   ls_bapiret2-message_v1 = lv_msgv1         .
+   ls_bapiret2-message_v2 = lv_msgv2         .
+   ls_bapiret2-message_v3 = lv_msgv3         .
+   APPEND ls_bapiret2 TO return . CLEAR ls_bapiret2 .
+   EXIT .
+ENDIF.
+(...)
+````
+
+![img.png](lib/img/fixed_output.png)
+
 
 

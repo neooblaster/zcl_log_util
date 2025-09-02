@@ -98,7 +98,7 @@ lr80_slg = lr80_log_util->slg( ).
 
 " ──┐ Set Application Log Main Object & Sub-object
 "     !! Sub-object is mandatory if your main has at least one sub-object.
-lr80_slg->set_object( 'ZMYPO' ).
+lr80_slg->set_object( 'ZLOGUTIL' ).
 lr80_slg->set_sub_object( 'PO_CHANGE' ).
 
 " ──┐ You can provided External Number (Like PO Number)
