@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_PROG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <PROGDIR>
+    <NAME>ZCL_LOG_UTIL_EXAMPLES_SLG</NAME>
+    <SUBC>1</SUBC>
+    <RSTAT>K</RSTAT>
+    <RLOAD>E</RLOAD>
+    <FIXPT>X</FIXPT>
+    <UCCHECK>X</UCCHECK>
+   </PROGDIR>
+   <TPOOL>
+    <item>
+     <ID>I</ID>
+     <KEY>T01</KEY>
+     <ENTRY>Select a demo to run</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>T02</KEY>
+     <ENTRY>Details of the demo execution</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V01</KEY>
+     <ENTRY>Please find below the steps of demo and main methods :</ENTRY>
+     <LENGTH>108</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V05</KEY>
+     <ENTRY> 1.) Declaring own specific log table type</ENTRY>
+     <LENGTH>84</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V06</KEY>
+     <ENTRY> 2.) Initialization of ZCL_LOG_UTIL with our table</ENTRY>
+     <LENGTH>100</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V07</KEY>
+     <ENTRY> 3.) Define role of our field</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V24</KEY>
+     <ENTRY> 4.) Configuration Application Log</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V25</KEY>
+     <ENTRY> 5.) Call BAPI generating error</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V26</KEY>
+     <ENTRY> 6.) Log BAPI messages</ENTRY>
+     <LENGTH>44</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V27</KEY>
+     <ENTRY> 7.) Displaying logs</ENTRY>
+     <LENGTH>40</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V28</KEY>
+     <ENTRY> 4.) Configuration Application Log</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V29</KEY>
+     <ENTRY> 5.) Logging an error message</ENTRY>
+     <LENGTH>58</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V30</KEY>
+     <ENTRY> 6.) Disabling Application Log</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V31</KEY>
+     <ENTRY> 7.) Logging an another error message</ENTRY>
+     <LENGTH>74</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V32</KEY>
+     <ENTRY> 8.) Re-enabling Application Log</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V33</KEY>
+     <ENTRY> 9.) Logging an last another error message</ENTRY>
+     <LENGTH>84</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V34</KEY>
+     <ENTRY>10.) Displaying Application Logs</ENTRY>
+     <LENGTH>64</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V35</KEY>
+     <ENTRY>1.) Log Util Initialization</ENTRY>
+     <LENGTH>54</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V36</KEY>
+     <ENTRY>2.) SLG Setup</ENTRY>
+     <LENGTH>23</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V37</KEY>
+     <ENTRY>3.) Simple Log Message as Witness</ENTRY>
+     <LENGTH>66</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V38</KEY>
+     <ENTRY>4.) Add Log Message With long Text</ENTRY>
+     <LENGTH>68</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V39</KEY>
+     <ENTRY>5.) Add Log Message With Custom long Text</ENTRY>
+     <LENGTH>82</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V40</KEY>
+     <ENTRY>6.) Set Deferred Long Text</ENTRY>
+     <LENGTH>52</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>V41</KEY>
+     <ENTRY>7.) Displaying Application Logs</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>R</ID>
+     <ENTRY>Class ZCL_LOG_UTIL - Application Log (SLG) usage case examples</ENTRY>
+     <LENGTH>62</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM000</KEY>
+     <ENTRY>Please select a demo :</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM070</KEY>
+     <ENTRY>Demo 070 - Application Log SLG</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM080</KEY>
+     <ENTRY>Demo 080 - Enable/Disable SLG</ENTRY>
+     <LENGTH>37</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DEM085</KEY>
+     <ENTRY>Demo 085 - App.Log Long Text</ENTRY>
+     <LENGTH>36</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_SELDEM</KEY>
+     <ENTRY>Selected demo</ENTRY>
+     <LENGTH>21</LENGTH>
+    </item>
+   </TPOOL>
+  </asx:values>
+ </asx:abap>
+</abapGit>

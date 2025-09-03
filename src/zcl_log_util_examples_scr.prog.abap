@@ -43,8 +43,8 @@ SELECTION-SCREEN BEGIN OF BLOCK blkdemo WITH FRAME TITLE text-t01.
               p_dem050 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem060 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem065 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem070 RADIOBUTTON GROUP seld MODIF ID rad                 ,
-              p_dem080 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+*              p_dem070 RADIOBUTTON GROUP seld MODIF ID rad                 ,
+*              p_dem080 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem090 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem100 RADIOBUTTON GROUP seld MODIF ID rad                 ,
               p_dem105 RADIOBUTTON GROUP seld MODIF ID rad                 ,
@@ -291,8 +291,8 @@ AT SELECTION-SCREEN OUTPUT.
       IF p_dem050 EQ 'X'. p_seldem = 'Demo 050'.ENDIF.
       IF p_dem060 EQ 'X'. p_seldem = 'Demo 060'.ENDIF.
       IF p_dem065 EQ 'X'. p_seldem = 'Demo 065'.ENDIF.
-      IF p_dem070 EQ 'X'. p_seldem = 'Demo 070'.ENDIF.
-      IF p_dem080 EQ 'X'. p_seldem = 'Demo 080'.ENDIF.
+*      IF p_dem070 EQ 'X'. p_seldem = 'Demo 070'.ENDIF.
+*      IF p_dem080 EQ 'X'. p_seldem = 'Demo 080'.ENDIF.
       IF p_dem090 EQ 'X'. p_seldem = 'Demo 090'.ENDIF.
       IF p_dem100 EQ 'X'. p_seldem = 'Demo 100'.ENDIF.
       IF p_dem110 EQ 'X'. p_seldem = 'Demo 110'.ENDIF.
@@ -361,21 +361,21 @@ AT SELECTION-SCREEN OUTPUT.
       ENDIF.
     ENDIF.
 
-    IF screen-group1 EQ '070'.
-      IF p_dem070 EQ 'X'.
-        screen-active = 1.
-      ELSE.
-        screen-active = 0.
-      ENDIF.
-    ENDIF.
-
-    IF screen-group1 EQ '080'.
-      IF p_dem080 EQ 'X'.
-        screen-active = 1.
-      ELSE.
-        screen-active = 0.
-      ENDIF.
-    ENDIF.
+*    IF screen-group1 EQ '070'.
+*      IF p_dem070 EQ 'X'.
+*        screen-active = 1.
+*      ELSE.
+*        screen-active = 0.
+*      ENDIF.
+*    ENDIF.
+*
+*    IF screen-group1 EQ '080'.
+*      IF p_dem080 EQ 'X'.
+*        screen-active = 1.
+*      ELSE.
+*        screen-active = 0.
+*      ENDIF.
+*    ENDIF.
 
     IF screen-group1 EQ '090'.
       IF p_dem090 EQ 'X'.

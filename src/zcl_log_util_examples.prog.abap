@@ -10,7 +10,7 @@
 *&                                                                            &*
 *&  Author      : Nicolas DUPRE                                               &*
 *&  Release     : xx.xx.2020                                                  &*
-*&  Last Change : xx.xx.2020                                                  &*
+*&  Last Change : 03.09.2025                                                  &*
 *&  Version     : 1.0.0                                                       &*
 *&  Source      : https://github.com/neooblaster/zcl_log_util                 &*
 *&                                                                            &*
@@ -55,7 +55,8 @@
 *&---------------#------------------------------------------------------------&*
 *& Date / Author | Updates Descriptions                                       &*
 *&---------------#------------------------------------------------------------&*
-*&               |                                                            &*
+*& 03.09.2025    | Move Demo 070 & 080 to report ZCL_LOG_UTIL_EXAMPLES_SLG    &*
+*& N. DUPRE      | Screen 1000 can no contains more demo                      &*
 *&---------------#------------------------------------------------------------&*
 *&               |                                                            &*
 *&---------------#------------------------------------------------------------&*
@@ -132,16 +133,12 @@ START-OF-SELECTION.
   "&--------------------------------------&"
   "&---[  Demo Number 070  ]--------------&"
   "&--------------------------------------&"
-  IF p_dem070 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_070.
-  ENDIF.
+  "& Moved to ZCL_LOG_UTIL_EXAMPLES_SLG
 
   "&--------------------------------------&"
   "&---[  Demo Number 080  ]--------------&"
   "&--------------------------------------&"
-  IF p_dem080 EQ 'X'.
-    INCLUDE ZCL_LOG_UTIL_EXAMPLE_DEMO_080.
-  ENDIF.
+  "& Moved to ZCL_LOG_UTIL_EXAMPLES_SLG
 
   "&--------------------------------------&"
   "&---[  Demo Number 090  ]--------------&"

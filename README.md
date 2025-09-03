@@ -1,7 +1,7 @@
 **# ABAP Logging Class ZCL_LOG_UTIL
 
 > An ABAP logging class allows programs to focus on their functionality
-> rather than being buried under lines of logging code.
+> rather than being buried under the lines of logging code.
 
 **Link to download latest versions** :
 
@@ -15,11 +15,12 @@
 [](BeginSummary)
 * [Summary](#summary)
 * [Features Overview](#features-overview)
-* [Introduction : Genesis of this class](#introduction-:-genesis-of-this-class)
+* [Demonstration reports (`SE38`)](#demonstration-reports-se38)
+* [Introduction: Genesis of this class](#introduction-genesis-of-this-class)
 * [Installation](#installation)
 * [Getting Start](#getting-start)
     * [Initialization](#initialization)
-    * [Logging & Display](#logging-&-display)
+    * [Logging & Display](#logging--display)
 * [Detailed documentation](#detailed-documentation)
     * [Definition of log message](#definition-of-log-message)
     * [Instantiation methods](#instantiation-methods)
@@ -38,7 +39,7 @@
             * [Set the sub-object](#set-the-sub-object)
             * [Set the external number](#set-the-external-number)
             * [Set the log retention time](#set-the-log-retention-time)
-        * [Enabling / Disab²ling](#enabling-/-disabling)
+        * [Enabling / Disabling](#enabling--disabling)
         * [Display Application Log](#display-application-log)
         * [Working with Long Text](#working-with-long-text)
     * [Overloading Log Messages](#overloading-log-messages)
@@ -48,7 +49,7 @@
                 * [Skipping the error message (Mode `I`)](#skipping-the-error-message-mode-i)
                 * [Appending an extra message (Mode `A`)](#appending-an-extra-message-mode-a)
         * [Configuration (Technical Part)](#configuration-technical-part)
-            * [Enabling / Disabling](#enabling-/-disabling)
+            * [Enabling / Disabling](#enabling--disabling)
             * [Set pre-filters](#set-pre-filters)
             * [Using Spot ID](#using-spot-id)
             * [Using Extra parameters](#using-extra-parameters)
@@ -61,11 +62,11 @@
         * [Set a custom log table type or unregistred SAP standard type](#set-a-custom-log-table-type-or-unregistred-sap-standard-type)
         * [Set a custom setting table that storing overloading rules](#set-a-custom-setting-table-that-storing-overloading-rules)
     * [Extra feature](#extra-feature)
-        * [Side Util ``zcl_log_util=>get_func_module_exception``](#side-util-zcl_log_util=%3Eget_func_module_exception)
-        * [Side Util ``zcl_log_util=>get_func_module_exception_text``](#side-util-zcl_log_util=%3Eget_func_module_exception_text)
-        * [Side Util ``zcl_log_util=>get_func_module_exceptions``](#side-util-zcl_log_util=%3Eget_func_module_exceptions)
-        * [Side Util ``zcl_log_util=>split_text_to_chunks``](#side-util-zcl_log_util=%3Esplit_text_to_chunks)
-        * [Side Util ``zcl_log_util=>msgvx_simplify``](#side-util-zcl_log_util=%3Emsgvx_simplify)
+        * [Side Util ``zcl_log_util=>get_func_module_exception``](#side-util-zcl_log_utilget_func_module_exception)
+        * [Side Util ``zcl_log_util=>get_func_module_exception_text``](#side-util-zcl_log_utilget_func_module_exception_text)
+        * [Side Util ``zcl_log_util=>get_func_module_exceptions``](#side-util-zcl_log_utilget_func_module_exceptions)
+        * [Side Util ``zcl_log_util=>split_text_to_chunks``](#side-util-zcl_log_utilsplit_text_to_chunks)
+        * [Side Util ``zcl_log_util=>msgvx_simplify``](#side-util-zcl_log_utilmsgvx_simplify)
 [](EndSummary)
 
 
@@ -79,7 +80,8 @@
     * Custom return structure or table.
     * A free message text.
     * A message using a message class.
-* Logging messages in **Application Log** (TCODE : `SLG1`) .
+* Logging messages in **Application Log** (TCODE : `SLG1`) :
+    * Message can receive a long text (basic or customized)
 * Displaying logs in the report :
     * In an ALV grid from your own log table.
         * The method can be used to display any kind of internal table.
@@ -96,26 +98,52 @@ or your own one :
 
 
 
-## Introduction : Genesis of this class
+## Demonstration reports (`SE38`)
+
+* ``ZCL_LOG_UTIL_EXAMPLES`` : `Class ZCL_LOG_UTIL usage case examples`
+    * Demo 010 — Get started
+    * Demo 020 — Logging using own tab
+    * Demo 030 — Adding extra data
+    * Demo 040 — Logging BAPI return tab
+    * Demo 050 — Logging BAPI table with data
+    * Demo 060 — Many entries with data
+    * Demo 065 — Many Log Tables
+    * Demo 090 — Logging Specifying typ
+    * Demo 100 — Overloading messages
+    * Demo 105 — Overwrite, Adding & Ignore
+    * Demo 110 — Overwrite using own table
+    * Demo 120 — Overwrite using Spot ID
+    * Demo 130 — Overwrite exist log tab
+    * Demo 140 — Overwrite Prefilter and params
+    * Demo 150 — Logging for Batch Job
+    * Demo 160 — Managing Batch Output
+* ``ZCL_LOG_UTIL_EXAMPLES_SLG`` : `Class ZCL_LOG_UTIL - Application Log (SLG) usage case examples`
+    * Demo 070 — Application Log SLG
+    * Demo 080 — Enable/Disable SLG
+    * Demo 085 — Application Log using Long Text
+
+
+    
+## Introduction: Genesis of this class
 
 As part of the development of ABAP interfaces program executed by batch, 
 we have been confronted several times with subjects around error logs.
-First, we had problems with their display between the area of ​​the job 
+First, we had problems with their display between the area of the job 
 execution protocol and those to display in the spool to send an email. 
 Later we had a request to handle standard BAPI error messages being significant 
 as false positive. 
-Finally for an advanced follow-up for possible anomaly analysis in production, 
+Finally, for an advanced follow-up for possible anomaly analysis in production, 
 the use of the application can be a precious help.
 
-All of its subjects are at the very close ABAP level (message management) 
+All of its subjects are at the very close ABAP level (message management),  
 but the implementation varies greatly depending on the nature of the subject. 
 The reuse of codes is very complex because of its processive implementation.
 
 The need to develop a class designed to cover all needs, 
 without modifying the way of logging into the program and leaving the core of 
-the program readable has become evident. 
+the program readable has become clear. 
 It is for this reason that I decided to develop the ``ZCL_LOG_UTIL`` class. 
-It is intended to be easy to use (minimum configuration) 
+It is intended to be straightforward to use (minimum configuration) 
 while offering a range of functions (requires more configuration, 
 but always wants to be as simple as possible). 
 Due to this complexity,
@@ -136,8 +164,8 @@ Now you're ready to get started.
 
 ## Getting Start
 
-The ``ZCL_LOG_UTIL`` project comes with an example program that contains and 
-uses all of the functionality offered by the class. 
+The ``ZCL_LOG_UTIL`` project comes with example programs that contain and 
+uses all functionalities offered by the class. 
 Its goal is to allow all users to have an example of a precise use, 
 method call or implementation of a feature for their projects. 
 There is nothing worse than having the method without understanding how to use 
@@ -145,7 +173,7 @@ it.
 
 First follow the guide to understand its use in its simplest form before using 
 the ``ZCL_LOG_UTIL_EXAMPLES`` (``SE38`` / ``SE80``) example program.
-I will mention which demo contain the appropriate code explain in this guide.
+I will mention whose demo contains the appropriate code explained in this guide.
 
 
 ### Initialization
@@ -196,9 +224,9 @@ lr_log_util->display( ).
 ````
 
 **Hints** : When you use statement ``MESSAGE``, SAP automatically feed
-structure ``SY``. Using `lr_log_util->log( )` will log message using the message 
+structure ``SY``. Using `lr_log_util->log( )` will log a message using the message 
 components available in structure ``SY``.
-When a standard **Function Module** or **BAPI** implicitely
+When a standard **Function Module** or **BAPI** implicitly
 stored errors in ``SY`` you can log system message using `log( )` method
 without writing statement ``MESSAGE``.
 
@@ -214,18 +242,18 @@ without writing statement ``MESSAGE``.
 
 ### Definition of log message
 
-A log message in **SAP** is an integral part of the system which is very
-well designed.
+A log message in **SAP** is an integral part of the system that is very
+well-designed.
 In the most basic usage case, they are used to handle the program logic errors
 to inform (`I`), warn (`W`) or interrupt (`E` or `A`) the program.
 
 Texts messages are stored in a **class message** (`ID`) which associates them
-to a **number**. The message text can have until four variables placeholders (`&`).
+with a **number**. The message text can have until four variables placeholders (`&`).
 
-The class message also handle the internationalization.
+The class message also handles the internationalization.
 
-The best practice is to use class message to manage your own custom messages.
-You can raised the message by specifying the **type** or generate a text message
+The best practice is to use a class message to manage your own custom messages.
+You can raise the message by specifying the **type** or generate a text message
 for a **log registry** (internal table for final display or any purpose).
 
 Keep in mind the following message components with their roles :
@@ -235,9 +263,9 @@ Keep in mind the following message components with their roles :
     * ``E`` (`Error`) which will interrupt the program.
     * ``W`` (`Warning`) which will display a warning in status bar.
     It did not interrupt the rest of the program.
-    * ``I`` (`Information`) which will display a information popup.
+    * ``I`` (`Information`) which will display an information popup.
     It did not interrupt the rest of the program.
-* ``ID`` : specifies the class message which contain the text
+* ``ID`` : specifies the class message that contains the text
 * ``NUMBER`` : This is the number of the message to get in the provided class
 message (`ID`)
 * ``MESSAGE VALUE 1`` : The message text variable to put in placeholders
@@ -257,7 +285,7 @@ There are two ways to instantiate the ``ZCL_LOG_UTIL`` class.
 The first method will be the most frequent method.
 The second method makes it possible to defer the association of the internal 
 table to a later moment in the processing of the program.
-It also offers a way to change log tables at any time which allows you to use 
+It also offers a way to change log tables at any time that allows you to use 
 a single instance to manage different internal tables.
 
 * First method : classic way, same as chapter ``Getting Start``
@@ -278,7 +306,7 @@ zcl_log_util=>factory(
 
 > Available in ``Demo 010``.
 
-* Second method : differed way, for multiple log table in one report.
+* Second method: differed way, for multiple log tables in one report.
 
 ````abap
 # -----[ Instanciation ]---------------------------------------
@@ -310,7 +338,7 @@ lr_log_util->set_log_table(
 
 ### Logging methods
 
-The main objective of this class is to provide the maximum possibility of
+The main goal of this class is to provide the maximum possibility of
 logging different message sources with different format types using only one method.
 Here are the ways to log messages using the instance reference `lr_log_util`
 of class ``zcl_log_util``.
@@ -318,7 +346,7 @@ of class ``zcl_log_util``.
 
 #### Logging system message
 
-By definition, system message are stored in the global system structure ``SY``.
+By definition, system messages are stored in the global system structure ``SY``.
 Calling the method ``log( )``, without import parameter will add the 
 system message to the linked log table :
 
@@ -335,7 +363,7 @@ lr_log_util->log( ).
 
 As mentioned previously, the statement ``MESSAGE`` will update
 the global system structure.
-So to log the message in the log table simplify do as following :
+So to log the message in the log table, simply do as the following:
 
 ````abap
 " Done like this, the message will be redirected into lv_dummy as string.
@@ -346,7 +374,7 @@ lr_log_util->log( ).
 > Available in ``Demo 010``.
 
 From my point of view, this is the best way to register an entry in the log table,
-because the here before statement will respond to the _where-used_ case.
+because the here-before statement will respond to the _where-used_ case.
 
 
 
@@ -357,7 +385,7 @@ The ``zcl_log_util`` class already knows the field roles of the SAP standard
 message structure (and table).
 
 [](#import>zcl_log_util_known_structure.md)
-Please find below structure which are natively handle by ``zcl_log_util`` :
+Please find below structure that are natively handle by ``zcl_log_util`` :
 
 | Name                       | Msg. Text | Msg. Type | Msg. ID | Msg. Number | Msg. Val. 1 | Msg. Val. 2 | Msg. Val. 3 | Msg. Val. 4 |
 |----------------------------|-----------|-----------|---------|-------------|-------------|-------------|-------------|-------------|
@@ -372,7 +400,7 @@ Please find below structure which are natively handle by ``zcl_log_util`` :
 | bdidocstat                 | -         | MSGTY     | MSGID   | MSGNO       | MSGV1       | MSGV2       | MSGV3       | MSGV4       | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
-to register a unknown structure. [Jump](README.md#)
+to register an unknown structure. [Jump](README.md#)
 
 [](#import<zcl_log_util_known_structure.md)
 
@@ -406,7 +434,7 @@ Please find below structure which are natively handle by ``zcl_log_util`` :
 | bdcmsgcoll | - | MSGTYP | MSGID | MSGNR | MSGV1 | MSGV2 | MSGV3 | MSGV4 | 
 
 See chapter ``Set your own definitions`` / `Set a custom log table type or unregistred SAP standard type`
-to register a unknown structure. [Jump](README.md#)
+to register an unknown structure. [Jump](README.md#)
 
 [](#import<zcl_log_util_known_structure.md)
 
@@ -424,7 +452,7 @@ lr_log_util->log( lt_bapiret2 ).
 #### Logging using message class
 
 The class offer the possibility to register a new entry in your log table 
-by passing message components directly in the import parameter of the
+by giving message components directly in the import parameter of the
 method ``log( )``.
 
 Be aware that "where-used" will not be able to find the message
@@ -446,10 +474,10 @@ lr_log_util->log(
 
 #### Logging a free text message
 
-If you have a simple text or a variable which contains your text message
+If you have a simple text or a variable that contains your text message,
 you can register it in the log table.
 
-Note : The class is not able to find back the message components, so in the log
+Note: The class is unable to find back the message components, so in the log
 table you will only find the message in the message column.
 
 ````abap
@@ -475,21 +503,29 @@ lr_log_util->log( 'My free text message' ).
 
 ### Logging in the Application Log (`SLG1`)
 
-The ``zcl_log_util`` class can be used as library
-to handle logging throught **Application Log**. 
+The ``zcl_log_util`` class can be used as a library
+to handle logging through **Application Log**. 
 Indeed, all registered messages from method ``log( )``,
-can be stored in a **Application Log** ledger.
+can be stored in an **Application Log** ledger.
 
-This is not the maim purpose of this class,
-so some settings steps must be perform to enable
+This is not the main purpose of this class,
+so some settings steps must be performed to enable
 **Application Log**.
+
+Note: The demonstration report for application log is
+```ZCL_LOG_UTIL_EXAMPLES_SLG``` and contains the following demo :
+
+* Demo 070 — Application Log SLG
+* Demo 080 — Enable/Disable SLG
+* Demo 085 — Application Log using Long Text
+
 
 
 #### Configuration
 
 At least, to create a **Application Log** register,
 we have to set the **main object** and eventually one of its
-**sub-object**.
+**sub-objects**.
 
 By default, ``zcl_log_util`` use the default **main object**
 ``ZLOGUTIL`` which you have created in during `Installation` step
@@ -516,7 +552,7 @@ lr_slg = lr_log_util->slg( ).
 ##### Set the main object
 
 To set/change your own **main object**,
-simply use the method ``set_object( )`` :
+Use the method ``set_object( )`` :
 
 ````abap
 " Main object ZMYPO must be exist in SLG0.
@@ -530,7 +566,7 @@ lr_slg->set_object( 'ZMYPO' ).
 ##### Set the sub-object
 
 To set/change the **sub-object**,
-simply use the method ``set_sub_object( )`` :
+Use the method ``set_sub_object( )`` :
 
 ````abap
 " Sub-object 'PO_CHANGE' must be a sub-obecjt of 'ZMYPO'.
@@ -543,8 +579,8 @@ lr_slg->set_sub_object( 'PO_CHANGE' ).
 
 ##### Set the external number
 
-The **external number** is optionnal.
-Its helps to reduce result when you search for log in ``SLG1``.
+The **external number** is optional.
+Its helps to reduce the result when you search for log in ``SLG1``.
 For instance, you can set the **PO Number** as **external number** :
 
 ````abap
@@ -574,10 +610,10 @@ lr_slg->set_retention( 60 ).
 
 #### Enabling / Disabling
 
-You can enable / disable at anytime the recording of log message
+You can enable / disable at any time the recording of log message
 in the **Application Log**.
 
-Simply use method ``enable( )`` to activate the functionality and
+Use method ``enable( )`` to activate the functionality and
 ``disabled( )`` to turn off recording.
 
 ````abap
@@ -599,7 +635,7 @@ Register is saved at the end of the program.
 #### Display Application Log
 
 If you want to display the **Application Log** in your report
-to avoid using TCODE ``SLG1``, simply call method `display( )`.
+to avoid using TCODE ``SLG1``, call method `display( )`.
 
 ````abap
 " Display the Application Log register
@@ -637,7 +673,7 @@ Before showing all possibilities to set it, let's talk about
 long text first.
 
 In SAP, long text can stand as detailed documentation about a message.
-When the message is not **self explanatory**, you can create a long text
+When the message is not **self-explanatory**, you can create a long text
 in TCODE ``SE91``, button `Long Text`.
 Application Log is able to attach it when it exists
 You can also edit it in ``SE61``, with type `NA`(`Message`) 
@@ -672,7 +708,7 @@ Considering SLG is set & enabled :
 
 ````abap
 " Data Declaration
-DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table .
+DATA: lt_log_table TYPE TABLE OF zcl_log_util=>ty_log_table ,
       lr_log_util  TYPE REF TO   zcl_log_util               .
 
 " Initialization
@@ -704,7 +740,7 @@ lr_log_util->log(
 ).
 ````
 
-All kind of usage for ``zcl_log_util->log( )`` will work.
+All kinds of usage for ``zcl_log_util->log( )`` will work.
 ``i_long_text`` and `i_cust_long_text` can consist as “extensions”
 dedicated for **SLG**. Keep in mind that ``i_cust_long_text`` has the priority
 over parameter ``i_long_text``
@@ -818,22 +854,24 @@ merged to set long text to all found BAL messages.
 
 ### Overloading Log Messages
 
-This functionality is the most complex of the class and this is the need which
-lead me to create it.
+This functionality is the most complex of the class, and this is the need that
+lead me to creating it.
 
 This feature must be used with parsimony, because rewriting messages
-is not harmless. This a very powerful functionality which is configured
-thanks to a customizing table. So, once in production, issues can became
+is not harmless.
+This is a very powerful functionality configured
+thanks to a customizing table.
+So, once in production, issues can become
 more complex for analysis.
 
-So the programs which use overloading must be well documented in functional and
+So the programs that use overloading must be well documented in functional and
 technical documentation (SFD / STD) and as possible in the program using comments.
 
 
 
 #### Explanations about overloading feature (Theoretical Part)
 
-The overloading consist to alter the log message which is registering
+The overloading consist of alter the log message that is registering
 with method ``log( )`` (also with `message( )`) according to rules set in
 the customization table.
 
@@ -843,7 +881,7 @@ Alteration can be one of the following :
 - **Append** an extra message
 
 For instance, in our case, an interface program calls a **BAPI**
-which returns an error message.
+that returns an error message.
 However, our processing was successfully done/commit in **SAP**.
 The customer asked us to consider this error message as false positive
 (and some other ones).
@@ -851,10 +889,10 @@ The customer asked us to consider this error message as false positive
 For this message we only change the message **type** from ``E`` to `W`.
 
 Another example that can explain overloading functionality is if you want
-to return a more speaking message for end users than those **SAP** which can
+to return a more speaking message for end users than those **SAP** that can
 be a little bit too technical. 
 
-All components which compose a log message (Cf `Definition of log message`)
+All components that compose a log message (Cf `Definition of log message`)
 can be overloaded (one to many at once).
 
 
@@ -912,12 +950,12 @@ rules are loaded on the first call of method ``log( )``.
 It selects rules from customizing table using **pre-filters** and stores them
 in an internal table of the instance.
 Overloading only works with rules internally stored to prevent many queries.
-**Pre-filters** allows you to get overloading rules for you program.
+**Pre-filters** allows you to get overloading rules for your program.
 
 Eventually, if you want to have variants of rule,
 you can use - by settings up at anytime - in your program until two extra parameters
 to fine the rule selection.
-It can be useful to manage rules in different language.
+It can be useful to manage rules in different languages.
 
 Please find below a chart showing how fields are used
 to fine the selection :
@@ -929,7 +967,7 @@ to fine the selection :
 
 ###### Altering the message component(s) (Mode `O`)
 
-This mode offer you to edit one to many component of the message.
+This mode offers you to edit one to many components of the message.
 
 Considering you are logging the following message ``e508(vl)`` and you have
 this rule in the customizing table :
@@ -940,17 +978,17 @@ this rule in the customizing table :
 
 With this rule the message will be logged / displayed as ``w508(vl)``
 
-Note : The overloading mode is not set (available) in the rule, so
-this is this mode which used.
+Note: The overloading mode is not set (available) in the rule, so
+this is this mode that used.
 
 
 
 ###### Skipping the error message (Mode `I`)
 
-This mode offer the possibility to mute message which respond to 
+This mode offers the possibility to mute messages that respond to 
 a rule set in customization table.
 
-Note : The **mode** field must be defined
+Note: The **mode** field must be defined
 
 Considering you are logging the following message ``w010(02)`` and you have
 this rule in the customizing table :
@@ -959,13 +997,13 @@ this rule in the customizing table :
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 02 | 010 | W  |  |  |  |  | I |
 
-With this rule the message will be ignored (no entry in table / no display)
+With this rule, the message will be ignored (no entry in table / no display)
 
 
 
 ###### Appending an extra message (Mode `A`)
 
-This mode offer the possibility to add an extra message to those
+This mode offers the possibility to add an extra message to those
 responding to the rule.
 
 Considering you are logging the following message ``e001(vn)`` and you have
@@ -979,8 +1017,8 @@ With this rule you will have both error message :
 * ``e001(vn)``
 * ``e012(01)``
 
-Note : This mode is most designed when logs are registered in log table
-instead of raising message even if that works as well.
+Note: This mode is most designed when logs are registered in log table
+instead of raising a message even if that works as well.
 
 
 
@@ -990,10 +1028,10 @@ instead of raising message even if that works as well.
 #### Configuration (Technical Part)
 
 Even if the overloading functionality seams to be complex
-and powerful, the configuration is very easy.
+and powerful, the configuration is effortless.
 
 In the program, the minimal configuration to do is
-to **enable** the feature. The rest is handle in the customization table.
+to **enable** the feature. The rest is handled in the customization table.
 
 
 ##### Enabling / Disabling
@@ -1002,7 +1040,7 @@ By default, overloading functionality is not enabled.
 Use the following statement to activate it.
 
 **Note** : You can enable / disabled the feature at any time in the program
-depending of your need.
+depending on your need.
 
 ````abap
 " Direct method
@@ -1036,7 +1074,7 @@ Then overloading through method ``log( )`` will only use
 rule responding to **pre-filters**.
 
 To set filter, please use these methods. You can you them in an independent
-way depending of your need and your customizing table.
+way depending on your need and your customizing table.
 
 ````abap
 lr_log_util->overload( )->set_filter_devcode_value( 'ZCLLOGUTIL' ).
@@ -1055,15 +1093,15 @@ rule from your customizing table during overloading.
 
 Imagine you use a BAPI ``W_DELIVERY_UPDATE_2`` more than one time
 lead by specific managements rules.
-In one case the error message is a false positive
-(little modification) and in the other case, the error message is a real issue.
-You may want to have a overloading rule for both case.
+In one case, the error message is a false positive
+(little modification), and in the other case, the error message is a real issue.
+You may want to have an overloading rule for both cases.
 
-**Spot ID** is design to identified a precise moment in your program.
+**Spot ID** is designed to identify a precise moment in your program.
 It's inspired from **Enhancement Point**.
 
 You can set and change the **Spot ID** at any time in the program.
-You can easily enable or disable the **Spot ID**.
+You can enable or disable the **Spot ID**.
 
 Considering the following entries in your customization table :
 
