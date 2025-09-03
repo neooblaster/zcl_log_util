@@ -8,16 +8,13 @@
 *&-------------------[  PURPOSE OF THE EXAMPLE  ]-----------------------*
 *&----------------------------------------------------------------------*
 *&
-*&  •  1.) Declaring own specific log table type
-*&  •  2.) Initialization of ZCL_LOG_UTIL with our table
-*&  •  3.) Define role of our field
-*&  •  4.) Configuration Application Log
-*&  •  5.) Logging an error message
-*&  •  6.) Disabling Application Log
-*&  •  7.) Logging an another error message
-*&  •  8.) Re-enabling Application Log
-*&  •  9.) Logging an last another error message
-*&  • 10.) Displaying Application Logs
+*&  •  1.) Log Util Initialization
+*&  •  2.) SLG Setup
+*&  •  3.) Simple Log Message as Witness
+*&  •  4.) Add Log Message With long Text
+*&  •  5.) Add Log Message With Custom long Text
+*&  •  6.) Set Deferred Long Text
+*&  •  7.) Displaying Application Logs
 *&
 *&----------------------------------------------------------------------*
 *&----------------------------------------------------------------------*
@@ -63,17 +60,17 @@ lr85_log_util->log( ).
 *&----------------------------------------------------------------------*
 DATA: lv85_long_text TYPE string .
 
-lv85_long_text = |{ lv85_long_text }This is a very long text| .
-lv85_long_text = |{ lv85_long_text }It is a long established fact that a reader will be distracted by the| .
-lv85_long_text = |{ lv85_long_text }readable content of a page when looking at its layout. The point of| .
-lv85_long_text = |{ lv85_long_text }using Lorem Ipsum is that it has a more-or-less normal distribution| .
-lv85_long_text = |{ lv85_long_text }of letters, as opposed to using 'Content here, content here',| .
-lv85_long_text = |{ lv85_long_text }making it look like readable English. Many desktop publishing| .
-lv85_long_text = |{ lv85_long_text }packages and web page editors now use Lorem Ipsum as their| .
-lv85_long_text = |{ lv85_long_text }default model text, and a search for 'lorem ipsum' will uncover| .
-lv85_long_text = |{ lv85_long_text }many web sites still in their infancy. Various versions have evolved| .
-lv85_long_text = |{ lv85_long_text }over the years, sometimes by accident, sometimes on purpose| .
-lv85_long_text = |{ lv85_long_text }(injected humour and the like).| .
+lv85_long_text = |{ lv85_long_text }This is a very long text | .
+lv85_long_text = |{ lv85_long_text }It is a long established fact that a reader will be distracted by the | .
+lv85_long_text = |{ lv85_long_text }readable content of a page when looking at its layout. The point of | .
+lv85_long_text = |{ lv85_long_text }using Lorem Ipsum is that it has a more-or-less normal distribution | .
+lv85_long_text = |{ lv85_long_text }of letters, as opposed to using 'Content here, content here', | .
+lv85_long_text = |{ lv85_long_text }making it look like readable English. Many desktop publishing | .
+lv85_long_text = |{ lv85_long_text }packages and web page editors now use Lorem Ipsum as their | .
+lv85_long_text = |{ lv85_long_text }default model text, and a search for 'lorem ipsum' will uncover | .
+lv85_long_text = |{ lv85_long_text }many web sites still in their infancy. Various versions have evolved | .
+lv85_long_text = |{ lv85_long_text }over the years, sometimes by accident, sometimes on purpose | .
+lv85_long_text = |{ lv85_long_text }(injected humour and the like). | .
 
 lr85_log_util->log(
   i_log_msgid = 'ZLOG_UTIL'
@@ -96,23 +93,23 @@ DATA: ls85_bal_parm TYPE bal_s_parm .
 ls85_bal_parm-altext = 'ZCL_LOG_UTIL_ALTEXT' . " Specify YOUR SE61 Dialog Texts
 APPEND VALUE #(
   parname  = 'P1'
-  parvalue = 'This is a very long text'
+  parvalue = 'This is a very long text '
 ) TO ls85_bal_parm-t_par .
 APPEND VALUE #(
   parname  = 'P2'
-  parvalue = ' It is a long established fact that a reader will be distracted by the'
+  parvalue = ' It is a long established fact that a reader will be distracted by the '
 ) TO ls85_bal_parm-t_par .
 APPEND VALUE #(
   parname  = 'P3'
-  parvalue = ' readable content of a page when looking at its layout.'
+  parvalue = ' readable content of a page when looking at its layout .'
 ) TO ls85_bal_parm-t_par .
 APPEND VALUE #(
   parname  = 'P4'
-  parvalue = ' P1, P2, P3 and P4 are placeholders set in Dialog Text'
+  parvalue = ' P1, P2, P3 and P4 are placeholders set in Dialog Text '
 ) TO ls85_bal_parm-t_par .
 APPEND VALUE #(
   parname  = 'P5'
-  parvalue = ' ZCL_LOG_UTIL_ALTEXT(...)'
+  parvalue = ' ZCL_LOG_UTIL_ALTEXT(...) '
 ) TO ls85_bal_parm-t_par .
 
 lr85_log_util->log(

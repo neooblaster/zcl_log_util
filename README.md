@@ -1,4 +1,4 @@
-**# ABAP Logging Class ZCL_LOG_UTIL
+# ABAP Logging Class ZCL_LOG_UTIL
 
 > An ABAP logging class allows programs to focus on their functionality
 > rather than being buried under the lines of logging code.
